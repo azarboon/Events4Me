@@ -1,6 +1,5 @@
 package com.metropolia.events4me.Service.ServiceImpl;
 
-import com.metropolia.events4me.DAO.RoleDAO;
 import com.metropolia.events4me.DAO.UserDAO;
 import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Model.User;
@@ -8,12 +7,10 @@ import com.metropolia.events4me.Service.RoleService;
 import com.metropolia.events4me.Service.UserService;
 import com.metropolia.events4me.Service.security.EncryptionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Dmitry on 11.04.2017.
