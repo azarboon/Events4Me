@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,8 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 /**
@@ -34,9 +31,6 @@ public class User {
   private String lastName;
   private String username;
   private String email;
-
-
-
 
   @Transient
   private String password;
@@ -59,24 +53,14 @@ public class User {
   private List<Event> events;
   private byte[] photo;
 
- // TODO: how to persist user  and friends?
-  @ManyToOne(cascade = CascadeType.ALL)
-  private User user;
-
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  private Set<User> friends = new HashSet<User>();
-
   public User() {
   }
 
+  /*
+  @Column
+  @ElementCollection(targetClass = User.class)
+  private Set<User> friends = new HashSet<User>();
 
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
-  }
 
   public Set<User> getFriends() {
     return friends;
@@ -86,6 +70,7 @@ public class User {
     this.friends = friends;
   }
 
+*/
   public Integer getUserId() {
     return userId;
   }
