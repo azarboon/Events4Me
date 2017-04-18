@@ -52,7 +52,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
     private void assignAdminRole() {
         List<Role> roles = roleService.listRoles();
-        List<User> users = userService.findUserList();
+        List<User> users = userService.listUsers();
 
         roles.forEach(role -> {
             if (role.getRole().equalsIgnoreCase("ADMIN")) {
@@ -69,7 +69,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
     private void assignUserRole() {
         List<Role> roles = roleService.listRoles();
-        List<User> users = userService.findUserList();
+        List<User> users = userService.listUsers();
 
         roles.forEach(role -> {
             if (role.getRole().equalsIgnoreCase("USER")) {
@@ -98,7 +98,6 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         dmitry.setPassword("admin");
         dmitry.getInterests().add(Interest.BUSINESS);
         dmitry.getInterests().add(Interest.SPORT);
-        userService.saveOrUpdateUser(dmitry);
 
         User martin = new User();
         martin.setUsername("looser");
@@ -106,26 +105,44 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         martin.setPassword("user");
         martin.getInterests().add(Interest.PARTY);
         martin.getInterests().add(Interest.ART);
+
+        martin.setFriend(dmitry);
+        dmitry.setFriend(martin);
+        dmitry.getFriends().add(martin);
+        martin.getFriends().add(dmitry);
         userService.saveOrUpdateUser(martin);
+        userService.saveOrUpdateUser(dmitry);
     }
 
     private void loadEvents() {
         Event sportEvent = new Event();
         sportEvent.setName("Sport event");
-        sportEvent.setDateTime(LocalDateTime.now());
+        sportEvent.setDateTime(LocalDateTime.of(2017, 6, 2, 13, 0));
         sportEvent.setCategory(Interest.SPORT);
-        eventService.saveEvent(sportEvent);
+        eventService.saveOrUpdateEvent(sportEvent);
 
         Event partyEvent = new Event();
         partyEvent.setName("Party event");
-        partyEvent.setDateTime(LocalDateTime.now());
+        partyEvent.setDateTime(LocalDateTime.of(2017, 6, 10, 13, 0));
         partyEvent.setCategory(Interest.PARTY);
-        eventService.saveEvent(partyEvent);
+        eventService.saveOrUpdateEvent(partyEvent);
 
         Event businessEvent = new Event();
         businessEvent.setName("Business event");
-        businessEvent.setDateTime(LocalDateTime.now());
+        businessEvent.setDateTime(LocalDateTime.of(2017, 6, 2, 15, 0));
         businessEvent.setCategory(Interest.BUSINESS);
-        eventService.saveEvent(businessEvent);
+        eventService.saveOrUpdateEvent(businessEvent);
+
+        Event businessEventPast = new Event();
+        businessEventPast.setName("Business event past");
+        businessEventPast.setDateTime(LocalDateTime.of(2017, 2, 2, 13, 0));
+        businessEventPast.setCategory(Interest.BUSINESS);
+        eventService.saveOrUpdateEvent(businessEventPast);
+
+        Event sportEventPast = new Event();
+        sportEventPast.setName("Sport event past");
+        sportEventPast.setDateTime(LocalDateTime.of(2017, 2, 3, 13, 0));
+        sportEventPast.setCategory(Interest.SPORT);
+        eventService.saveOrUpdateEvent(sportEventPast);
     }
 }

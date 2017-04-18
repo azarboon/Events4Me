@@ -1,6 +1,5 @@
 package com.metropolia.events4me.Service.ServiceImpl;
 
-import com.metropolia.events4me.DAO.RoleDAO;
 import com.metropolia.events4me.DAO.UserDAO;
 import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Model.User;
@@ -8,12 +7,8 @@ import com.metropolia.events4me.Service.RoleService;
 import com.metropolia.events4me.Service.UserService;
 import com.metropolia.events4me.Service.security.EncryptionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.security.Principal;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Dmitry on 11.04.2017.
@@ -52,6 +47,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getById(Integer id) {
+        return userDAO.findOne(id);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        userDAO.delete(getById(id));
+    }
+
+    @Override
     public boolean checkUserExists(String username, String email){
         return checkUsernameExists(username) || checkEmailExists(username);
     }
@@ -82,22 +87,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findUserList() {
+    public List<User> listUsers() {
         return userDAO.findAll();
     }
 
     @Override
-    public List<Event> listUserEvents(Principal principal) {
-        User user = userDAO.findByUsername(principal.getName());
+    public List<Event> listUserEvents(User user) {
         return user.getEvents();
     }
-
-    @Override
-    public void joinEvent(Principal principal, Event event) {
-        User user = userDAO.findByUsername(principal.getName());
-        user.getEvents().add(event);
-        userDAO.save(user);
-    }
-
 
 }

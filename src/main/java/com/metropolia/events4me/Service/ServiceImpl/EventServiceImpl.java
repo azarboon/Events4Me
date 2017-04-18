@@ -1,11 +1,10 @@
 package com.metropolia.events4me.Service.ServiceImpl;
 
 import com.metropolia.events4me.DAO.EventDAO;
-import com.metropolia.events4me.DAO.UserDAO;
 import com.metropolia.events4me.Model.Event;
-import com.metropolia.events4me.Model.User;
 import com.metropolia.events4me.Service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,10 +25,16 @@ public class EventServiceImpl implements EventService {
         this.eventDAO = eventDAO;
     }
 
-    public List<Event> listAllEvents() {
-        return eventDAO.findAll();
+    private Sort sortByDateTimeAsc() {
+        return new Sort(Sort.Direction.ASC, "dateTime");
     }
 
+    @Override
+    public List<Event> listAllEvents() {
+        return eventDAO.findAll(sortByDateTimeAsc());
+    }
+
+    @Override
     public List<Event> listPastEvents() {
         List<Event> allEvents = listAllEvents();
         LocalDate today = LocalDate.now();
@@ -42,6 +47,7 @@ public class EventServiceImpl implements EventService {
         return pastEvents;
     }
 
+    @Override
     public List<Event> listFutureEvents() {
         List<Event> allEvents = listAllEvents();
         LocalDate today = LocalDate.now();
@@ -54,14 +60,19 @@ public class EventServiceImpl implements EventService {
         return futureEvents;
     }
 
-    public Event createEvent(Event newEvent) {
-        return eventDAO.save(newEvent);
-    }
-
     @Override
-    public Event saveEvent(Event event) {
+    public Event saveOrUpdateEvent(Event event) {
         return eventDAO.save(event);
     }
 
+    @Override
+    public Event getEventById(Integer id) {
+        return eventDAO.findOne(id);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        eventDAO.delete(id);
+    }
 
 }

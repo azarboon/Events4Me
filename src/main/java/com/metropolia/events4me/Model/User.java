@@ -1,13 +1,9 @@
 package com.metropolia.events4me.Model;
 
 import com.metropolia.events4me.Model.security.Role;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import java.util.*;
 
-import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.enabled;
 
 /**
  * Created by Dmitry on 11.04.2017.
@@ -39,21 +35,29 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Interest.class)
-    private Set<Interest> interests = new HashSet<>();
+    private Set<Interest> interests;
 
     @ManyToMany
     private List<Event> events;
     private byte[] photo;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "friend_list")
+    private User friend;
+
+    @OneToMany(mappedBy = "friend")
+    private Set<User> friends;
 
     public User() {
+        interests = new HashSet<>();
+        friends = new HashSet<>();
     }
 
     public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -174,5 +178,21 @@ public class User {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public User getFriend() {
+        return friend;
+    }
+
+    public void setFriend(User friend) {
+        this.friend = friend;
+    }
+
+    public Set<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<User> friends) {
+        this.friends = friends;
     }
 }

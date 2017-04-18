@@ -16,6 +16,10 @@ public interface UserService {
 
     User findByUsername(String username);
 
+    User getById(Integer id);
+
+    void delete(Integer id);
+
     boolean checkUserExists(String username, String email);
 
     boolean checkUsernameExists(String username);
@@ -24,9 +28,8 @@ public interface UserService {
 
     User saveOrUpdateUser(User user);
 
-    List<User> findUserList();
+    List<User> listUsers();
 
-    List<Event> listUserEvents(Principal principal);
+    List<Event> listUserEvents(User user);
 
-    void joinEvent(Principal principal, Event event);
 }

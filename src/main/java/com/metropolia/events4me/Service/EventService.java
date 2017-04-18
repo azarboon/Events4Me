@@ -16,7 +16,9 @@ public interface EventService {
 
     List<Event> listFutureEvents();
 
-    Event createEvent(Event newEvent);
+    Event saveOrUpdateEvent(Event event);
 
-    Event saveEvent(Event event);
+    Event getEventById(Integer id);
+
+    void delete(Integer id);
 }
