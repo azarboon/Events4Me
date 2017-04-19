@@ -3,6 +3,7 @@ package com.metropolia.events4me;
 import static org.junit.Assert.assertEquals;
 
 import com.metropolia.events4me.Model.User;
+import com.metropolia.events4me.Service.ServiceImpl.UserServiceImpl;
 import com.metropolia.events4me.Service.UserService;
 import java.util.List;
 import org.junit.Test;
@@ -29,12 +30,12 @@ public class UserServiceImplTest {
 
     // ask how can u implement the test?
 
-    //UserServiceImpl userServiceImp = new UserServiceImpl();
+    UserServiceImpl userServiceImp = new UserServiceImpl();
     User currentUser = userService.findByUsername("dima");
     List<User> retrievedUsers = userService.getUsersWithCommonInterest("dima");
 
     User highestMatch = retrievedUsers.get(0);
-    assertEquals("dmitry", currentUser.getFirstName());
+    assertEquals("niklas", currentUser.getFirstName());
 
 
   }
