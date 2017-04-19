@@ -111,21 +111,21 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         userService.saveOrUpdateUser(martin);
 
         User niklas = new User();
-      niklas.setUsername("nilas");
-      niklas.setFirstName("niklas");
-      niklas.setPassword("user");
-      niklas.getInterests().add(Interest.BUSINESS);
-      niklas.getInterests().add(Interest.SPORT);
-      niklas.getInterests().add(Interest.DANCE);
+        niklas.setUsername("nilas");
+        niklas.setFirstName("niklas");
+        niklas.setPassword("user");
+        niklas.getInterests().add(Interest.BUSINESS);
+        niklas.getInterests().add(Interest.SPORT);
+        niklas.getInterests().add(Interest.DANCE);
         userService.saveOrUpdateUser(niklas);
 
         User user4 = new User();
       user4.setUsername("user4");
-      user4.setFirstName("user4firstname");
+      user4.setFirstName("firstname4");
       user4.setPassword("user");
       user4.getInterests().add(Interest.BUSINESS);
       user4.getInterests().add(Interest.NATURE);
-        userService.saveOrUpdateUser(user4);
+      userService.saveOrUpdateUser(user4);
     }
 
     private void loadEvents() {

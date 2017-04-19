@@ -46,7 +46,7 @@ public class User {
   private Boolean enabled = true;
 
   @Enumerated(EnumType.STRING)
-  @ElementCollection(targetClass = Interest.class)
+  @ElementCollection(targetClass = Interest.class, fetch = FetchType.EAGER)
   private Set<Interest> interests = new HashSet<>();
 
   @ManyToMany

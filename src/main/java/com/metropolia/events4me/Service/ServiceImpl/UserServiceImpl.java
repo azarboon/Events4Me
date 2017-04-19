@@ -106,17 +106,22 @@ public class UserServiceImpl implements UserService {
 
 
   private List<User> getTopMatches(String username, int numberOfTOpMatches){
-    List<UserAndNumberOfCommonInterest> topTenUserAndNumberOfCommonInterests = getSortedList(username).subList(
+    if(numberOfTOpMatches >= getSortedList(username).size()){
+      numberOfTOpMatches = getSortedList(username).size() -1;
+    }
+    List<UserAndNumberOfCommonInterest> topUsersAnndNumberOfCommonnInterests = getSortedList(username).subList(
         getSortedList(username).size()-numberOfTOpMatches,  getSortedList(username).size());
-        /*
-        new ArrayList<UserAndNumberOfCommonInterest>(usersAndNumberOfCommoinInterests.subList(
-        usersAndNumberOfCommoinInterests.size()-10,  usersAndNumberOfCommoinInterests.size() ));
+
+    Collections.sort(topUsersAnndNumberOfCommonnInterests);
+    /*
+    System.out.println("list 2 : This is the retrieved sorted:");
+    topUsersAnndNumberOfCommonnInterests.forEach(e -> System.out.println(e.getUser().getFirstName()
+        + " number of common matches " + e.getCommonInterest()));
         */
     List<User> topMatches = new ArrayList<>();
-    for(UserAndNumberOfCommonInterest each: topTenUserAndNumberOfCommonInterests){
+    for(UserAndNumberOfCommonInterest each: topUsersAnndNumberOfCommonnInterests){
       topMatches.add(each.getUser());
     }
-
     return topMatches;
   }
 
@@ -176,7 +181,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int compareTo(UserAndNumberOfCommonInterest o) {
-      int difference = this.commonInterest - o.getCommonInterest();
+      int difference = o.getCommonInterest() -this.commonInterest;
       if(difference > 0){
         return 1;
       } else if(difference == 0){

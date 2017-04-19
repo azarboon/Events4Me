@@ -3,7 +3,6 @@ package com.metropolia.events4me;
 import static org.junit.Assert.assertEquals;
 
 import com.metropolia.events4me.Model.User;
-import com.metropolia.events4me.Service.ServiceImpl.UserServiceImpl;
 import com.metropolia.events4me.Service.UserService;
 import java.util.List;
 import org.junit.Test;
@@ -24,19 +23,18 @@ public class UserServiceImplTest {
   @Autowired
   private UserService userService;
 
+  /**
+   * Users will be loaded by {@link com.metropolia.events4me.bootstrap.SpringDataBootstrap}.
+   * Dimitry and Niklas has been defined in a way to have the highest match.
+   *
+   */
 
   @Test
   public void test_getUsersWithCommonInterest(){
 
-    // ask how can u implement the test?
-
-    UserServiceImpl userServiceImp = new UserServiceImpl();
-    User currentUser = userService.findByUsername("dima");
     List<User> retrievedUsers = userService.getUsersWithCommonInterest("dima");
-
     User highestMatch = retrievedUsers.get(0);
-    assertEquals("niklas", currentUser.getFirstName());
-
+    assertEquals("niklas", highestMatch.getFirstName());
 
   }
 
