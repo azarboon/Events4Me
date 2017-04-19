@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Dmitry on 11.04.2017.
@@ -27,9 +28,15 @@ public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer userId;
+
+   @Size(min=3, message = "Firstname should have minimum 3 characters.")
   private String firstName;
   private String lastName;
+
+  @Size(min=3, message = "Username should have minimum 3 characters.")
   private String username;
+
+  //TODO: provide restriction class fields
   private String email;
 
   @Transient
@@ -53,8 +60,25 @@ public class User {
   private List<Event> events;
   private byte[] photo;
 
-  public User() {
+
+  @ElementCollection(fetch = FetchType.EAGER)
+  private Set<User> friends = new HashSet<User>();
+
+
+  @ElementCollection(fetch = FetchType.EAGER)
+  private Set<User> pendingFriendRequests = new HashSet<User>();
+  public void acceptFriend(User sender){
+    if((sender != null) && pendingFriendRequests.contains(sender)){
+      pendingFriendRequests.remove(sender);
+      this.friends.add(sender);
+    }
   }
+
+
+  public User() {
+
+    }
+
 
   /*
   @Column
@@ -71,6 +95,26 @@ public class User {
   }
 
 */
+  public Set<User> getFriends() {
+    return friends;
+  }
+
+  public void setFriends(Set<User> friends) {
+    this.friends = friends; }
+
+
+
+  public Set<User> getPendingFriendRequests() {
+    return pendingFriendRequests;
+  }
+  public void sendFriendRequestTo(User user){
+    user.recieveFriendRequestFrom(this);
+  }
+
+  public void recieveFriendRequestFrom(User user){
+    this.pendingFriendRequests.add(user);
+  }
+
   public Integer getUserId() {
     return userId;
   }

@@ -46,6 +46,10 @@ public class UserServiceImpl implements UserService {
     return userDAO.findByEmail(email);
   }
 
+  /*
+  ?? how does userDao perform theo peration and findByUsername? There is no class that implements userDao,
+  nor it's autowired.
+   */
   @Override
   public User findByUsername(String username) {
     return userDAO.findByUsername(username);
@@ -92,6 +96,8 @@ public class UserServiceImpl implements UserService {
     return user.getEvents();
   }
 
+  //?? why is it uding principal? what's  that exactly?
+
   @Override
   public void joinEvent(Principal principal, Event event) {
     User user = userDAO.findByUsername(principal.getName());
@@ -102,6 +108,44 @@ public class UserServiceImpl implements UserService {
   @Override
   public List<User> getUsersWithCommonInterest(String username) {
     return getTopMatches(username, 10);
+  }
+
+//?? may I replace String senderUserName with principal?
+  @Override
+  public void sendFriendRequestTo(String senderUserName, String recieverUserName) {
+    if((userDAO.findByUsername(senderUserName) != null) && (userDAO.findByUsername(recieverUserName) != null)){
+      User sender = userDAO.findByUsername(senderUserName);
+      User reciever = userDAO.findByUsername(recieverUserName);
+      sender.sendFriendRequestTo(reciever);
+    }
+  }
+
+  @Override
+  public void recieveFriendRequestFrom(String senderUserName, String recieverUserName) {
+    if((userDAO.findByUsername(senderUserName) != null) && (userDAO.findByUsername(recieverUserName) != null)){
+      User sender = userDAO.findByUsername(senderUserName);
+      User reciever = userDAO.findByUsername(recieverUserName);
+      reciever.recieveFriendRequestFrom(sender);
+    }
+  }
+
+  @Override
+  public void acceptFriend(String senderUserName, String recieverUserName) {
+    if((userDAO.findByUsername(senderUserName) != null) && (userDAO.findByUsername(recieverUserName) != null)){
+      User sender = userDAO.findByUsername(senderUserName);
+      User reciever = userDAO.findByUsername(recieverUserName);
+      reciever.acceptFriend(sender);
+    }
+
+  }
+
+  @Override
+  public Set<User> getPendingFriendRequests(String username) {
+    if(userDAO.findByUsername(username) != null){
+      User user = userDAO.findByUsername(username);
+      return user.getPendingFriendRequests();
+    }
+    return null;
   }
 
 
