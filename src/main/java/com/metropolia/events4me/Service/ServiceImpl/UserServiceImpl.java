@@ -22,10 +22,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
+  @Autowired
   private UserDAO userDAO;
+  @Autowired
   private EncryptionService encryptionService;
+  @Autowired
   private RoleService roleService;
-
+/*
   @Autowired
   public void setUserDAO(UserDAO userDAO) {
     this.userDAO = userDAO;
@@ -40,7 +43,7 @@ public class UserServiceImpl implements UserService {
   public void setRoleService(RoleService roleService) {
     this.roleService = roleService;
   }
-
+*/
   @Override
   public User findByEmail(String email) {
     return userDAO.findByEmail(email);
@@ -153,31 +156,31 @@ public class UserServiceImpl implements UserService {
     if(numberOfTOpMatches >= getSortedList(username).size()){
       numberOfTOpMatches = getSortedList(username).size() -1;
     }
-    List<UserAndNumberOfCommonInterest> topUsersAnndNumberOfCommonnInterests = getSortedList(username).subList(
+    List<userWithCountOfInterests> topMatchesWithCount = getSortedList(username).subList(
         getSortedList(username).size()-numberOfTOpMatches,  getSortedList(username).size());
 
-    Collections.sort(topUsersAnndNumberOfCommonnInterests);
+    Collections.sort(topMatchesWithCount);
     /*
     System.out.println("list 2 : This is the retrieved sorted:");
     topUsersAnndNumberOfCommonnInterests.forEach(e -> System.out.println(e.getUser().getFirstName()
         + " number of common matches " + e.getCommonInterest()));
         */
     List<User> topMatches = new ArrayList<>();
-    for(UserAndNumberOfCommonInterest each: topUsersAnndNumberOfCommonnInterests){
+    for(userWithCountOfInterests each: topMatchesWithCount){
       topMatches.add(each.getUser());
     }
     return topMatches;
   }
 
-  private List<UserAndNumberOfCommonInterest> getSortedList(String username){
+  private List<userWithCountOfInterests> getSortedList(String username){
     User currentUser = userDAO.findByUsername(username);
     List<User> allUsers = userDAO.findAll();
-    List<UserAndNumberOfCommonInterest> usersWithNumberOfCommonInterests = new ArrayList<>();
+    List<userWithCountOfInterests> usersWithNumberOfCommonInterests = new ArrayList<>();
 
 
     for (User each : allUsers) {
       int commonInterests = getNumberOfCommonInterests(currentUser, each);
-      usersWithNumberOfCommonInterests.add(new UserAndNumberOfCommonInterest(each, commonInterests));
+      usersWithNumberOfCommonInterests.add(new userWithCountOfInterests(each, commonInterests));
     }
      Collections.sort(usersWithNumberOfCommonInterests);
     return usersWithNumberOfCommonInterests;
@@ -196,12 +199,12 @@ public class UserServiceImpl implements UserService {
     return commonInterests;
   }
 
-  private class UserAndNumberOfCommonInterest implements Comparable<UserAndNumberOfCommonInterest>{
+  private class userWithCountOfInterests implements Comparable<userWithCountOfInterests>{
     private int commonInterest;
     private User user;
 
 
-    public UserAndNumberOfCommonInterest(User user, int commonInterest){
+    public userWithCountOfInterests(User user, int commonInterest){
       this.user = user;
       this.commonInterest = commonInterest;
     }
@@ -224,7 +227,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public int compareTo(UserAndNumberOfCommonInterest o) {
+    public int compareTo(userWithCountOfInterests o) {
       int difference = o.getCommonInterest() -this.commonInterest;
       if(difference > 0){
         return 1;

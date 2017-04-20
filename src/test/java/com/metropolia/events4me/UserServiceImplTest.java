@@ -24,9 +24,10 @@ public class UserServiceImplTest {
 
   @Autowired
   private UserService userService;
-
   @Autowired
   private UserDAO userDAO;
+
+
 
   /**
    * Users will be loaded by {@link com.metropolia.events4me.bootstrap.SpringDataBootstrap}.
@@ -43,19 +44,27 @@ public class UserServiceImplTest {
 
   @Test
   public void test_RecieveFriendRequest(){
-      //TODO: create users here and make unit tests independent
+    //TODO: create users here and make unit tests independent
     //TODO: enable persistence
       User dima = userDAO.findByUsername("dima");
       User martin = userDAO.findByUsername("martin");
-      User user4 = userDAO.findByUsername("user4");
-      user4.sendFriendRequestTo(martin);
       dima.sendFriendRequestTo(martin);
       Set<User> requestSenders = martin.getPendingFriendRequests();
       System.out.println("List 3: friend ship request recieved from following users:");
       requestSenders.forEach(user -> System.out.println(user.getUsername()));
-      assertEquals(true , requestSenders.contains(dima));
-
+      martin.acceptFriend(dima);
+      userService.saveOrUpdateUser(martin);
+      userService.saveOrUpdateUser(dima);
+      Set<User> friends = martin.getFriends();
+      assertEquals(true , friends.contains(dima));
   }
+
+  @Test
+  public void test_findByUsername(){
+    User dima = userDAO.findByUsername("dima");
+    assertEquals("dmitry", dima.getFirstName());
+  }
+
 
 
 }

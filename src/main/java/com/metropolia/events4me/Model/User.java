@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -24,19 +26,34 @@ import javax.validation.constraints.Size;
 
 @Entity
 public class User {
+/*
+?? why this annotation gives following error:
+Caused by: org.hibernate.MappingException: Could not determine type for:
+com.metropolia.events4me.Service.UserService, at table: user, for columns: [org.hibernate.mapping.Column(user_service)]
+
+  @Autowired
+  private UserService userService;
+
+*/
+
+
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer userId;
 
-   @Size(min=3, message = "Firstname should have minimum 3 characters.")
+
+
+  @Size(min=3, message = "Firstname should have minimum 3 characters.")
   private String firstName;
   private String lastName;
 
   @Size(min=3, message = "Username should have minimum 3 characters.")
+  @Column(unique = true)
   private String username;
 
-  //TODO: provide restriction class fields
+  //TODO: make fields not nullable
+  @Column(unique = true)
   private String email;
 
   @Transient
@@ -61,12 +78,13 @@ public class User {
   private byte[] photo;
 
 
-  @ElementCollection(fetch = FetchType.EAGER)
+  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private Set<User> friends = new HashSet<User>();
 
 
-  @ElementCollection(fetch = FetchType.EAGER)
+  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private Set<User> pendingFriendRequests = new HashSet<User>();
+
   public void acceptFriend(User sender){
     if((sender != null) && pendingFriendRequests.contains(sender)){
       pendingFriendRequests.remove(sender);
@@ -79,22 +97,10 @@ public class User {
 
     }
 
-
-  /*
-  @Column
-  @ElementCollection(targetClass = User.class)
-  private Set<User> friends = new HashSet<User>();
-
-
-  public Set<User> getFriends() {
-    return friends;
+  public void recieveFriendRequestFrom(User user){
+    this.pendingFriendRequests.add(user);
   }
 
-  public void setFriends(Set<User> friends) {
-    this.friends = friends;
-  }
-
-*/
   public Set<User> getFriends() {
     return friends;
   }
@@ -111,9 +117,7 @@ public class User {
     user.recieveFriendRequestFrom(this);
   }
 
-  public void recieveFriendRequestFrom(User user){
-    this.pendingFriendRequests.add(user);
-  }
+
 
   public Integer getUserId() {
     return userId;
@@ -242,26 +246,5 @@ public class User {
     this.enabled = enabled;
   }
 
-  /*
-  private Set<User> pendingFriendRequests = new HashSet<User>();
 
-  public Set<User> getPendingFriendRequests() {
-    return pendingFriendRequests;
-  }
-  public void sendFriendRequest(User user){
-    this.pendingFriendRequests.add(user);
-  }
-
-
-  public Set<User> getFriend() {
-    return friend;
-  }
-  public void acceptFriend(User friend){
-
-    if((friend != null) && pendingFriendRequests.contains(friend)){
-      pendingFriendRequests.remove(friend);
-      this.friend.add(friend);
-    }
-  }
-*/
 }

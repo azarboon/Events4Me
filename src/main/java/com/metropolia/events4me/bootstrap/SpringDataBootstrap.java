@@ -21,10 +21,15 @@ import java.util.List;
 @Component
 public class SpringDataBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
+    @Autowired
     private UserService userService;
-    private EventService eventService;
-    private RoleService roleService;
 
+    @Autowired
+    private EventService eventService;
+
+    @Autowired
+    private RoleService roleService;
+/*
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -39,7 +44,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     public void setRoleService(RoleService roleService) {
         this.roleService = roleService;
     }
-
+*/
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         loadEvents();
@@ -92,10 +97,10 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     }
 
     private void loadUsers() {
+
         User dmitry = new User();
         dmitry.setUsername("dima");
         dmitry.setFirstName("dmitry");
-
         dmitry.setPassword("admin");
         dmitry.getInterests().add(Interest.BUSINESS);
         dmitry.getInterests().add(Interest.SPORT);
@@ -126,6 +131,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
       user4.getInterests().add(Interest.BUSINESS);
       user4.getInterests().add(Interest.NATURE);
       userService.saveOrUpdateUser(user4);
+
     }
 
     private void loadEvents() {

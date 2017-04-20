@@ -35,7 +35,6 @@ public class UserController {
 
     @RequestMapping(value = "/recomUsers", method = RequestMethod.GET)
     public String getRecommendedUsers(Principal principal, Model model){
-
         List<User> recommendedUsers = userService.getUsersWithCommonInterest(principal.getName());
         model.addAttribute("recommendedUsers", recommendedUsers);
         return "recommendedUsers";
