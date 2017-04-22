@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -33,18 +34,25 @@ public class User {
 
 
   @Size(min=3, message = "Firstname should have minimum 3 characters.")
+  @NotNull
   private String firstName;
+
+  @Size(min=3, message = "Last name should have minimum 3 characters.")
+  @NotNull
   private String lastName;
 
   @Size(min=3, message = "Username should have minimum 3 characters.")
   @Column(unique = true)
+  @NotNull
   private String username;
 
   //TODO: make fields not nullable
   @Column(unique = true)
+  @NotNull
   private String email;
 
   @Transient
+  @NotNull
   private String password;
   private String encryptedPassword;
 
@@ -85,6 +93,8 @@ public class User {
   public User() {
 
     }
+
+
 
   public void recieveFriendRequestFrom(User user){
     this.pendingFriendRequests.add(user);

@@ -84,6 +84,10 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User saveOrUpdateUser(User user) {
+
+    if(checkUserExists(user.getUsername(), user.getEmail())){
+      return null;
+    }
     if (user.getPassword() != null) {
       user.setEncryptedPassword(encryptionService.encryptString(user.getPassword()));
     }
