@@ -36,4 +36,5 @@ public interface UserService {
     void acceptFriend(String sender, String reciever);
     Set<User> getPendingFriendRequests(String username);
 
+    void delete(User user);
 }

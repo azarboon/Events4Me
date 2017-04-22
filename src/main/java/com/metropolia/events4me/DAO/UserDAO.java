@@ -10,8 +10,8 @@ import java.util.List;
  */
 
 public interface UserDAO extends CrudRepository<User, Integer> {
-//?? where are following two methods declared? And where are they used? Samem etohds are in UserSerivce too,
-// so why have u repeated them here?
+
+    //TODO: delete this if no use
     User findByEmail(String email);
 
     User findByUsername(String username);
@@ -19,6 +19,7 @@ public interface UserDAO extends CrudRepository<User, Integer> {
     List<User> findAll();
 
     // Martin declared this method
+    //TODO: delete
     @Override
     void delete(Integer integer);
 }

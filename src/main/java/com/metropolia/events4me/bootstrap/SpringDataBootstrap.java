@@ -7,13 +7,13 @@ import com.metropolia.events4me.Model.security.Role;
 import com.metropolia.events4me.Service.EventService;
 import com.metropolia.events4me.Service.RoleService;
 import com.metropolia.events4me.Service.UserService;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Created by Dmitry on 17.04.2017.
@@ -22,6 +22,7 @@ import java.util.List;
 public class SpringDataBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
+    @Qualifier("UserServiceImpl")
     private UserService userService;
 
     @Autowired
@@ -97,7 +98,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     }
 
     private void loadUsers() {
-
+/*
         User dmitry = new User();
         dmitry.setUsername("dima");
         dmitry.setFirstName("dmitry");
@@ -115,6 +116,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         martin.getInterests().add(Interest.ART);
         userService.saveOrUpdateUser(martin);
 
+
         User niklas = new User();
         niklas.setUsername("nilas");
         niklas.setFirstName("niklas");
@@ -131,7 +133,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
       user4.getInterests().add(Interest.BUSINESS);
       user4.getInterests().add(Interest.NATURE);
       userService.saveOrUpdateUser(user4);
-
+*/
     }
 
     private void loadEvents() {

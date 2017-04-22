@@ -19,16 +19,16 @@ import org.springframework.stereotype.Service;
  * Created by Dmitry on 11.04.2017.
  */
 
-@Service
+@Service("UserServiceImpl")
 public class UserServiceImpl implements UserService {
 
-  @Autowired
+
   private UserDAO userDAO;
-  @Autowired
+
   private EncryptionService encryptionService;
-  @Autowired
+
   private RoleService roleService;
-/*
+
   @Autowired
   public void setUserDAO(UserDAO userDAO) {
     this.userDAO = userDAO;
@@ -43,16 +43,24 @@ public class UserServiceImpl implements UserService {
   public void setRoleService(RoleService roleService) {
     this.roleService = roleService;
   }
-*/
+
   @Override
   public User findByEmail(String email) {
     return userDAO.findByEmail(email);
   }
 
   /*
-  ?? how does userDao perform theo peration and findByUsername? There is no class that implements userDao,
-  nor it's autowired.
+
+
+  //TODO: This is to mock user data
+  @Override
+  public User findByUsername(String username) {
+    return Users.getInstance().getUserbyusername(username);
+
+  }
+
    */
+
   @Override
   public User findByUsername(String username) {
     return userDAO.findByUsername(username);
@@ -62,6 +70,7 @@ public class UserServiceImpl implements UserService {
   public boolean checkUserExists(String username, String email) {
     return checkUsernameExists(username) || checkEmailExists(username);
   }
+
 
   @Override
   public boolean checkUsernameExists(String username) {
@@ -99,7 +108,6 @@ public class UserServiceImpl implements UserService {
     return user.getEvents();
   }
 
-  //?? why is it uding principal? what's  that exactly?
 
   @Override
   public void joinEvent(Principal principal, Event event) {
@@ -113,10 +121,11 @@ public class UserServiceImpl implements UserService {
     return getTopMatches(username, 10);
   }
 
-//?? may I replace String senderUserName with principal?
+
   @Override
   public void sendFriendRequestTo(String senderUserName, String recieverUserName) {
-    if((userDAO.findByUsername(senderUserName) != null) && (userDAO.findByUsername(recieverUserName) != null)){
+    if ((userDAO.findByUsername(senderUserName) != null) && (
+        userDAO.findByUsername(recieverUserName) != null)) {
       User sender = userDAO.findByUsername(senderUserName);
       User reciever = userDAO.findByUsername(recieverUserName);
       sender.sendFriendRequestTo(reciever);
@@ -125,7 +134,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void recieveFriendRequestFrom(String senderUserName, String recieverUserName) {
-    if((userDAO.findByUsername(senderUserName) != null) && (userDAO.findByUsername(recieverUserName) != null)){
+    if ((userDAO.findByUsername(senderUserName) != null) && (
+        userDAO.findByUsername(recieverUserName) != null)) {
       User sender = userDAO.findByUsername(senderUserName);
       User reciever = userDAO.findByUsername(recieverUserName);
       reciever.recieveFriendRequestFrom(sender);
@@ -134,7 +144,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void acceptFriend(String senderUserName, String recieverUserName) {
-    if((userDAO.findByUsername(senderUserName) != null) && (userDAO.findByUsername(recieverUserName) != null)){
+    if ((userDAO.findByUsername(senderUserName) != null) && (
+        userDAO.findByUsername(recieverUserName) != null)) {
       User sender = userDAO.findByUsername(senderUserName);
       User reciever = userDAO.findByUsername(recieverUserName);
       reciever.acceptFriend(sender);
@@ -144,20 +155,25 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public Set<User> getPendingFriendRequests(String username) {
-    if(userDAO.findByUsername(username) != null){
+    if (userDAO.findByUsername(username) != null) {
       User user = userDAO.findByUsername(username);
       return user.getPendingFriendRequests();
     }
     return null;
   }
 
+  @Override
+  public void delete(User user) {
+    userDAO.delete(user);
+  }
 
-  private List<User> getTopMatches(String username, int numberOfTOpMatches){
-    if(numberOfTOpMatches >= getSortedList(username).size()){
-      numberOfTOpMatches = getSortedList(username).size() -1;
+
+  private List<User> getTopMatches(String username, int numberOfTOpMatches) {
+    if (numberOfTOpMatches >= getSortedList(username).size()) {
+      numberOfTOpMatches = getSortedList(username).size() - 1;
     }
     List<userWithCountOfInterests> topMatchesWithCount = getSortedList(username).subList(
-        getSortedList(username).size()-numberOfTOpMatches,  getSortedList(username).size());
+        getSortedList(username).size() - numberOfTOpMatches, getSortedList(username).size());
 
     Collections.sort(topMatchesWithCount);
     /*
@@ -166,45 +182,46 @@ public class UserServiceImpl implements UserService {
         + " number of common matches " + e.getCommonInterest()));
         */
     List<User> topMatches = new ArrayList<>();
-    for(userWithCountOfInterests each: topMatchesWithCount){
+    for (userWithCountOfInterests each : topMatchesWithCount) {
       topMatches.add(each.getUser());
     }
     return topMatches;
   }
 
-  private List<userWithCountOfInterests> getSortedList(String username){
+  //?? How to mock data for this class in unit tests? recreating another class that has only two custom metohds (with mock data) is not reasonable.
+  private List<userWithCountOfInterests> getSortedList(String username) {
     User currentUser = userDAO.findByUsername(username);
     List<User> allUsers = userDAO.findAll();
     List<userWithCountOfInterests> usersWithNumberOfCommonInterests = new ArrayList<>();
-
 
     for (User each : allUsers) {
       int commonInterests = getNumberOfCommonInterests(currentUser, each);
       usersWithNumberOfCommonInterests.add(new userWithCountOfInterests(each, commonInterests));
     }
-     Collections.sort(usersWithNumberOfCommonInterests);
+    Collections.sort(usersWithNumberOfCommonInterests);
     return usersWithNumberOfCommonInterests;
   }
 
-  private int getNumberOfCommonInterests(User user1, User user2){
+  private int getNumberOfCommonInterests(User user1, User user2) {
     int commonInterests = 0;
     Set<Interest> interests1 = user1.getInterests();
     Set<Interest> interests2 = user2.getInterests();
 
-    for(Interest each: interests1){
-      if(interests2.contains(each)){
+    for (Interest each : interests1) {
+      if (interests2.contains(each)) {
         commonInterests++;
       }
     }
     return commonInterests;
   }
 
-  private class userWithCountOfInterests implements Comparable<userWithCountOfInterests>{
+  private class userWithCountOfInterests implements Comparable<userWithCountOfInterests> {
+
     private int commonInterest;
     private User user;
 
 
-    public userWithCountOfInterests(User user, int commonInterest){
+    public userWithCountOfInterests(User user, int commonInterest) {
       this.user = user;
       this.commonInterest = commonInterest;
     }
@@ -228,14 +245,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int compareTo(userWithCountOfInterests o) {
-      int difference = o.getCommonInterest() -this.commonInterest;
-      if(difference > 0){
+      int difference = o.getCommonInterest() - this.commonInterest;
+      if (difference > 0) {
         return 1;
-      } else if(difference == 0){
+      } else if (difference == 0) {
         return 0;
       }
       return -1;
     }
   }
+
 
 }

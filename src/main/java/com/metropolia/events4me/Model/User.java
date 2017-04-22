@@ -26,22 +26,10 @@ import javax.validation.constraints.Size;
 
 @Entity
 public class User {
-/*
-?? why this annotation gives following error:
-Caused by: org.hibernate.MappingException: Could not determine type for:
-com.metropolia.events4me.Service.UserService, at table: user, for columns: [org.hibernate.mapping.Column(user_service)]
-
-  @Autowired
-  private UserService userService;
-
-*/
-
-
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer userId;
-
 
 
   @Size(min=3, message = "Firstname should have minimum 3 characters.")
@@ -59,6 +47,7 @@ com.metropolia.events4me.Service.UserService, at table: user, for columns: [org.
   @Transient
   private String password;
   private String encryptedPassword;
+
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable

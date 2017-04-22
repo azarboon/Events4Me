@@ -5,6 +5,7 @@ import com.metropolia.events4me.Service.UserService;
 import java.security.Principal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,17 +18,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class UserController {
 
-    //?? why do we bother having UserService interface? We coud just use UserServiceImpl which uses Dao.
+
     private UserService userService;
 
     @Autowired
+    @Qualifier("UserServiceImpl")
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String profile(Principal principal, Model model) {
-        //?? principal is just a code. HOw comes principal has our user name?
+
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("user", user);
         return "profile";
@@ -39,6 +41,7 @@ public class UserController {
         model.addAttribute("recommendedUsers", recommendedUsers);
         return "recommendedUsers";
     }
+
 
 
 //    @RequestMapping(value = "/profile", method = RequestMethod.POST)
