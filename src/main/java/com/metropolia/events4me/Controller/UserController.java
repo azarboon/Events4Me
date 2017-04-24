@@ -45,6 +45,21 @@ public class UserController {
         return "recommendedUsers";
     }
 
+    public String sendFriendshipRequest(Principal principal, Model model, @PathVariable String recieverUsername){
+        User sender = userService.findByUsername(principal.getName());
+        User reciever = userService.findByUsername(recieverUsername);
+        sender.sendFriendRequestTo(reciever);
+        model.addAttribute("SentFriendshipRequest", "friendship request was sent to " + recieverUsername);
+        return "sentfriendshipRequest";
+    }
+
+    public String acceptFriend(Principal principal, Model model, @PathVariable String senderUsername){
+        User reciever = userService.findByUsername(principal.getName());
+        User sender = userService.findByUsername(senderUsername);
+        reciever.acceptFriend(sender);
+        model.addAttribute("FriendshipAccepted", "Now you are friend with " + senderUsername);
+        return "friendshipAccepted";
+    }
 
 
 //    @RequestMapping(value = "/profile", method = RequestMethod.POST)

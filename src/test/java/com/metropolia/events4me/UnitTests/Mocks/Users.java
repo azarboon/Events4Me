@@ -4,9 +4,7 @@ import com.metropolia.events4me.Model.User;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by mahdiaza on 21/04/17.
- */
+
 public class Users {
 
   private static int userID = 0;
@@ -28,7 +26,6 @@ public class Users {
     darlington.setUsername(u);
     darlington.setFirstName(f);
     darlington.setPassword(p);
-    //userService.saveOrUpdateUser(darlington);
     Users.ourInstance.users.put(darlington.getUsername(),darlington);
   }
 
