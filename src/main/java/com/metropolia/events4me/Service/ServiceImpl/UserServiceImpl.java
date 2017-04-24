@@ -8,16 +8,10 @@ import com.metropolia.events4me.Service.RoleService;
 import com.metropolia.events4me.Service.UserService;
 import com.metropolia.events4me.Service.security.EncryptionService;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by Dmitry on 11.04.2017.
- */
 
 @Service("UserServiceImpl")
 public class UserServiceImpl implements UserService {
@@ -52,7 +46,7 @@ public class UserServiceImpl implements UserService {
   /*
 
 
-  //TODO: This is to mock user data
+  //This is to mock user data
   @Override
   public User findByUsername(String username) {
     return Users.getInstance().getUserbyusername(username);
@@ -65,6 +59,7 @@ public class UserServiceImpl implements UserService {
   public User findByUsername(String username) {
     return userDAO.findByUsername(username);
   }
+
 
   @Override
   public boolean checkUserExists(String username, String email) {
@@ -85,7 +80,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public User saveOrUpdateUser(User user) {
 
-    if(checkUserExists(user.getUsername(), user.getEmail())){
+    if (checkUserExists(user.getUsername(), user.getEmail())) {
       return null;
     }
     if (user.getPassword() != null) {
@@ -101,12 +96,12 @@ public class UserServiceImpl implements UserService {
     return userDAO.save(user);
   }
 
-  @Override
+
   public List<User> findUserList() {
     return userDAO.findAll();
   }
 
-  @Override
+
   public List<Event> listUserEvents(Principal principal) {
     User user = userDAO.findByUsername(principal.getName());
     return user.getEvents();
@@ -166,25 +161,35 @@ public class UserServiceImpl implements UserService {
     return null;
   }
 
+
   @Override
   public void delete(User user) {
     userDAO.delete(user);
   }
 
 
+  @Override
+  public User getById(Integer id) {
+    return userDAO.findOne(id);
+  }
+
+  @Override
+  public void delete(Integer id) {
+    userDAO.delete(getById(id));
+  }
+
+
   private List<User> getTopMatches(String username, int numberOfTOpMatches) {
     if (numberOfTOpMatches >= getSortedList(username).size()) {
       numberOfTOpMatches = getSortedList(username).size() - 1;
+
     }
+
     List<userWithCountOfInterests> topMatchesWithCount = getSortedList(username).subList(
         getSortedList(username).size() - numberOfTOpMatches, getSortedList(username).size());
 
     Collections.sort(topMatchesWithCount);
-    /*
-    System.out.println("list 2 : This is the retrieved sorted:");
-    topUsersAnndNumberOfCommonnInterests.forEach(e -> System.out.println(e.getUser().getFirstName()
-        + " number of common matches " + e.getCommonInterest()));
-        */
+
     List<User> topMatches = new ArrayList<>();
     for (userWithCountOfInterests each : topMatchesWithCount) {
       topMatches.add(each.getUser());
@@ -217,6 +222,16 @@ public class UserServiceImpl implements UserService {
       }
     }
     return commonInterests;
+  }
+
+  @Override
+  public List<User> listUsers() {
+    return userDAO.findAll();
+  }
+
+  @Override
+  public List<Event> listUserEvents(User user) {
+    return user.getEvents();
   }
 
   private class userWithCountOfInterests implements Comparable<userWithCountOfInterests> {

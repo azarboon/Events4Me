@@ -11,5 +11,7 @@ import java.util.List;
  */
 public interface EventUserService {
 
-    List<Event> matchEventsForUser(Principal principal);
+    List<Event> matchEventsForUser(User user);
+
+    void joinEvent(User user, Integer eventId);
 }

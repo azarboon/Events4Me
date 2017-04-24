@@ -67,7 +67,9 @@ public class IndexController {
     @RequestMapping("/events4me")
     public String userFront(Principal principal, Model model) {
         User user = userService.findByUsername(principal.getName());
-//        some logic will be there
+        model.addAttribute("userEvents", user.getEvents());
+        model.addAttribute("userFriend", user.getFriends());
+        //Other information...
         return "events4me";
     }
 }

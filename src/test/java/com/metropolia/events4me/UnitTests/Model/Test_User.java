@@ -3,10 +3,8 @@ package com.metropolia.events4me.UnitTests.Model;
 import static org.junit.Assert.assertEquals;
 
 import com.metropolia.events4me.Model.Interest;
-import com.metropolia.events4me.Model.User;
 import com.metropolia.events4me.Service.UserService;
 import com.metropolia.events4me.UnitTests.Mocks.Users;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.junit.Test;
@@ -87,10 +85,5 @@ public class Test_User {
   assertEquals(true , friends.contains(dima));
 
 }
-  @Test
-  public void test_getUsersWithCommonInterest(){
-    List<User> retrievedUsers = userService.getUsersWithCommonInterest("test5");
-    com.metropolia.events4me.Model.User highestMatch = retrievedUsers.get(0);
-    assertEquals("firstname7", highestMatch.getFirstName());
-  }
+
 }
