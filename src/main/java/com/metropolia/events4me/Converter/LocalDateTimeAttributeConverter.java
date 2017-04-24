@@ -1,4 +1,4 @@
-package com.metropolia.events4me.converter;
+package com.metropolia.events4me.Converter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

@@ -59,6 +59,17 @@ public class User {
     friends = new HashSet<>();
   }
 
+  public User(String username, String firstname, String lastname,String password, String email){
+    interests = new HashSet<>();
+    friends = new HashSet<>();
+    this.username = username;
+    this.firstName = firstname;
+    this.lastName = lastname;
+    this.password = password;
+    this.email = email;
+
+  }
+
   public void acceptFriend(User sender) {
     if ((sender != null) && pendingFriendRequests.contains(sender)) {
       pendingFriendRequests.remove(sender);

@@ -14,14 +14,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Rollback
 public class Test_UserServiceImpl {
   AnnotationConfigApplicationContext aca;
   private User[] testUsers = new User[4];
+
 
   @Autowired
   @Qualifier("UserServiceImpl")

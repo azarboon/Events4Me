@@ -27,18 +27,10 @@ public class UserServiceImpl implements UserService {
   private RoleService roleService;
 
   @Autowired
-  public void setUserDAO(UserDAO userDAO) {
+  public UserServiceImpl(UserDAO userDAO, RoleService roleService, EncryptionService encryptionService){
     this.userDAO = userDAO;
-  }
-
-  @Autowired
-  public void setEncryptionService(EncryptionService encryptionService) {
-    this.encryptionService = encryptionService;
-  }
-
-  @Autowired
-  public void setRoleService(RoleService roleService) {
     this.roleService = roleService;
+    this.encryptionService = encryptionService;
   }
 
   @Override
@@ -214,7 +206,7 @@ public class UserServiceImpl implements UserService {
     return usersWithNumberOfCommonInterests;
   }
 
-  private int getNumberOfCommonInterests(User user1, User user2) {
+  protected int getNumberOfCommonInterests(User user1, User user2) {
     int commonInterests = 0;
     Set<Interest> interests1 = user1.getInterests();
     Set<Interest> interests2 = user2.getInterests();

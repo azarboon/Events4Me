@@ -1,4 +1,4 @@
-package com.metropolia.events4me.converter;
+package com.metropolia.events4me.Converter;
 
 import com.metropolia.events4me.Model.User;
 import com.metropolia.events4me.Service.security.UserDetailsImpl;
