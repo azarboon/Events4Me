@@ -46,7 +46,7 @@ public class User {
   @NotNull
   private String username;
 
-  //TODO: make fields not nullable
+
   @Column(unique = true)
   @NotNull
   private String email;
