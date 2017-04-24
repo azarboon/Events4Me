@@ -10,9 +10,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * Created by Dmitry on 17.04.2017.
- */
 
 @Component
 public class UserToUserDetails implements Converter<User, UserDetails> {

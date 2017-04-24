@@ -4,9 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-/**
- * Created by Dmitry on 13.04.2017.
- */
+
 
 @Entity
 public class Event {

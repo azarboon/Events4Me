@@ -14,9 +14,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-/**
- * Created by mahdiaza on 18/04/17.
- */
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

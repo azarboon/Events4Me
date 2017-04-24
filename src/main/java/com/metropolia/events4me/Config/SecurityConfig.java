@@ -14,10 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 
-/**
- * Created by Dmitry on 13.04.2017.
- */
-
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 

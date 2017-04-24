@@ -8,7 +8,10 @@ import com.metropolia.events4me.Service.RoleService;
 import com.metropolia.events4me.Service.UserService;
 import com.metropolia.events4me.Service.security.EncryptionService;
 import java.security.Principal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

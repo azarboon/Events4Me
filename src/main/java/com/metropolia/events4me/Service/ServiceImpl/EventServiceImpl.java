@@ -11,9 +11,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Dmitry on 13.04.2017.
- */
 
 @Service
 public class EventServiceImpl implements EventService {

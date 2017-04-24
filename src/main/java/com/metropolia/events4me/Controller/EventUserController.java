@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.security.Principal;
 import java.util.List;
 
-/**
- * Created by Dmitry on 19.04.2017.
- */
+
 @Controller
 public class EventUserController {
 

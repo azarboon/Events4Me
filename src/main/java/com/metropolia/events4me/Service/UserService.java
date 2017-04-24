@@ -6,9 +6,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by Dmitry on 11.04.2017.
- */
+
 public interface UserService {
 
     User findByEmail(String email);

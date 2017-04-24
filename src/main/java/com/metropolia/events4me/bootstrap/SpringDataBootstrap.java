@@ -15,9 +15,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by Dmitry on 17.04.2017.
- */
+
 @Component
 public class SpringDataBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 

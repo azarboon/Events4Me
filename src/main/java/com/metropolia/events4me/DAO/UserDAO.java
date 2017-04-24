@@ -5,9 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-/**
- * Created by Dmitry on 11.04.2017.
- */
+
 
 public interface UserDAO extends CrudRepository<User, Integer> {
 

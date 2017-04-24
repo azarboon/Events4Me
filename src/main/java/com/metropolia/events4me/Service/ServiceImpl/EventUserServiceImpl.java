@@ -6,9 +6,6 @@ import com.metropolia.events4me.Model.User;
 import com.metropolia.events4me.Service.EventService;
 import com.metropolia.events4me.Service.EventUserService;
 import com.metropolia.events4me.Service.UserService;
-import java.security.Principal;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by Dmitry on 16.04.2017.
- */
+
 @Service
 public class EventUserServiceImpl implements EventUserService {
 
