@@ -63,10 +63,10 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User saveOrUpdateUser(User user) {
+    /*
+    This metohd doesnt really update the data. If it exists, then throws exception. how to handle it?
+     */
 
-    if (checkUserExists(user.getUsername(), user.getEmail())) {
-      return null;
-    }
     if (user.getPassword() != null) {
       user.setEncryptedPassword(encryptionService.encryptString(user.getPassword()));
     }
@@ -184,7 +184,12 @@ public class UserServiceImpl implements UserService {
 
   private List<userWithCountOfInterests> getSortedList(String username) {
     User currentUser = userDAO.findByUsername(username);
+
+    User test7 = userDAO.findByUsername("test7");
+    System.out.println("list6: finbyusername should now get test7: " + test7.getUsername());
     List<User> allUsers = userDAO.findAll();
+    System.out.println("List 4: these users were retrieved: ");
+    allUsers.forEach(u -> System.out.println(u.getUsername()));
     List<userWithCountOfInterests> usersWithNumberOfCommonInterests = new ArrayList<>();
 
     for (User each : allUsers) {

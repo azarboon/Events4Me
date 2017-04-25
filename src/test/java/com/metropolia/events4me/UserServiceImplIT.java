@@ -8,37 +8,30 @@ import com.metropolia.events4me.Service.UserService;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Rollback
 public class UserServiceImplIT {
-  private User[] testUsers = new User[4];
-
 
   @Autowired
   @Qualifier("UserServiceImpl")
   private UserService userService;
 
 
-  public UserServiceImplIT(){
-
-    // ?? why my @PreDestroy method is not being called at end of lifecycle?
+  public UserServiceImplIT() {
 
   }
 
-
+  // ?? why my @PreDestroy method is not being called at end of lifecycle?
   @PostConstruct
-  private void populateDB(){
+  private void populateDB() {
     User test5 = new User();
     test5.setUsername("test5");
     test5.setFirstName("firstname5");
@@ -48,8 +41,11 @@ public class UserServiceImplIT {
     test5.getInterests().add(Interest.BUSINESS);
     test5.getInterests().add(Interest.SPORT);
     test5.getInterests().add(Interest.DANCE);
-    userService.saveOrUpdateUser(test5);
-    this.testUsers[0] = test5;
+    //TODO: find a way to remove such if condition. improve saveorupdate metohd
+    if(!userService.checkUsernameExists("test5")){
+      userService.saveOrUpdateUser(test5);
+    }
+
 
     User test6 = new User();
     test6.setUsername("test6");
@@ -59,8 +55,11 @@ public class UserServiceImplIT {
     test6.setEmail("test6@email.com");
     test6.getInterests().add(Interest.PARTY);
     test6.getInterests().add(Interest.ART);
-    userService.saveOrUpdateUser(test6);
-    this.testUsers[1] = test6;
+
+    if(!userService.checkUsernameExists("test6")){
+      userService.saveOrUpdateUser(test6);
+    }
+
 
     User test7 = new User();
     test7.setUsername("test7");
@@ -71,8 +70,9 @@ public class UserServiceImplIT {
     test7.getInterests().add(Interest.BUSINESS);
     test7.getInterests().add(Interest.SPORT);
     test7.getInterests().add(Interest.DANCE);
-    userService.saveOrUpdateUser(test7);
-    this.testUsers[2] = test7;
+    if(!userService.checkUsernameExists("test7")){
+      userService.saveOrUpdateUser(test7);
+    }
 
     User test8 = new User();
     test8.setUsername("test8");
@@ -82,38 +82,32 @@ public class UserServiceImplIT {
     test8.setEmail("test8@email.com");
     test8.getInterests().add(Interest.BUSINESS);
     test8.getInterests().add(Interest.NATURE);
-    userService.saveOrUpdateUser(test8);
-    this.testUsers[3] = test8;
-  }
-
-
-  @PreDestroy
-  public void cleanUpDB(){
-    System.out.println("cleanUpDB method was called");
-    for(User each: this.testUsers){
-      userService.delete(each);
-
+    if(!userService.checkUsernameExists("test8")){
+      userService.saveOrUpdateUser(test8);
     }
   }
+
   @Test
-  public void test_getUsersWithCommonInterest(){
+  public void test_getUsersWithCommonInterest() {
     List<User> retrievedUsers = userService.getUsersWithCommonInterest("test5");
     User highestMatch = retrievedUsers.get(0);
     assertEquals("firstname7", highestMatch.getFirstName());
   }
 
-  @Test
-  public void test_RecieveFriendRequest(){
 
+  @Test
+  public void test_RecieveFriendRequest() {
     User test6 = userService.findByUsername("test6");
     User test7 = userService.findByUsername("test7");
     test6.sendFriendRequestTo(test7);
-    Set<User> requestSenders = test7.getPendingFriendRequests();
     test7.acceptFriend(test6);
     userService.saveOrUpdateUser(test7);
     userService.saveOrUpdateUser(test6);
-    Set<User> friends = test7.getFriends();
-    assertEquals(true , friends.contains(test6));
+    User retrievedUserFromDB = userService.findByUsername("test7");
+    Set<User> friends = retrievedUserFromDB.getFriends();
+    //TODO: change following method to "contain"
+    assertEquals("test6", friends.iterator().next().getUsername());
+
   }
 
 }

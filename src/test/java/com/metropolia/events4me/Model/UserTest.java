@@ -23,7 +23,7 @@ public class UserTest {
   @Test
   public void RecieveFriendRequestTest(){
 
-    getMockUsers();
+  getMockUsers();
   User dima = userDAO.findByUsername("dima");
   User martin = userDAO.findByUsername("martin");
   dima.sendFriendRequestTo(martin);
