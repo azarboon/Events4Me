@@ -38,17 +38,6 @@ public class UserServiceImpl implements UserService {
     return userDAO.findByEmail(email);
   }
 
-  /*
-
-
-  //This is to mock user data
-  @Override
-  public User findByUsername(String username) {
-    return Users.getInstance().getUserbyusername(username);
-
-  }
-
-   */
 
   @Override
   public User findByUsername(String username) {
@@ -192,7 +181,7 @@ public class UserServiceImpl implements UserService {
     return topMatches;
   }
 
-  //?? How to mock data for this class in unit tests? recreating another class that has only two custom metohds (with mock data) is not reasonable.
+
   private List<userWithCountOfInterests> getSortedList(String username) {
     User currentUser = userDAO.findByUsername(username);
     List<User> allUsers = userDAO.findAll();
@@ -206,7 +195,7 @@ public class UserServiceImpl implements UserService {
     return usersWithNumberOfCommonInterests;
   }
 
-  protected int getNumberOfCommonInterests(User user1, User user2) {
+  private int getNumberOfCommonInterests(User user1, User user2) {
     int commonInterests = 0;
     Set<Interest> interests1 = user1.getInterests();
     Set<Interest> interests2 = user2.getInterests();

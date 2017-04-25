@@ -1,4 +1,4 @@
-package com.metropolia.events4me.IntegrationTests;
+package com.metropolia.events4me;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,6 +6,7 @@ import com.metropolia.events4me.Model.Interest;
 import com.metropolia.events4me.Model.User;
 import com.metropolia.events4me.Service.UserService;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import org.junit.Test;
@@ -13,7 +14,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,8 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Rollback
-public class Test_UserServiceImpl {
-  AnnotationConfigApplicationContext aca;
+public class UserServiceImplIT {
   private User[] testUsers = new User[4];
 
 
@@ -31,15 +30,10 @@ public class Test_UserServiceImpl {
   private UserService userService;
 
 
-  public Test_UserServiceImpl(){
+  public UserServiceImplIT(){
 
     // ?? why my @PreDestroy method is not being called at end of lifecycle?
-    this.aca = new AnnotationConfigApplicationContext();
-    Runtime.getRuntime().addShutdownHook(new Thread() {
-      public void run() {
-        System.out.println("1 here was called");
-        aca.close();
-      }});
+
   }
 
 
@@ -54,7 +48,6 @@ public class Test_UserServiceImpl {
     test5.getInterests().add(Interest.BUSINESS);
     test5.getInterests().add(Interest.SPORT);
     test5.getInterests().add(Interest.DANCE);
-
     userService.saveOrUpdateUser(test5);
     this.testUsers[0] = test5;
 
@@ -108,41 +101,19 @@ public class Test_UserServiceImpl {
     User highestMatch = retrievedUsers.get(0);
     assertEquals("firstname7", highestMatch.getFirstName());
   }
-/*
+
   @Test
   public void test_RecieveFriendRequest(){
 
-    //TODO: enable persistence
-
-    Test_User dmitry = new Test_User();
-    dmitry.setUsername("dima");
-    dmitry.setFirstName("dmitry");
-    dmitry.setPassword("admin");
-    dmitry.getInterests().add(Interest.BUSINESS);
-    dmitry.getInterests().add(Interest.SPORT);
-    dmitry.getInterests().add(Interest.DANCE);
-    testUserSerivce.saveOrUpdateUser(dmitry);
-
-    Test_User a = new Test_User();
-    a.setUsername("martin");
-    a.setFirstName("martin");
-    a.setPassword("user");
-    a.getInterests().add(Interest.PARTY);
-    a.getInterests().add(Interest.ART);
-    testUserSerivce.saveOrUpdateUser(a);
-
-
-      Test_User dima = userDAO.findByUsername("dima");
-      Test_User martin = userDAO.findByUsername("martin");
-      dima.sendFriendRequestTo(martin);
-      Set<Test_User> requestSenders = martin.getPendingFriendRequests();
-      System.out.println("List 3: friend ship request recieved from following users:");
-      requestSenders.forEach(user -> System.out.println(user.getUsername()));
-      martin.acceptFriend(dima);
-      testUserSerivce.saveOrUpdateUser(martin);
-      testUserSerivce.saveOrUpdateUser(dima);
-      Set<Test_User> friends = martin.getFriends();
-      assertEquals(true , friends.contains(dima));
+    User test6 = userService.findByUsername("test6");
+    User test7 = userService.findByUsername("test7");
+    test6.sendFriendRequestTo(test7);
+    Set<User> requestSenders = test7.getPendingFriendRequests();
+    test7.acceptFriend(test6);
+    userService.saveOrUpdateUser(test7);
+    userService.saveOrUpdateUser(test6);
+    Set<User> friends = test7.getFriends();
+    assertEquals(true , friends.contains(test6));
   }
-*/
+
 }

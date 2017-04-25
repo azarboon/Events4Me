@@ -1,4 +1,4 @@
-package com.metropolia.events4me.services;
+package com.metropolia.events4me.Service;
 
 import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Model.User;
