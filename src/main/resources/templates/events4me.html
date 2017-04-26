@@ -1,11 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th = "http://www.thymeleaf.org">
-<head>
-    <title>Title</title>
+<head th:replace="templates :: header">
 </head>
 <body>
-<tr th:each="friend : ${userFriends}">
-    <td th:text="${friend.firstName}">1</td>
-</tr>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+
+        <!-- Insert LOGO here -->
+        <div class="navbar-header">
+            <h1>Events4ME</h1>
+        </div>
+
+
+        <!-- Menu Items-->
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active">HOME</li>
+                <li><a th:href="@{events4me/profile/} + ${user.userId}">MY PROFILE</a></li>
+            </ul>
+
+        </div>
+
+    </div>
+</nav>
 </body>
 </html>

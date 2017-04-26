@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -69,9 +70,18 @@ public class IndexController {
     @RequestMapping("/events4me")
     public String userFront(Principal principal, Model model) {
         User user = userService.findByUsername(principal.getName());
+        model.addAttribute("user", user);
         model.addAttribute("userEvents", user.getEvents());
         model.addAttribute("userFriend", user.getFriends());
         //Other information...
         return "events4me";
     }
+
+    //Users private profile (for testing) *REMEMBER TO MOVE TO CORRECT CONTROLLER*
+    @RequestMapping("events4me/profile/{id}")
+    public String getUser(@PathVariable Integer id, Model model){
+        model.addAttribute("user", userService.getById(id));
+        return "myprofile";
+    }
+
 }
