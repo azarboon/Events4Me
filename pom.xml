@@ -76,6 +76,13 @@
 			<artifactId>jasypt-springsecurity3</artifactId>
 			<version>1.9.2</version>
 		</dependency>
+
+		<!--Devtools dependance Remember to remove-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 	<build>
