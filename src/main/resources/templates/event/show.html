@@ -20,8 +20,21 @@
 
     </div>
 </nav>
-<div>
-    <p th:text="${product.name}"></p>
+<div class="container">
+    <img th:src="@{/img/placeholder2.png}" />
+    <div class="row col-md-8 col-md-offset-2">
+        <div class="col-md-6">
+            <h2 th:text="${product.name}"></h2>
+            <h3 class="row" th:text="'Date: ' + ${product.dateTime.toLocalDate()}"></h3>
+            <h3 class="row" th:text="'Time: ' + ${product.dateTime.toLocalTime()}"></h3>
+            <h3 class="row" th:text="${product.place}">There is no place available for this event.</h3>
+
+        </div>
+        <div class="col-md-6">
+            <h3 th:text="${product.description}">There is no discription available for this event.</h3>
+        </div>
+
+    </div>
 
 </div>
 
