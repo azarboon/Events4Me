@@ -25,7 +25,7 @@
                     <h1 class="col-md-offset-1 col-md-10">Welcome to Events4Me</h1>
                     <form th:action="@{/login}" method="post">
                         <div th:if="${param.error}" class="error-response col-md-offset-1 col-md-10">
-                            <p>Invalid username and password.</p>
+                            <p>Invalid username or password.</p>
                         </div>
 
                         <div th:if="${param.logout}" class="error-response col-md-offset-1 col-md-10">
