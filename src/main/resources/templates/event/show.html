@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="templates :: header">
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <!-- Insert LOGO here -->
+        <div class="navbar-header">
+            <a class="navbar-brand">Events4me</a>
+        </div>
+
+        <!-- Menu Items-->
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:text="${product.name}"></a></li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+<div>
+    <p th:text="${product.name}"></p>
+
+</div>
+
+</body>
+</html>

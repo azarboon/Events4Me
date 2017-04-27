@@ -71,11 +71,7 @@ public class UserController {
     }
 
 
-    @RequestMapping("events4me/discoverEvents")
-    public String getUser(Principal principal, Model model){
-        User user = userService.findByUsername(principal.getName());
-        return "discoverevents";
-    }
+
 
 
 

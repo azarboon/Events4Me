@@ -20,7 +20,7 @@
                 <li ><a th:href="@{/events4me.html}">HOME</a></li>
                 <li class="active"><a th:href="@{events4me/profile/} + ${user.userId}">MY PROFILE</a></li>
                 <li><a>MY EVENTS</a></li>
-                <li><a>DISCOVER EVENTS</a></li>
+                <li><a th:href="@{/events4me/discoverevents}">DISCOVER EVENTS</a></li>
                 <li><a>DISCOVER PEOPLE</a></li>
 
             </ul>

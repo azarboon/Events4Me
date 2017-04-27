@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th = "http://www.thymeleaf.org">
+<html lang="en">
 <head th:replace="templates :: header">
 </head>
+<script th:src="@{/../js/discoverscript.js}"></script>
 <body>
-
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
 
@@ -16,26 +16,24 @@
         <!-- Menu Items-->
         <div>
             <ul class="nav navbar-nav">
-                <li class="active"><a th:href="@{/events4me.html}">HOME</a></li>
-                <li><a th:href="@{events4me/profile/} + ${user.userId}">MY PROFILE</a></li>
+                <li class="active"><a>HOME</a></li>
+                <li><a th:href="@{/events4me/profile/} + ${user.userId}">MY PROFILE</a></li>
                 <li><a>MY EVENTS</a></li>
-                <li><a th:href="@{events4me/discoverevents}">DISCOVER EVENTS</a></li>
+                <li><a th:href="@{/events4me/discoverevents/}">DISCOVER EVENTS</a></li>
                 <li><a>DISCOVER PEOPLE</a></li>
 
             </ul>
             <ul class=" nav navbar-nav navbar-right">
                 <form th:action="@{/logout}">
-                <button type="submit" class="btn btn-default navbar-btn logout">LOGOUT</button>
+                    <button type="submit" class="btn btn-default navbar-btn logout">LOGOUT</button>
                 </form>
             </ul>
         </div>
-
-
-
     </div>
 </nav>
+<div id="eventList">
 
-<h1>Heelo naaaaaaaaa</h1>
+</div>
 
 </body>
 </html>
