@@ -85,7 +85,7 @@ public class IndexController {
     }
 
     @RequestMapping("/events4me/discoverevents")
-    public String getUser(Principal principal, Model model){
+    public String discoverEvents(Principal principal, Model model){
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("user", user);
         return "discoverevents";
