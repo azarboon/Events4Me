@@ -29,9 +29,21 @@ $(document).ready(function () {
                 buttonView.setAttribute("type","submit");
                 buttonView.setAttribute("class","btn btn-default");
                 buttonView.innerHTML = "View";
+
+                var form2 = document.createElement("form");
+                form2.setAttribute("action","/product/edit/" + singleEvent.eventId)
+
+                var buttonEdit = document.createElement("button");
+                buttonEdit.setAttribute("type","submit");
+                buttonEdit.setAttribute("class","btn btn-default");
+                buttonEdit.innerHTML = "Edit";
+
+
+
+                form2.appendChild(buttonEdit);
                 form.appendChild(buttonView);
                 div.appendChild(form);
-
+                div.appendChild(form2);
 
 
 
