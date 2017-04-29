@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         passwordEncoder.setPasswordEncryptor(passwordEncryptor);
         return passwordEncoder;
     }
-
+    @Autowired
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(PasswordEncoder passwordEncoder,
                                                                UserDetailsService userDetailsService){
@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests().antMatchers("/webjars/**").permitAll()
                 .and().authorizeRequests().antMatchers("/static/css").permitAll()
                 .and().authorizeRequests().antMatchers("/js").permitAll()
-                .and().formLogin().loginPage("/login").permitAll()
+                .and().formLogin().defaultSuccessUrl("/events4me").loginPage("/login").permitAll()
                 .and().authorizeRequests().antMatchers("/events4me/**").authenticated()
                 .and().authorizeRequests().antMatchers("/admin/**").hasAnyAuthority("ADMIN")
                 .and().exceptionHandling().accessDeniedPage("/access_denied");
