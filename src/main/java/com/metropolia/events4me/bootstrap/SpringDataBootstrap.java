@@ -1,11 +1,10 @@
 package com.metropolia.events4me.bootstrap;
 
-import com.metropolia.events4me.Model.Event;
-import com.metropolia.events4me.Model.Interest;
-import com.metropolia.events4me.Model.User;
+import com.metropolia.events4me.Model.*;
 import com.metropolia.events4me.Model.security.Role;
 import com.metropolia.events4me.Service.EventService;
 import com.metropolia.events4me.Service.RoleService;
+import com.metropolia.events4me.Service.TimeSettingService;
 import com.metropolia.events4me.Service.UserService;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,14 +18,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringDataBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
-
     private UserService userService;
-
-
     private EventService eventService;
-
-
     private RoleService roleService;
+    private TimeSettingService timeSettingService;
+
+    @Autowired
+    public void setTimeSettingService(TimeSettingService timeSettingService) {
+        this.timeSettingService = timeSettingService;
+    }
 
     @Autowired
     @Qualifier("UserServiceImpl")
@@ -96,7 +96,14 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     }
 
     private void loadUsers() {
-/*
+
+        TimeSetting  testtime = new TimeSetting();
+        testtime.getTimeMap().put(Days.Tuesday, "some time");
+//        testtime.getTimeList().add("test time");
+
+
+
+
         User dmitry = new User();
         dmitry.setUsername("dima");
         dmitry.setFirstName("dmitry");
@@ -104,6 +111,9 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         dmitry.getInterests().add(Interest.BUSINESS);
         dmitry.getInterests().add(Interest.SPORT);
         dmitry.getInterests().add(Interest.DANCE);
+        dmitry.setTimeAvailability(testtime);
+//        dmitry.setTimeAvailability(testtime);
+        timeSettingService.saveOrUpdateUser(testtime);
         userService.saveOrUpdateUser(dmitry);
 
         User martin = new User();
@@ -112,31 +122,25 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         martin.setPassword("user");
         martin.getInterests().add(Interest.PARTY);
         martin.getInterests().add(Interest.ART);
-
-        martin.setFriend(dmitry);
-        dmitry.setFriend(martin);
-        dmitry.getFriends().add(martin);
-        martin.getFriends().add(dmitry);
         userService.saveOrUpdateUser(martin);
 
 
-        User niklas = new User();
-        niklas.setUsername("nilas");
-        niklas.setFirstName("niklas");
-        niklas.setPassword("user");
-        niklas.getInterests().add(Interest.BUSINESS);
-        niklas.getInterests().add(Interest.SPORT);
-        niklas.getInterests().add(Interest.DANCE);
-        userService.saveOrUpdateUser(niklas);
-
-        User user4 = new User();
-      user4.setUsername("user4");
-      user4.setFirstName("firstname4");
-      user4.setPassword("user");
-      user4.getInterests().add(Interest.BUSINESS);
-      user4.getInterests().add(Interest.NATURE);
-      userService.saveOrUpdateUser(user4);
-*/
+//        User niklas = new User();
+//        niklas.setUsername("nilas");
+//        niklas.setFirstName("niklas");
+//        niklas.setPassword("user");
+//        niklas.getInterests().add(Interest.BUSINESS);
+//        niklas.getInterests().add(Interest.SPORT);
+//        niklas.getInterests().add(Interest.DANCE);
+//        userService.saveOrUpdateUser(niklas);
+//
+//        User user4 = new User();
+//      user4.setUsername("user4");
+//      user4.setFirstName("firstname4");
+//      user4.setPassword("user");
+//      user4.getInterests().add(Interest.BUSINESS);
+//      user4.getInterests().add(Interest.NATURE);
+//      userService.saveOrUpdateUser(user4);
 
     }
 

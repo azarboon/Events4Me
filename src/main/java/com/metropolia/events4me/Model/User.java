@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 @Entity
 public class User {
 
@@ -17,42 +16,57 @@ public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer userId;
-  @Size(min = 3, message = "Firstname should have minimum 3 characters.")
-  @NotNull
+
+//  @Size(min = 3, message = "Firstname should have minimum 3 characters.")
+//  @NotNull
   private String firstName;
-  @Size(min = 3, message = "Last name should have minimum 3 characters.")
-  @NotNull
+
+//  @Size(min = 3, message = "Last name should have minimum 3 characters.")
+//  @NotNull
   private String lastName;
-  @Size(min = 3, message = "Username should have minimum 3 characters.")
-  @Column(unique = true)
-  @NotNull
+
+//  @Size(min = 3, message = "Username should have minimum 3 characters.")
+//  @Column(unique = true)
+//  @NotNull
   private String username;
-  @Column(unique = true)
-  @NotNull
+
+//  @Column(unique = true)
+//  @NotNull
   private String email;
+
   @Transient
-  @NotNull
+//  @NotNull
   private String password;
+
   private String encryptedPassword;
+
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable
   // ~ defaults to @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "user_id"),
   //     inverseJoinColumns = @joinColumn(name = "role_id"))
   private List<Role> roles = new ArrayList<>();
+
   private String birthday;
   private String country;
   private Boolean enabled = true;
+
   @Enumerated(EnumType.STRING)
   @ElementCollection(targetClass = Interest.class, fetch = FetchType.EAGER)
   private Set<Interest> interests = new HashSet<>();
+
   @ManyToMany
   private List<Event> events;
+
   private byte[] photo;
+
   @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private Set<User> friends = new HashSet<User>();
+
   @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private Set<User> pendingFriendRequests = new HashSet<User>();
 
+  @OneToOne
+  private TimeSetting timeAvailability;
 
   public User() {
     interests = new HashSet<>();
@@ -70,7 +84,15 @@ public class User {
 
   }
 
-  public void acceptFriend(User sender) {
+    public TimeSetting getTimeAvailability() {
+        return timeAvailability;
+    }
+
+    public void setTimeAvailability(TimeSetting timeAvailability) {
+        this.timeAvailability = timeAvailability;
+    }
+
+    public void acceptFriend(User sender) {
     if ((sender != null) && pendingFriendRequests.contains(sender)) {
       pendingFriendRequests.remove(sender);
       this.friends.add(sender);
