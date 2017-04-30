@@ -138,6 +138,66 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
       userService.saveOrUpdateUser(user4);
 */
 
+        User test5 = new User();
+        test5.setUsername("test5");
+        test5.setFirstName("firstname5");
+        test5.setLastName("lastname5");
+        test5.setEmail("test5@email.com");
+        test5.setPassword("admin");
+        test5.getInterests().add(Interest.BUSINESS);
+        test5.getInterests().add(Interest.SPORT);
+        test5.getInterests().add(Interest.DANCE);
+        //TODO: find a way to remove such if condition. improve saveorupdate metohd
+        userService.saveOrUpdateUser(test5);
+
+        User retrieved = userService.findByUsername("test5");
+        retrieved.setFirstName("another name");
+        userService.saveOrUpdateUser(retrieved);
+        /*
+        if(!userService.checkUsernameExists("test5")){
+            userService.saveOrUpdateUser(test5);
+        }
+
+
+        User test6 = new User();
+        test6.setUsername("test6");
+        test6.setFirstName("firstname6");
+        test6.setLastName("lastname6");
+        test6.setPassword("user");
+        test6.setEmail("test6@email.com");
+        test6.getInterests().add(Interest.PARTY);
+        test6.getInterests().add(Interest.ART);
+
+        if(!userService.checkUsernameExists("test6")){
+            userService.saveOrUpdateUser(test6);
+        }
+
+
+        User test7 = new User();
+        test7.setUsername("test7");
+        test7.setFirstName("firstname7");
+        test7.setLastName("lastname7");
+        test7.setPassword("user");
+        test7.setEmail("test7@email.com");
+        test7.getInterests().add(Interest.BUSINESS);
+        test7.getInterests().add(Interest.SPORT);
+        test7.getInterests().add(Interest.DANCE);
+        if(!userService.checkUsernameExists("test7")){
+            userService.saveOrUpdateUser(test7);
+        }
+
+        User test8 = new User();
+        test8.setUsername("test8");
+        test8.setFirstName("firstname8");
+        test8.setLastName("lastname8");
+        test8.setPassword("user");
+        test8.setEmail("test8@email.com");
+        test8.getInterests().add(Interest.BUSINESS);
+        test8.getInterests().add(Interest.NATURE);
+        if(!userService.checkUsernameExists("test8")){
+            userService.saveOrUpdateUser(test8);
+        }
+        */
     }
 
     private void loadEvents() {

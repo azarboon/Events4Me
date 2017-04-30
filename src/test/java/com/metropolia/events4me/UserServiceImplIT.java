@@ -32,6 +32,7 @@ public class UserServiceImplIT {
   // ?? why my @PreDestroy method is not being called at end of lifecycle?
   @PostConstruct
   private void populateDB() {
+    /*
     User test5 = new User();
     test5.setUsername("test5");
     test5.setFirstName("firstname5");
@@ -42,6 +43,7 @@ public class UserServiceImplIT {
     test5.getInterests().add(Interest.SPORT);
     test5.getInterests().add(Interest.DANCE);
     //TODO: find a way to remove such if condition. improve saveorupdate metohd
+    userService.saveOrUpdateUser(test5);
     if(!userService.checkUsernameExists("test5")){
       userService.saveOrUpdateUser(test5);
     }
@@ -85,6 +87,7 @@ public class UserServiceImplIT {
     if(!userService.checkUsernameExists("test8")){
       userService.saveOrUpdateUser(test8);
     }
+    */
   }
 
   @Test

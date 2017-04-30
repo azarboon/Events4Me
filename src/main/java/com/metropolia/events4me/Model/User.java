@@ -17,6 +17,7 @@ public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer userId;
+  /* TODO: put restrictions on fields in backend
   @Size(min = 3, message = "Firstname should have minimum 3 characters.")
   @NotNull
   private String firstName;
@@ -32,6 +33,13 @@ public class User {
   private String email;
   @Transient
   @NotNull
+  private String password;
+  private String encryptedPassword;
+  */
+  private String firstName;
+  private String lastName;
+  private String username;
+  private String email;
   private String password;
   private String encryptedPassword;
   @ManyToMany(fetch = FetchType.EAGER)

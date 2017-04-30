@@ -122,4 +122,5 @@ public class UserController {
         return userService.listUserEvents(user);
     }
 
+
 }
