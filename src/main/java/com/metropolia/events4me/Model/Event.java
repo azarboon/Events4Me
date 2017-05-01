@@ -1,94 +1,146 @@
 package com.metropolia.events4me.Model;
 
-import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
-
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 
 @Entity
 public class Event {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer eventId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer eventId;
+  @Enumerated(EnumType.STRING)
+  private Location location;
+  private String title;
+  private String description;
 
-    private String name;
-    private String place;
-    private String description;
-    private byte[] photo;
-    private LocalDateTime dateTime;
 
-    @Enumerated(EnumType.STRING)
-    private Interest category;
+  @ManyToOne
+  private User organizer;
+  private LocalDateTime dateTime;
 
-    @ManyToMany
-    private Set<User> participants;
+  @Enumerated(EnumType.STRING)
+  private Interest category;
+  private int maxAttenddees;
+  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private Set<User> confirmedAttendees;
+  @ManyToMany(cascade = CascadeType.ALL)
+  private Set<User> pendingAttendees;
 
-    public Event() {
+  private BigDecimal price;
+
+
+  public Event() {
+    this.confirmedAttendees = new HashSet<>();
+    this.pendingAttendees = new HashSet<>();
+  }
+
+
+  public void acceptAttendee(User attendee) {
+    if(pendingAttendees.contains(attendee)){
+      pendingAttendees.remove(attendee);
+      this.confirmedAttendees.add(attendee);
+      attendee.attendEvent(this);
     }
+  }
 
-    public Integer getEventId() {
-        return eventId;
-    }
+  public void acceptEnrollment(User attendee){
+    this.pendingAttendees.add(attendee);
+  }
 
-    public void setEventId(int eventId) {
-        this.eventId = eventId;
-    }
 
-    public String getName() {
-        return name;
-    }
+  public int getMaxAttenddees() {
+    return maxAttenddees;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setMaxAttenddees(int maxAttenddees) {
+    this.maxAttenddees = maxAttenddees;
+  }
 
-    public String getPlace() {
-        return place;
-    }
+  public Location getLocation() {
+    return location;
+  }
 
-    public void setPlace(String place) {
-        this.place = place;
-    }
+  public void setLocation(Location location) {
+    this.location = location;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public User getOrganizer() {
+    return organizer;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public void setOrganizer(User organizer) {
+    this.organizer = organizer;
+  }
 
-    public byte[] getPhoto() {
-        return photo;
-    }
+  public LocalDateTime getDateTime() {
+    return dateTime;
+  }
 
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
-    }
+  public void setDateTime(LocalDateTime dateTime) {
+    this.dateTime = dateTime;
+  }
 
-    public Interest getCategory() {
-        return category;
-    }
+  public BigDecimal getPrice() {
+    return price;
+  }
 
-    public void setCategory(Interest category) {
-        this.category = category;
-    }
+  public void setPrice(BigDecimal price) {
+    this.price = price;
+  }
 
-    public Set<User> getParticipants() {
-        return participants;
-    }
+  public Integer getEventId() {
+    return eventId;
+  }
 
-    public void setParticipants(Set<User> participants) {
-        this.participants = participants;
-    }
+  public void setEventId(int eventId) {
+    this.eventId = eventId;
+  }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+
+  public Interest getCategory() {
+    return category;
+  }
+
+  public void setCategory(Interest category) {
+    this.category = category;
+  }
+
+  public Set<User> getConfirmedAttendees() {
+    return confirmedAttendees;
+  }
+
+  public void setConfirmedAttendees(Set<User> confirmedAttendees) {
+    this.confirmedAttendees = confirmedAttendees;
+  }
+
 }

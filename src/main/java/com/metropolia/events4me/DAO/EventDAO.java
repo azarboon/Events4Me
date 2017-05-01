@@ -10,4 +10,5 @@ import java.util.List;
 public interface EventDAO extends CrudRepository<Event, Integer> {
 
     List<Event> findAll(Sort sort);
+
 }

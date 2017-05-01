@@ -5,9 +5,18 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 
 @Entity
@@ -42,7 +51,9 @@ public class User {
   private String email;
   private String password;
   private String encryptedPassword;
-  @ManyToMany(fetch = FetchType.EAGER)
+  @OneToMany(cascade = CascadeType.ALL)
+  private Set<Event> adminingEvents;
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
   @JoinTable
   // ~ defaults to @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "user_id"),
   //     inverseJoinColumns = @joinColumn(name = "role_id"))
@@ -53,21 +64,21 @@ public class User {
   @Enumerated(EnumType.STRING)
   @ElementCollection(targetClass = Interest.class, fetch = FetchType.EAGER)
   private Set<Interest> interests = new HashSet<>();
-  @ManyToMany
-  private List<Event> events;
+  @ManyToMany(cascade = CascadeType.ALL)
+  private List<Event> attendingEvents;
   private byte[] photo;
   @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private Set<User> friends = new HashSet<User>();
   @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private Set<User> pendingFriendRequests = new HashSet<User>();
-
-
   public User() {
     interests = new HashSet<>();
     friends = new HashSet<>();
+    this.adminingEvents = new HashSet<>();
+    //TODO: make this hashset
+    this.attendingEvents = new ArrayList<>();
   }
-
-  public User(String username, String firstname, String lastname,String password, String email){
+  public User(String username, String firstname, String lastname, String password, String email) {
     interests = new HashSet<>();
     friends = new HashSet<>();
     this.username = username;
@@ -75,7 +86,66 @@ public class User {
     this.lastName = lastname;
     this.password = password;
     this.email = email;
+    this.adminingEvents = new HashSet<>();
+    this.attendingEvents = new ArrayList<>();
+  }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    User user = (User) o;
+
+    if (userId != null ? !userId.equals(user.userId) : user.userId != null) {
+      return false;
+    }
+    if (username != null ? !username.equals(user.username) : user.username != null) {
+      return false;
+    }
+    return email != null ? email.equals(user.email) : user.email == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = userId != null ? userId.hashCode() : 0;
+    result = 31 * result + (username != null ? username.hashCode() : 0);
+    result = 31 * result + (email != null ? email.hashCode() : 0);
+    return result;
+  }
+
+  public List<Event> getAttendingEvents() {
+    return attendingEvents;
+  }
+
+  public void setAttendingEvents(List<Event> attendingEvents) {
+    this.attendingEvents = attendingEvents;
+  }
+
+
+  public void organizeNewEvent(Event event) {
+    event.setOrganizer(this);
+    this.adminingEvents.add(event);
+  }
+
+  public Set<Event> getAdminingEvents() {
+    return adminingEvents;
+  }
+
+  public void setAdminingEvents(Set<Event> adminingEvents) {
+    this.adminingEvents = adminingEvents;
+  }
+
+  public void enrolEvent(Event event) {
+    event.acceptEnrollment(this);
+  }
+
+  public void attendEvent(Event event) {
+    this.attendingEvents.add(event);
   }
 
   public void acceptFriend(User sender) {
@@ -212,13 +282,6 @@ public class User {
     this.username = username;
   }
 
-  public List<Event> getEvents() {
-    return events;
-  }
-
-  public void setEvents(List<Event> events) {
-    this.events = events;
-  }
 
   public Boolean getEnabled() {
     return enabled;

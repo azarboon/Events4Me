@@ -58,6 +58,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public Event findById(int id) {
+        return eventDAO.findOne(id);
+    }
+
+    @Override
     public Event saveOrUpdateEvent(Event event) {
         return eventDAO.save(event);
     }

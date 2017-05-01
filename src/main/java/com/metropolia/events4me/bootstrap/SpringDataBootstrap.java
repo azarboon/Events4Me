@@ -20,82 +20,82 @@ import org.springframework.stereotype.Component;
 public class SpringDataBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
 
-    private UserService userService;
+  private UserService userService;
 
 
-    private EventService eventService;
+  private EventService eventService;
 
 
-    private RoleService roleService;
+  private RoleService roleService;
 
-    @Autowired
-    @Qualifier("UserServiceImpl")
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+  @Autowired
+  @Qualifier("UserServiceImpl")
+  public void setUserService(UserService userService) {
+    this.userService = userService;
+  }
 
-    @Autowired
-    public void setEventService(EventService eventService) {
-        this.eventService = eventService;
-    }
+  @Autowired
+  public void setEventService(EventService eventService) {
+    this.eventService = eventService;
+  }
 
-    @Autowired
-    public void setRoleService(RoleService roleService) {
-        this.roleService = roleService;
-    }
+  @Autowired
+  public void setRoleService(RoleService roleService) {
+    this.roleService = roleService;
+  }
 
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        loadEvents();
-        loadRoles();
-        loadUsers();
+  @Override
+  public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+    loadEvents();
+    loadRoles();
+    loadUsers();
 //        assignUserRole();
-        assignAdminRole();
+    assignAdminRole();
 
-    }
+  }
 
-    private void assignAdminRole() {
-        List<Role> roles = roleService.listRoles();
-        List<User> users = userService.listUsers();
+  private void assignAdminRole() {
+    List<Role> roles = roleService.listRoles();
+    List<User> users = userService.listUsers();
 
-        roles.forEach(role -> {
-            if (role.getRole().equalsIgnoreCase("ADMIN")) {
-                users.forEach(user -> {
-                    if (user.getUsername().equals("dima")) {
-                        user.addRole(role);
-                        userService.saveOrUpdateUser(user);
-                    }
-                });
-            }
+    roles.forEach(role -> {
+      if (role.getRole().equalsIgnoreCase("ADMIN")) {
+        users.forEach(user -> {
+          if (user.getUsername().equals("dima")) {
+            user.addRole(role);
+            userService.saveOrUpdateUser(user);
+          }
         });
+      }
+    });
 
-    }
+  }
 
-    private void assignUserRole() {
-        List<Role> roles = roleService.listRoles();
-        List<User> users = userService.listUsers();
+  private void assignUserRole() {
+    List<Role> roles = roleService.listRoles();
+    List<User> users = userService.listUsers();
 
-        roles.forEach(role -> {
-            if (role.getRole().equalsIgnoreCase("USER")) {
-                users.forEach(user -> {
-                        user.addRole(role);
-                        userService.saveOrUpdateUser(user);
-                });
-            }
+    roles.forEach(role -> {
+      if (role.getRole().equalsIgnoreCase("USER")) {
+        users.forEach(user -> {
+          user.addRole(role);
+          userService.saveOrUpdateUser(user);
         });
-    }
+      }
+    });
+  }
 
-    private void loadRoles() {
-        Role role = new Role();
-        role.setRole("USER");
-        roleService.saveOrUpdateRole(role);
+  private void loadRoles() {
+    Role role = new Role();
+    role.setRole("USER");
+    roleService.saveOrUpdateRole(role);
 
-        Role adminRole = new Role();
-        adminRole.setRole("ADMIN");
-        roleService.saveOrUpdateRole(adminRole);
-    }
+    Role adminRole = new Role();
+    adminRole.setRole("ADMIN");
+    roleService.saveOrUpdateRole(adminRole);
+  }
 
-    private void loadUsers() {
+  private void loadUsers() {
 /*
         User dmitry = new User();
         dmitry.setUsername("dima");
@@ -138,97 +138,109 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
       userService.saveOrUpdateUser(user4);
 */
 
-        User test5 = new User();
-        test5.setUsername("test5");
-        test5.setFirstName("firstname5");
-        test5.setLastName("lastname5");
-        test5.setEmail("test5@email.com");
-        test5.setPassword("admin");
-        test5.getInterests().add(Interest.BUSINESS);
-        test5.getInterests().add(Interest.SPORT);
-        test5.getInterests().add(Interest.DANCE);
-        //TODO: find a way to remove such if condition. improve saveorupdate metohd
-        userService.saveOrUpdateUser(test5);
-
-        User retrieved = userService.findByUsername("test5");
-        retrieved.setFirstName("another name");
-        userService.saveOrUpdateUser(retrieved);
-        /*
-        if(!userService.checkUsernameExists("test5")){
-            userService.saveOrUpdateUser(test5);
-        }
+    User test5 = new User();
+    test5.setUsername("test5");
+    test5.setFirstName("firstname5");
+    test5.setLastName("lastname5");
+    test5.setEmail("test5@email.com");
+    test5.setPassword("admin");
+    test5.getInterests().add(Interest.BUSINESS);
+    test5.getInterests().add(Interest.SPORT);
+    test5.getInterests().add(Interest.DANCE);
 
 
-        User test6 = new User();
-        test6.setUsername("test6");
-        test6.setFirstName("firstname6");
-        test6.setLastName("lastname6");
-        test6.setPassword("user");
-        test6.setEmail("test6@email.com");
-        test6.getInterests().add(Interest.PARTY);
-        test6.getInterests().add(Interest.ART);
 
-        if(!userService.checkUsernameExists("test6")){
-            userService.saveOrUpdateUser(test6);
-        }
+    /*
+    User retrieved = userService.findByUsername("test5");
+    retrieved.setFirstName("another name");
+    userService.saveOrUpdateUser(retrieved);
+    */
+
+    User test6 = new User();
+    test6.setUsername("test6");
+    test6.setFirstName("firstname6");
+    test6.setLastName("lastname6");
+    test6.setPassword("user");
+    test6.setEmail("test6@email.com");
+    test6.getInterests().add(Interest.PARTY);
+    test6.getInterests().add(Interest.ART);
 
 
-        User test7 = new User();
-        test7.setUsername("test7");
-        test7.setFirstName("firstname7");
-        test7.setLastName("lastname7");
-        test7.setPassword("user");
-        test7.setEmail("test7@email.com");
-        test7.getInterests().add(Interest.BUSINESS);
-        test7.getInterests().add(Interest.SPORT);
-        test7.getInterests().add(Interest.DANCE);
-        if(!userService.checkUsernameExists("test7")){
-            userService.saveOrUpdateUser(test7);
-        }
+    User test7 = new User();
+    test7.setUsername("test7");
+    test7.setFirstName("firstname7");
+    test7.setLastName("lastname7");
+    test7.setPassword("user");
+    test7.setEmail("test7@email.com");
+    test7.getInterests().add(Interest.BUSINESS);
+    test7.getInterests().add(Interest.SPORT);
+    test7.getInterests().add(Interest.DANCE);
 
-        User test8 = new User();
-        test8.setUsername("test8");
-        test8.setFirstName("firstname8");
-        test8.setLastName("lastname8");
-        test8.setPassword("user");
-        test8.setEmail("test8@email.com");
-        test8.getInterests().add(Interest.BUSINESS);
-        test8.getInterests().add(Interest.NATURE);
-        if(!userService.checkUsernameExists("test8")){
-            userService.saveOrUpdateUser(test8);
-        }
-        */
-    }
+    User test8 = new User();
+    test8.setUsername("test8");
+    test8.setFirstName("firstname8");
+    test8.setLastName("lastname8");
+    test8.setPassword("user");
+    test8.setEmail("test8@email.com");
+    test8.getInterests().add(Interest.BUSINESS);
+    test8.getInterests().add(Interest.NATURE);
 
-    private void loadEvents() {
-        Event sportEvent = new Event();
-        sportEvent.setName("Sport event");
-        sportEvent.setDateTime(LocalDateTime.of(2017, 6, 2, 13, 0));
-        sportEvent.setCategory(Interest.SPORT);
-        eventService.saveOrUpdateEvent(sportEvent);
+    Event sportEvent = new Event();
+    sportEvent.setTitle("Sport event");
+    sportEvent.setDateTime(LocalDateTime.of(2017, 6, 2, 13, 0));
+    sportEvent.setCategory(Interest.SPORT);
 
-        Event partyEvent = new Event();
-        partyEvent.setName("Party event");
-        partyEvent.setDateTime(LocalDateTime.of(2017, 6, 10, 13, 0));
-        partyEvent.setCategory(Interest.PARTY);
-        eventService.saveOrUpdateEvent(partyEvent);
 
-        Event businessEvent = new Event();
-        businessEvent.setName("Business event");
-        businessEvent.setDateTime(LocalDateTime.of(2017, 6, 2, 15, 0));
-        businessEvent.setCategory(Interest.BUSINESS);
-        eventService.saveOrUpdateEvent(businessEvent);
+    test5.sendFriendRequestTo(test6);
+    test6.acceptFriend(test5);
 
-        Event businessEventPast = new Event();
-        businessEventPast.setName("Business event past");
-        businessEventPast.setDateTime(LocalDateTime.of(2017, 2, 2, 13, 0));
-        businessEventPast.setCategory(Interest.BUSINESS);
-        eventService.saveOrUpdateEvent(businessEventPast);
+    test5.organizeNewEvent(sportEvent);
+    test6.enrolEvent(sportEvent);
+    sportEvent.acceptAttendee(test6);
+    test7.enrolEvent(sportEvent);
+    test8.enrolEvent(sportEvent);
+    sportEvent.acceptAttendee(test8);
 
-        Event sportEventPast = new Event();
-        sportEventPast.setName("Sport event past");
-        sportEventPast.setDateTime(LocalDateTime.of(2017, 2, 3, 13, 0));
-        sportEventPast.setCategory(Interest.SPORT);
-        eventService.saveOrUpdateEvent(sportEventPast);
-    }
+
+
+    userService.saveOrUpdateUser(test5);
+    userService.saveOrUpdateUser(test6);
+    userService.saveOrUpdateUser(test7);
+    userService.saveOrUpdateUser(test8);
+    eventService.saveOrUpdateEvent(sportEvent);
+  }
+
+  private void loadEvents() {
+    /*
+    Event sportEvent = new Event();
+    sportEvent.setTitle("Sport event");
+    sportEvent.setDateTime(LocalDateTime.of(2017, 6, 2, 13, 0));
+    sportEvent.setCategory(Interest.SPORT);
+    eventService.saveOrUpdateEvent(sportEvent);
+
+    Event partyEvent = new Event();
+    partyEvent.setTitle("Party event");
+    partyEvent.setDateTime(LocalDateTime.of(2017, 6, 10, 13, 0));
+    partyEvent.setCategory(Interest.PARTY);
+    eventService.saveOrUpdateEvent(partyEvent);
+
+    Event businessEvent = new Event();
+    businessEvent.setTitle("Business event");
+    businessEvent.setDateTime(LocalDateTime.of(2017, 6, 2, 15, 0));
+    businessEvent.setCategory(Interest.BUSINESS);
+    eventService.saveOrUpdateEvent(businessEvent);
+
+    Event businessEventPast = new Event();
+    businessEventPast.setTitle("Business event past");
+    businessEventPast.setDateTime(LocalDateTime.of(2017, 2, 2, 13, 0));
+    businessEventPast.setCategory(Interest.BUSINESS);
+    eventService.saveOrUpdateEvent(businessEventPast);
+
+    Event sportEventPast = new Event();
+    sportEventPast.setTitle("Sport event past");
+    sportEventPast.setDateTime(LocalDateTime.of(2017, 2, 3, 13, 0));
+    sportEventPast.setCategory(Interest.SPORT);
+    eventService.saveOrUpdateEvent(sportEventPast);
+    */
+  }
 }

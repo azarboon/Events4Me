@@ -88,14 +88,14 @@ public class UserServiceImpl implements UserService {
 
   public List<Event> listUserEvents(Principal principal) {
     User user = userDAO.findByUsername(principal.getName());
-    return user.getEvents();
+    return user.getAttendingEvents();
   }
 
 
   @Override
   public void joinEvent(Principal principal, Event event) {
     User user = userDAO.findByUsername(principal.getName());
-    user.getEvents().add(event);
+    user.getAttendingEvents().add(event);
     userDAO.save(user);
   }
 
@@ -220,7 +220,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<Event> listUserEvents(User user) {
-    return user.getEvents();
+    return user.getAttendingEvents();
   }
 
   private class userWithCountOfInterests implements Comparable<userWithCountOfInterests> {

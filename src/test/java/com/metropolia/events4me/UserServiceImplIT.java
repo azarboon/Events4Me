@@ -1,10 +1,14 @@
 package com.metropolia.events4me;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Model.Interest;
 import com.metropolia.events4me.Model.User;
+import com.metropolia.events4me.Service.EventService;
 import com.metropolia.events4me.Service.UserService;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
@@ -24,12 +28,15 @@ public class UserServiceImplIT {
   @Qualifier("UserServiceImpl")
   private UserService userService;
 
+  @Autowired
+  private EventService eventService;
+
 
   public UserServiceImplIT() {
 
   }
 
-  // ?? why my @PreDestroy method is not being called at end of lifecycle?
+
   @PostConstruct
   private void populateDB() {
     /*
@@ -91,7 +98,7 @@ public class UserServiceImplIT {
   }
 
   @Test
-  public void test_getUsersWithCommonInterest() {
+  public void getUsersWithCommonInterestTest() {
     List<User> retrievedUsers = userService.getUsersWithCommonInterest("test5");
     User highestMatch = retrievedUsers.get(0);
     assertEquals("firstname7", highestMatch.getFirstName());
@@ -99,7 +106,7 @@ public class UserServiceImplIT {
 
 
   @Test
-  public void test_RecieveFriendRequest() {
+  public void RecieveFriendRequestTest() {
     User test6 = userService.findByUsername("test6");
     User test7 = userService.findByUsername("test7");
     test6.sendFriendRequestTo(test7);
@@ -110,6 +117,16 @@ public class UserServiceImplIT {
     Set<User> friends = retrievedUserFromDB.getFriends();
     //TODO: change following method to "contain"
     assertEquals("test6", friends.iterator().next().getUsername());
+
+  }
+
+  @Test
+  public void eventCreationAndJoiningTest(){
+    Event sportEvent = eventService.findById(1);
+    User test8 = userService.findByUsername("test8");
+    Set<User> attendees = sportEvent.getConfirmedAttendees();
+    assertEquals("Sport event", sportEvent.getTitle());
+    assertTrue(attendees.contains(test8));
 
   }
 

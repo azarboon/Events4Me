@@ -2,9 +2,6 @@ package com.metropolia.events4me.Service;
 
 import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Model.User;
-import com.metropolia.events4me.Service.EventService;
-import com.metropolia.events4me.Service.EventUserService;
-import com.metropolia.events4me.Service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,10 +53,10 @@ public class EventUserServiceImplTest {
         User user = userService.findByUsername("dima");
         eventService.listFutureEvents().forEach(event -> eventUserService.joinEvent(user, event.getEventId()));
         User userWithEvents = userService.findByUsername("dima");
-        assert userWithEvents.getEvents().size() == 3;
+        assert userWithEvents.getAttendingEvents().size() == 3;
         int counter = 0;
         for (Event event : eventService.listFutureEvents()) {
-            counter += event.getParticipants().size();
+            counter += event.getConfirmedAttendees().size();
         }
         assert counter == 3;
     }
