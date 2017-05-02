@@ -1,4 +1,4 @@
-package com.metropolia.events4me.Converter;
+package com.metropolia.events4me.converter;
 
 import com.metropolia.events4me.Model.Days;
 import com.metropolia.events4me.Model.TimeSetting;

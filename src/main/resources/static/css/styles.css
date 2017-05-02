@@ -27,6 +27,10 @@
     font-size: 0.8em;
 }
 
+.eventButton{
+    margin-top: 20px;
+}
+
 body{
     background-color: lightgray;
 }
