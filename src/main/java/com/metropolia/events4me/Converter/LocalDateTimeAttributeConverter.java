@@ -1,13 +1,11 @@
-package com.metropolia.events4me.converter;
+package com.metropolia.events4me.Converter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-/**
- * Created by Dmitry on 17.04.2017.
- */
+
 
 
 @Converter(autoApply = true)

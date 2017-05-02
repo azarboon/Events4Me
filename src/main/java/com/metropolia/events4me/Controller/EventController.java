@@ -60,7 +60,7 @@ public class EventController {
     @RequestMapping("/event/new")
     public String newProduct(Model model) {
         model.addAttribute("event", new Event());
-        return "event/eventform";
+        return "event/newEvent";
     }
 
     @RequestMapping(value = "/event", method = RequestMethod.POST)

@@ -1,198 +1,254 @@
 package com.metropolia.events4me.Model;
 
 import com.metropolia.events4me.Model.security.Role;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import javax.persistence.*;
-import java.util.*;
-
-
-/**
- * Created by Dmitry on 11.04.2017.
- */
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer userId;
-    private String firstName;
-    private String lastName;
-    private String username;
-    private String email;
 
-    @Transient
-    private String password;
-    private String encryptedPassword;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer userId;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable
-    // ~ defaults to @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "user_id"),
-    //     inverseJoinColumns = @joinColumn(name = "role_id"))
-    private List<Role> roles = new ArrayList<>();
-    private String birthday;
-    private String country;
-    private Boolean enabled = true;
+//  @Size(min = 3, message = "Firstname should have minimum 3 characters.")
+//  @NotNull
+  private String firstName;
 
-    @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = Interest.class)
-    private Set<Interest> interests;
+//  @Size(min = 3, message = "Last name should have minimum 3 characters.")
+//  @NotNull
+  private String lastName;
 
-    @ManyToMany
-    private List<Event> events;
-    private byte[] photo;
+//  @Size(min = 3, message = "Username should have minimum 3 characters.")
+//  @Column(unique = true)
+//  @NotNull
+  private String username;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinTable(name = "friend_list")
-    private User friend;
+//  @Column(unique = true)
+//  @NotNull
+  private String email;
 
-    @OneToMany(mappedBy = "friend")
-    private Set<User> friends;
+  @Transient
+//  @NotNull
+  private String password;
 
-    public User() {
-        interests = new HashSet<>();
-        friends = new HashSet<>();
+  private String encryptedPassword;
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable
+  // ~ defaults to @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "user_id"),
+  //     inverseJoinColumns = @joinColumn(name = "role_id"))
+  private List<Role> roles = new ArrayList<>();
+
+  private String birthday;
+  private String country;
+  private Boolean enabled = true;
+
+  @Enumerated(EnumType.STRING)
+  @ElementCollection(targetClass = Interest.class, fetch = FetchType.EAGER)
+  private Set<Interest> interests = new HashSet<>();
+
+  @ManyToMany
+  private List<Event> events;
+
+  private byte[] photo;
+
+  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private Set<User> friends = new HashSet<User>();
+
+  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private Set<User> pendingFriendRequests = new HashSet<User>();
+
+  @OneToOne
+  private TimeSetting timeAvailability;
+
+  public User() {
+    interests = new HashSet<>();
+    friends = new HashSet<>();
+  }
+
+  public User(String username, String firstname, String lastname,String password, String email){
+    interests = new HashSet<>();
+    friends = new HashSet<>();
+    this.username = username;
+    this.firstName = firstname;
+    this.lastName = lastname;
+    this.password = password;
+    this.email = email;
+
+  }
+
+    public TimeSetting getTimeAvailability() {
+        return timeAvailability;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public void setTimeAvailability(TimeSetting timeAvailability) {
+        this.timeAvailability = timeAvailability;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void acceptFriend(User sender) {
+    if ((sender != null) && pendingFriendRequests.contains(sender)) {
+      pendingFriendRequests.remove(sender);
+      this.friends.add(sender);
+    }
+  }
+
+
+  public void recieveFriendRequestFrom(User user) {
+    this.pendingFriendRequests.add(user);
+  }
+
+
+  public Set<User> getPendingFriendRequests() {
+    return pendingFriendRequests;
+  }
+
+  public void sendFriendRequestTo(User user) {
+    user.recieveFriendRequestFrom(this);
+  }
+
+
+  public Integer getUserId() {
+    return userId;
+  }
+
+  public void setUserId(int userId) {
+    this.userId = userId;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public String getEncryptedPassword() {
+    return encryptedPassword;
+  }
+
+  public void setEncryptedPassword(String encryptedPassword) {
+    this.encryptedPassword = encryptedPassword;
+  }
+
+  public List<Role> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(List<Role> roles) {
+    this.roles = roles;
+  }
+
+  public void addRole(Role role) {
+    if (!this.roles.contains(role)) {
+      this.roles.add(role);
     }
 
-    public String getEmail() {
-        return email;
+    if (!role.getUsers().contains(this)) {
+      role.getUsers().add(this);
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  }
 
-    public String getFirstName() {
-        return firstName;
-    }
+  public void removeRole(Role role) {
+    this.roles.remove(role);
+    role.getUsers().remove(this);
+  }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+  public String getBirthday() {
+    return birthday;
+  }
 
-    public String getLastName() {
-        return lastName;
-    }
+  public void setBirthday(String birthday) {
+    this.birthday = birthday;
+  }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+  public String getCountry() {
+    return country;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public void setCountry(String country) {
+    this.country = country;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public Set<Interest> getInterests() {
+    return interests;
+  }
 
-    public String getEncryptedPassword() {
-        return encryptedPassword;
-    }
+  public void setInterests(Set<Interest> interests) {
+    this.interests = interests;
+  }
 
-    public void setEncryptedPassword(String encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
-    }
+  public byte[] getPhoto() {
+    return photo;
+  }
 
-    public List<Role> getRoles() {
-        return roles;
-    }
+  public void setPhoto(byte[] photo) {
+    this.photo = photo;
+  }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public void addRole(Role role){
-        if(!this.roles.contains(role)){
-            this.roles.add(role);
-        }
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-        if(!role.getUsers().contains(this)){
-            role.getUsers().add(this);
-        }
-    }
+  public List<Event> getEvents() {
+    return events;
+  }
 
-    public void removeRole(Role role){
-        this.roles.remove(role);
-        role.getUsers().remove(this);
-    }
+  public void setEvents(List<Event> events) {
+    this.events = events;
+  }
 
-    public String getBirthday() {
-        return birthday;
-    }
+  public Boolean getEnabled() {
+    return enabled;
+  }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
+  public void setEnabled(Boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    public String getCountry() {
-        return country;
-    }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
+  public Set<User> getFriends() {
+    return friends;
+  }
 
-    public Set<Interest> getInterests() {
-        return interests;
-    }
+  public void setFriends(Set<User> friends) {
+    this.friends = friends;
+  }
 
-    public void setInterests(Set<Interest> interests) {
-        this.interests = interests;
-    }
-
-    public byte[] getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public List<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<Event> events) {
-        this.events = events;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public User getFriend() {
-        return friend;
-    }
-
-    public void setFriend(User friend) {
-        this.friend = friend;
-    }
-
-    public Set<User> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(Set<User> friends) {
-        this.friends = friends;
-    }
 }

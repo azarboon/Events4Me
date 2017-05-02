@@ -6,9 +6,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Dmitry on 13.04.2017.
- */
+
 @Entity
 public class Role {
 
