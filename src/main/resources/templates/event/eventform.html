@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="templates :: header">
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <!-- Insert LOGO here -->
+        <div class="navbar-header">
+            <a class="navbar-brand">Events4me</a>
+        </div>
+
+        <!-- Menu Items-->
+        <div>
+            <ul class="nav navbar-nav">
+                <li ><a th:href="@{/events4me/}">HOME</a></li>
+                <li class="active"><a th:text="${event.name}"></a></li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+<div class="container">
+
+
+        <form th:object="${event}" th:action="@{/event/update}" method="post">
+            <div class="col-md-4">
+                <div class="form-group row ">
+                    <label for="event-id-input">Event ID:</label>
+                    <input th:field="*{eventId}" class="form-control" type="text" value="Default value" id="event-id-input" readonly="readonly"></input>
+                </div>
+                <div class="form-group row ">
+                    <label for="event-name-input">Event Name:</label>
+                    <input th:field="*{name}" class="form-control" type="text" value="Default value" id="event-name-input"/>
+                </div>
+                <div class="row form-group  ">
+                    <label for="event-time-input">Event Time:</label>
+                    <input th:field="*{dateTime}" class="form-control" type="text" value="Default value" id="event-time-input"/>
+                </div>
+                <div class="form-group row ">
+                    <label for="event-location-input">Event Location:</label>
+                    <input th:field="*{place}" class="form-control" type="text" value="Default value" id="event-location-input"/>
+                </div>
+                <div class="form-group row">
+                    <label for="descriptionTextarea">Event Description</label>
+                    <textarea th:field="*{description}" class="form-control" id="descriptionTextarea" rows="4"></textarea>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="exampleInputFile">Event picture:</label>
+                    <input th:field="*{photo}" type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp"/>
+
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-default">Commit Changes</button>
+                </div>
+            </div>
+
+
+        </form>
+
+
+
+    <!--
+    <img th:src="@{/img/placeholder2.png}" />
+    <div class="row col-md-8 col-md-offset-2">
+        <div class="col-md-6">
+            <h2 th:text="${event.name}"></h2>
+            <h3 class="row" th:text="'Date: ' + ${event.dateTime.toLocalDate()}"></h3>
+            <h3 class="row" th:text="'Time: ' + ${event.dateTime.toLocalTime()}"></h3>
+            <h3 class="row" th:text="${event.place}">There is no place available for this event.</h3>
+
+        </div>
+        <div class="col-md-6">
+            <h3 th:text="${event.description}">There is no description available for this event.</h3>
+        </div>
+
+    </div>-->
+
+</div>
+
+</body>
+</html>
