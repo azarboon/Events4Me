@@ -73,7 +73,7 @@ public class UserController {
 //        user.setBirthday(newUser.getBirthday());
 //        user.setInterests(newUser.getInterests());
 //        model.addAttribute("user", user);
-//        userService.saveOrUpdateUser(user);
+//        userService.saveOrUpdate(user);
 //        return "profile";
 //    }
 

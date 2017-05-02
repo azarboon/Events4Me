@@ -121,7 +121,7 @@ public class Test_UserServiceImpl {
     dmitry.getInterests().add(Interest.BUSINESS);
     dmitry.getInterests().add(Interest.SPORT);
     dmitry.getInterests().add(Interest.DANCE);
-    testUserSerivce.saveOrUpdateUser(dmitry);
+    testUserSerivce.saveOrUpdate(dmitry);
 
     Test_User a = new Test_User();
     a.setUsername("martin");
@@ -129,7 +129,7 @@ public class Test_UserServiceImpl {
     a.setPassword("user");
     a.getInterests().add(Interest.PARTY);
     a.getInterests().add(Interest.ART);
-    testUserSerivce.saveOrUpdateUser(a);
+    testUserSerivce.saveOrUpdate(a);
 
 
       Test_User dima = userDAO.findByUsername("dima");
@@ -139,8 +139,8 @@ public class Test_UserServiceImpl {
       System.out.println("List 3: friend ship request recieved from following users:");
       requestSenders.forEach(user -> System.out.println(user.getUsername()));
       martin.acceptFriend(dima);
-      testUserSerivce.saveOrUpdateUser(martin);
-      testUserSerivce.saveOrUpdateUser(dima);
+      testUserSerivce.saveOrUpdate(martin);
+      testUserSerivce.saveOrUpdate(dima);
       Set<Test_User> friends = martin.getFriends();
       assertEquals(true , friends.contains(dima));
   }

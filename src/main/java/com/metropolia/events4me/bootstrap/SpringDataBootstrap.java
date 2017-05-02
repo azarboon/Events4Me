@@ -1,5 +1,6 @@
 package com.metropolia.events4me.bootstrap;
 
+import com.metropolia.events4me.Converter.TimeSettingConverter;
 import com.metropolia.events4me.Model.*;
 import com.metropolia.events4me.Model.security.Role;
 import com.metropolia.events4me.Service.EventService;
@@ -7,6 +8,7 @@ import com.metropolia.events4me.Service.RoleService;
 import com.metropolia.events4me.Service.TimeSettingService;
 import com.metropolia.events4me.Service.UserService;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -51,7 +53,40 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         loadUsers();
 //        assignUserRole();
         assignAdminRole();
+        loadTimeSettings();
 
+    }
+
+    private void loadTimeSettings() {
+//        TimeSetting  test = new TimeSetting();
+//        LocalTime s = LocalTime.of(0, 0);
+//        LocalTime e = LocalTime.of(23, 59);
+//        String i = s + ";" + e;
+//        test.getTimeMap().put(Days.Monday, i);
+//        test.getTimeMap().put(Days.Tuesday, i);
+//        test.getTimeMap().put(Days.Wednesday, i);
+//        test.getTimeMap().put(Days.Thursday, i);
+//        test.getTimeMap().put(Days.Friday, i);
+//        test.getTimeMap().put(Days.Saturday, i);
+//        test.getTimeMap().put(Days.Sunday, i);
+//        TimeSettingConverter.convertForTemplate(test);
+
+        for (User u : userService.listUsers()) {
+            TimeSetting  timeSetting = new TimeSetting();
+            LocalTime start = LocalTime.of(10, 10);
+            LocalTime end = LocalTime.of(23, 59);
+            String interval = start + ";" + end;
+            timeSetting.getTimeMap().put(Days.Monday, interval);
+            timeSetting.getTimeMap().put(Days.Tuesday, interval);
+            timeSetting.getTimeMap().put(Days.Wednesday, interval);
+            timeSetting.getTimeMap().put(Days.Thursday, interval);
+            timeSetting.getTimeMap().put(Days.Friday, interval);
+            timeSetting.getTimeMap().put(Days.Saturday, interval);
+            timeSetting.getTimeMap().put(Days.Sunday, interval);
+            u.setTimeAvailability(timeSetting);
+            timeSettingService.saveOrUpdate(timeSetting);
+            userService.saveOrUpdateUser(u);
+        }
     }
 
     private void assignAdminRole() {
@@ -97,13 +132,6 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
     private void loadUsers() {
 
-        TimeSetting  testtime = new TimeSetting();
-        testtime.getTimeMap().put(Days.Tuesday, "some time");
-//        testtime.getTimeList().add("test time");
-
-
-
-
         User dmitry = new User();
         dmitry.setUsername("dima");
         dmitry.setFirstName("dmitry");
@@ -111,9 +139,6 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         dmitry.getInterests().add(Interest.BUSINESS);
         dmitry.getInterests().add(Interest.SPORT);
         dmitry.getInterests().add(Interest.DANCE);
-        dmitry.setTimeAvailability(testtime);
-//        dmitry.setTimeAvailability(testtime);
-        timeSettingService.saveOrUpdateUser(testtime);
         userService.saveOrUpdateUser(dmitry);
 
         User martin = new User();
@@ -132,7 +157,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 //        niklas.getInterests().add(Interest.BUSINESS);
 //        niklas.getInterests().add(Interest.SPORT);
 //        niklas.getInterests().add(Interest.DANCE);
-//        userService.saveOrUpdateUser(niklas);
+//        userService.saveOrUpdate(niklas);
 //
 //        User user4 = new User();
 //      user4.setUsername("user4");
@@ -140,7 +165,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 //      user4.setPassword("user");
 //      user4.getInterests().add(Interest.BUSINESS);
 //      user4.getInterests().add(Interest.NATURE);
-//      userService.saveOrUpdateUser(user4);
+//      userService.saveOrUpdate(user4);
 
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Dmitry on 29.04.2017.
+ * Model class for holding users' time availability settings.
  */
 
 @Entity
@@ -20,17 +20,11 @@ public class TimeSetting {
 
     @ElementCollection
     @MapKeyColumn(name="day")
-//    @Column(name="interval")
     @CollectionTable(name="day_interval", joinColumns=@JoinColumn(name="time_settings_id"))
     private Map<Days, String> timeMap;
 
-//    @Column
-//    @ElementCollection(targetClass=String.class)
-//    private List<String> timeList;
-
     public TimeSetting() {
         this.timeMap = new HashMap<Days, String>();
-//        this.timeList = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -40,14 +34,6 @@ public class TimeSetting {
     public void setId(Integer id) {
         this.id = id;
     }
-
-//    public List<String> getTimeList() {
-//        return timeList;
-//    }
-//
-//    public void setTimeList(List<String> timeList) {
-//        this.timeList = timeList;
-//    }
 
     public Map<Days, String> getTimeMap() {
         return timeMap;

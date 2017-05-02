@@ -20,7 +20,7 @@ public class TimeSettingServiceImpl implements TimeSettingService {
     }
 
     @Override
-    public TimeSetting saveOrUpdateUser(TimeSetting timeSetting) {
+    public TimeSetting saveOrUpdate(TimeSetting timeSetting) {
         return timeSettingDAO.save(timeSetting);
     }
 }
