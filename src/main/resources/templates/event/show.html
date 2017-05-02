@@ -22,7 +22,7 @@
     </div>
 </nav>
 <div class="container">
-    <img th:src="@{/img/placeholder2.png}" />
+    <img  th:src="@{'data:image/jpg;base64,'+ *{T(org.springframework.util.Base64Utils).encodeToString(product.getPhoto())}}"/>
     <div class="row col-md-8 col-md-offset-2">
         <div class="col-md-6">
             <h2 th:text="${product.name}"></h2>

@@ -24,8 +24,12 @@
 <div class="container">
 
 
-        <form th:object="${event}" th:action="@{/event}" method="post">
+        <form th:object="${event}" th:action="@{/event/update}" method="post">
             <div class="col-md-4">
+                <div class="form-group row ">
+                    <label for="event-id-input">Event ID:</label>
+                    <input th:field="*{eventId}" class="form-control" type="text" value="Default value" id="event-id-input" readonly="readonly"></input>
+                </div>
                 <div class="form-group row ">
                     <label for="event-name-input">Event Name:</label>
                     <input th:field="*{name}" class="form-control" type="text" value="Default value" id="event-name-input"/>
