@@ -1,9 +1,10 @@
 package com.metropolia.events4me.Controller;
 
-import com.metropolia.events4me.DAO.RoleDAO;
 import com.metropolia.events4me.Model.User;
 import com.metropolia.events4me.Service.UserService;
+import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,19 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.security.Principal;
-import java.util.HashSet;
-import java.util.Set;
 
-/**
- * Created by Dmitry on 16.04.2017.
- */
 @Controller
 public class IndexController {
 
     private UserService userService;
 
     @Autowired
+    @Qualifier("UserServiceImpl")
     public void setUserService(UserService userService) {
         this.userService = userService;
     }

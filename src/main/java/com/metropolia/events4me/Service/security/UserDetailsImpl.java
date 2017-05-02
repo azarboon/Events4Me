@@ -6,10 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-/**
- * Created by Dmitry on 11.01.2017.
- */
-
 public class UserDetailsImpl implements UserDetails {
 
     private Collection<SimpleGrantedAuthority> authorities;

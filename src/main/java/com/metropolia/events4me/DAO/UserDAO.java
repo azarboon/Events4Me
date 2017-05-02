@@ -5,16 +5,19 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-/**
- * Created by Dmitry on 11.04.2017.
- */
+
 
 public interface UserDAO extends CrudRepository<User, Integer> {
 
+    //TODO: delete this if no use
     User findByEmail(String email);
 
     User findByUsername(String username);
 
     List<User> findAll();
 
+    // Martin declared this method
+    //TODO: delete
+    @Override
+    void delete(Integer integer);
 }

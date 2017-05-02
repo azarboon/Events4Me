@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+</head>
+<body>
+
+
+<h2>Time settings</h2>
+
+<form action="#" th:action="@{/setsettings}" th:object="${periodsWrapper}" method="post">
+
+        <input type="hidden" th:value="${settingsId}"/>
+
+        <div th:each="period, stat : *{periodsList}">
+        Start<label>
+            <input type="time" th:field="*{periodsList[__${stat.index}__].start}"/>
+        </label>
+        End<label>
+            <input type="time" th:field="*{periodsList[__${stat.index}__].end}"/>
+        </label>
+        </div>
+    <button type="submit" value="submit">Submit</button>
+</form>
+<!--th:value="${period.getStart()}"-->
+<!--th:name="|periodsList[${stat.index}]|"-->
+
+</body>
+</html>
