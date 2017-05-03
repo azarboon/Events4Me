@@ -6,7 +6,6 @@ import com.metropolia.events4me.Model.Interest;
 import com.metropolia.events4me.Model.User;
 import com.metropolia.events4me.Service.RoleService;
 import com.metropolia.events4me.Service.UserService;
-import com.metropolia.events4me.Service.security.EncryptionService;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -15,27 +14,21 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 
 @Service("UserServiceImpl")
 public class UserServiceImpl implements UserService {
 
-
     private UserDAO userDAO;
-
-    private EncryptionService encryptionService;
-
     private RoleService roleService;
+
+    @Autowired
+    private BCryptPasswordEncoder encryptionService;
 
     @Autowired
     public void setUserDAO(UserDAO userDAO) {
         this.userDAO = userDAO;
-    }
-
-    @Autowired
-    public void setEncryptionService(EncryptionService encryptionService) {
-        this.encryptionService = encryptionService;
     }
 
     @Autowired
@@ -48,29 +41,15 @@ public class UserServiceImpl implements UserService {
         return userDAO.findByEmail(email);
     }
 
-  /*
-
-
-  //This is to mock user data
-  @Override
-  public User findByUsername(String username) {
-    return Users.getInstance().getUserbyusername(username);
-
-  }
-
-   */
-
     @Override
     public User findByUsername(String username) {
         return userDAO.findByUsername(username);
     }
 
-
     @Override
     public boolean checkUserExists(String username, String email) {
         return checkUsernameExists(username) || checkEmailExists(username);
     }
-
 
     @Override
     public boolean checkUsernameExists(String username) {
@@ -86,7 +65,7 @@ public class UserServiceImpl implements UserService {
     public User saveOrUpdateUser(User user) {
 
         if (user.getPassword() != null) {
-            user.setEncryptedPassword(encryptionService.encryptString(user.getPassword()));
+            user.setEncryptedPassword(encryptionService.encode(user.getPassword()));
         }
         if (user.getUserId() == null) {
             roleService.listRoles().forEach(role -> {
@@ -98,17 +77,14 @@ public class UserServiceImpl implements UserService {
         return userDAO.save(user);
     }
 
-
     public List<User> findUserList() {
         return userDAO.findAll();
     }
-
 
     public List<Event> listUserEvents(Principal principal) {
         User user = userDAO.findByUsername(principal.getName());
         return user.getEvents();
     }
-
 
     @Override
     public void joinEvent(Principal principal, Event event) {
@@ -121,7 +97,6 @@ public class UserServiceImpl implements UserService {
     public List<User> getUsersWithCommonInterest(String username) {
         return getTopMatches(username, 10);
     }
-
 
     @Override
     public void sendFriendRequestTo(String senderUserName, String recieverUserName) {
