@@ -63,7 +63,7 @@ public class IndexController {
     }
 
     // User home page after login
-    @RequestMapping("/myProfile")
+    @RequestMapping("/events4me")
     public String userFront(Principal principal, Model model) {
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("user", user);
@@ -73,12 +73,6 @@ public class IndexController {
         return "myprofile";
     }
 
-    //Users private profile (for testing) *REMEMBER TO MOVE TO CORRECT CONTROLLER*
-    @RequestMapping("events4me/profile/{id}")
-    public String getUser(@PathVariable Integer id, Model model){
-        model.addAttribute("user", userService.getById(id));
-        return "myprofile";
-    }
 
     @RequestMapping("/events4me/discoverevents")
     public String discoverEvents(Principal principal, Model model){
