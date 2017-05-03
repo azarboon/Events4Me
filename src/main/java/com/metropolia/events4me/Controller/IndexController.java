@@ -63,14 +63,14 @@ public class IndexController {
     }
 
     // User home page after login
-    @RequestMapping("/events4me")
+    @RequestMapping("/myProfile")
     public String userFront(Principal principal, Model model) {
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("user", user);
         model.addAttribute("userEvents", user.getEvents());
         model.addAttribute("userFriend", user.getFriends());
         //Other information...
-        return "events4me";
+        return "myprofile";
     }
 
     //Users private profile (for testing) *REMEMBER TO MOVE TO CORRECT CONTROLLER*
