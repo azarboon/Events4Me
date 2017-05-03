@@ -30,12 +30,14 @@
         </div>
     </div>
 </nav>
-<div id="peopleList">
-    <ul th:each="eachuser : ${users}">
-        <li th:text="${eachuser.firstName} +' '+ ${eachuser.lastName}"></li>
-
-    </ul>
+<div class = "container">
+    <table th:each="eachuser : ${users}">
+        <tr>
+            <td th:text="${eachuser.firstName} +' '+ ${eachuser.lastName}"></td>
+        </tr>
+    </table>
 </div>
+
 
 </body>
 </html>
