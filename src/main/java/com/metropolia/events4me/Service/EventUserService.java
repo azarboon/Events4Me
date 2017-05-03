@@ -9,7 +9,7 @@ public interface EventUserService {
 
     List<Event> matchEventsForUser(User user);
 
-    void createEventOnCalendar(Event event);
+    void createEvent(User user, Event event);
 
     void joinEvent(User user, Integer eventId);
 }

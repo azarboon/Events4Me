@@ -42,6 +42,8 @@ public class EventUserServiceImpl implements EventUserService {
                             .collect(Collectors.toList());
     }
 
+
+
     /* This was done by Dima. I refactored it compeltely.
 
     // Joining event by the user and
@@ -60,6 +62,13 @@ public class EventUserServiceImpl implements EventUserService {
         Event event = eventService.getEventById(eventId);
         user.enrolEvent(event);
         event.acceptAttendee(user);
+        userService.saveOrUpdateUser(user);
+        eventService.saveOrUpdateEvent(event);
+    }
+
+    @Override
+    public void createEvent(User user, Event event) {
+        user.organizeNewEvent(event);
         userService.saveOrUpdateUser(user);
         eventService.saveOrUpdateEvent(event);
     }

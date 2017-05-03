@@ -2,7 +2,6 @@ package com.metropolia.events4me.Controller;
 
 import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Model.User;
-import com.metropolia.events4me.Service.EventService;
 import com.metropolia.events4me.Service.UserService;
 import java.security.Principal;
 import java.util.List;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
