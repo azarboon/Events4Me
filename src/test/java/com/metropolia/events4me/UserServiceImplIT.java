@@ -4,11 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.metropolia.events4me.Model.Event;
-import com.metropolia.events4me.Model.Interest;
 import com.metropolia.events4me.Model.User;
 import com.metropolia.events4me.Service.EventService;
 import com.metropolia.events4me.Service.UserService;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
@@ -122,6 +120,7 @@ public class UserServiceImplIT {
 
   @Test
   public void eventCreationAndJoiningTest(){
+    //TODO: organizer should be one of attendees too
     Event sportEvent = eventService.findById(1);
     User test8 = userService.findByUsername("test8");
     Set<User> attendees = sportEvent.getConfirmedAttendees();

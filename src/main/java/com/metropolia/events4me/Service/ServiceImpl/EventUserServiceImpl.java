@@ -57,6 +57,7 @@ public class EventUserServiceImpl implements EventUserService {
         eventService.saveOrUpdateEvent(event);
     }
 */
+    //TODO make integration test for this
     @Override
     public void joinEvent(User user, Integer eventId) {
         Event event = eventService.getEventById(eventId);

@@ -30,7 +30,7 @@ public class Event {
 
   @ManyToOne
   private User organizer;
-  private LocalDateTime dateTime;
+  private LocalDateTime endTime;
 
   @Enumerated(EnumType.STRING)
   private Interest category;
@@ -86,12 +86,12 @@ public class Event {
     this.organizer = organizer;
   }
 
-  public LocalDateTime getDateTime() {
-    return dateTime;
+  public LocalDateTime getEndTime() {
+    return endTime;
   }
 
-  public void setDateTime(LocalDateTime dateTime) {
-    this.dateTime = dateTime;
+  public void setEndTime(LocalDateTime endTime) {
+    this.endTime = endTime;
   }
 
   public BigDecimal getPrice() {
