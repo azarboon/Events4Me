@@ -2,6 +2,7 @@
 <html lang="en">
 <head th:replace="templates :: header">
 </head>
+<script th:src="@{/../js/showscript.js}"></script>
 <body>
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -22,7 +23,7 @@
     </div>
 </nav>
 <div class="container">
-    <img  th:src="@{'data:image/jpg;base64,'+ *{T(org.springframework.util.Base64Utils).encodeToString(product.getPhoto())}}"/>
+    <img  th:src="@{/img/placeholder.png}"/>
     <div class="row col-md-8 col-md-offset-2">
         <div class="col-md-6">
             <h2 th:text="${product.name}"></h2>
@@ -35,6 +36,11 @@
             <h3 th:text="${product.description}">There is no description available for this event.</h3>
         </div>
 
+    </div>
+    <div class="row col-md-8 col-md-offset-2">
+        <form>
+            <button class="btn btn-default" id="join-button">Join Event</button>
+        </form>
     </div>
 
 </div>

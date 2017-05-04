@@ -9,7 +9,11 @@ import com.metropolia.events4me.Service.TimeSettingService;
 import com.metropolia.events4me.Service.UserService;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.TreeSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
@@ -54,7 +58,6 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 //        assignUserRole();
         assignAdminRole();
         loadTimeSettings();
-
     }
 
     private void loadTimeSettings() {
@@ -200,4 +203,6 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         sportEventPast.setCategory(Interest.SPORT);
         eventService.saveOrUpdateEvent(sportEventPast);
     }
+
+
 }

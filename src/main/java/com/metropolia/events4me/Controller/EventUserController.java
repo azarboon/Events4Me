@@ -38,7 +38,8 @@ public class EventUserController {
     }
 
     @RequestMapping("join/event/{id}")
-    public void joinEvent(Principal principal, @PathVariable Integer id) {
+    public @ResponseBody
+    void joinEvent(Principal principal, @PathVariable Integer id) {
         User user = userService.findByUsername(principal.getName());
         eventUserService.joinEvent(user, id);
     }

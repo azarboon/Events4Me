@@ -23,6 +23,18 @@ $(document).ready(function () {
                     var mins = "0" + singleEvent.dateTime.minute;
                 }
 
+
+
+
+
+
+
+
+
+
+
+
+
                 div.innerHTML += " " + singleEvent.dateTime.dayOfMonth + "." + singleEvent.dateTime.monthValue;
                 div.innerHTML += "<br/>" + singleEvent.dateTime.dayOfWeek + " Starting:" + singleEvent.dateTime.hour + ":" + mins;
 
