@@ -106,7 +106,7 @@ public class Event {
     return eventId;
   }
 
-  public void setEventId(int eventId) {
+  public void setEventId(Integer eventId) {
     this.eventId = eventId;
   }
 
@@ -125,7 +125,6 @@ public class Event {
   public void setDescription(String description) {
     this.description = description;
   }
-
 
   public Interest getCategory() {
     return category;

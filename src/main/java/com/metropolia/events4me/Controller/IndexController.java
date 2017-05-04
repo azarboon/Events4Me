@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -66,7 +67,7 @@ public class IndexController {
     public String userFront(Principal principal, Model model) {
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("user", user);
-        model.addAttribute("userEvents", user.getEvents());
+        model.addAttribute("userEvents", user.getAttendingEvents());
         model.addAttribute("userFriend", user.getFriends());
         //Other information...
         return "events4me";

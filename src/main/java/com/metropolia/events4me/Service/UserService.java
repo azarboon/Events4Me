@@ -28,7 +28,7 @@ public interface UserService {
 
     List<Event> listUserEvents(User user);
 
-    void joinEvent(Principal principal, Event event);
+    void joinEvent(User user, Event event);
 
     List<User> getUsersWithCommonInterest(String username);
 

@@ -1,14 +1,16 @@
 package com.metropolia.events4me.bootstrap;
 
-import com.metropolia.events4me.Model.Event;
-import com.metropolia.events4me.Model.Interest;
-import com.metropolia.events4me.Model.User;
+import com.metropolia.events4me.Model.*;
 import com.metropolia.events4me.Model.security.Role;
 import com.metropolia.events4me.Service.EventService;
 import com.metropolia.events4me.Service.RoleService;
+import com.metropolia.events4me.Service.TimeSettingService;
 import com.metropolia.events4me.Service.UserService;
+
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
@@ -30,7 +32,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     }
 
     @Autowired
-    @Qualifier("UserServiceImpl")
+//    @Qualifier("UserServiceImpl")
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
@@ -71,7 +73,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 //        TimeSettingConverter.convertForTemplate(test);
 
         for (User u : userService.listUsers()) {
-            TimeSetting  timeSetting = new TimeSetting();
+            TimeSetting timeSetting = new TimeSetting();
             LocalTime start = LocalTime.of(10, 10);
             LocalTime end = LocalTime.of(23, 59);
             String interval = start + ";" + end;
@@ -112,8 +114,8 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         roles.forEach(role -> {
             if (role.getRole().equalsIgnoreCase("USER")) {
                 users.forEach(user -> {
-                        user.addRole(role);
-                        userService.saveOrUpdateUser(user);
+                    user.addRole(role);
+                    userService.saveOrUpdateUser(user);
                 });
             }
         });
@@ -130,7 +132,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     }
 
     private void loadUsers() {
-/*
+
         User dmitry = new User();
         dmitry.setUsername("dima");
         dmitry.setFirstName("dmitry");
@@ -159,23 +161,23 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         userService.saveOrUpdateUser(niklas);
 
         User user4 = new User();
-      user4.setUsername("user4");
-      user4.setFirstName("firstname4");
-      user4.setPassword("user");
-      user4.getInterests().add(Interest.BUSINESS);
-      user4.getInterests().add(Interest.NATURE);
-      userService.saveOrUpdateUser(user4);
-*/
+        user4.setUsername("user4");
+        user4.setFirstName("firstname4");
+        user4.setPassword("user");
+        user4.getInterests().add(Interest.BUSINESS);
+        user4.getInterests().add(Interest.NATURE);
+        userService.saveOrUpdateUser(user4);
 
-    User test5 = new User();
-    test5.setUsername("test5");
-    test5.setFirstName("firstname5");
-    test5.setLastName("lastname5");
-    test5.setEmail("test5@email.com");
-    test5.setPassword("admin");
-    test5.getInterests().add(Interest.BUSINESS);
-    test5.getInterests().add(Interest.SPORT);
-    test5.getInterests().add(Interest.DANCE);
+
+        User test5 = new User();
+        test5.setUsername("test5");
+        test5.setFirstName("firstname5");
+        test5.setLastName("lastname5");
+        test5.setEmail("test5@email.com");
+        test5.setPassword("admin");
+        test5.getInterests().add(Interest.BUSINESS);
+        test5.getInterests().add(Interest.SPORT);
+        test5.getInterests().add(Interest.DANCE);
 
 
 
@@ -185,90 +187,90 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     userService.saveOrUpdateUser(retrieved);
     */
 
-    User test6 = new User();
-    test6.setUsername("test6");
-    test6.setFirstName("firstname6");
-    test6.setLastName("lastname6");
-    test6.setPassword("user");
-    test6.setEmail("test6@email.com");
-    test6.getInterests().add(Interest.PARTY);
-    test6.getInterests().add(Interest.ART);
+        User test6 = new User();
+        test6.setUsername("test6");
+        test6.setFirstName("firstname6");
+        test6.setLastName("lastname6");
+        test6.setPassword("user");
+        test6.setEmail("test6@email.com");
+        test6.getInterests().add(Interest.PARTY);
+        test6.getInterests().add(Interest.ART);
 
 
-    User test7 = new User();
-    test7.setUsername("test7");
-    test7.setFirstName("firstname7");
-    test7.setLastName("lastname7");
-    test7.setPassword("user");
-    test7.setEmail("test7@email.com");
-    test7.getInterests().add(Interest.BUSINESS);
-    test7.getInterests().add(Interest.SPORT);
-    test7.getInterests().add(Interest.DANCE);
+        User test7 = new User();
+        test7.setUsername("test7");
+        test7.setFirstName("firstname7");
+        test7.setLastName("lastname7");
+        test7.setPassword("user");
+        test7.setEmail("test7@email.com");
+        test7.getInterests().add(Interest.BUSINESS);
+        test7.getInterests().add(Interest.SPORT);
+        test7.getInterests().add(Interest.DANCE);
 
-    User test8 = new User();
-    test8.setUsername("test8");
-    test8.setFirstName("firstname8");
-    test8.setLastName("lastname8");
-    test8.setPassword("user");
-    test8.setEmail("test8@email.com");
-    test8.getInterests().add(Interest.BUSINESS);
-    test8.getInterests().add(Interest.NATURE);
+        User test8 = new User();
+        test8.setUsername("test8");
+        test8.setFirstName("firstname8");
+        test8.setLastName("lastname8");
+        test8.setPassword("user");
+        test8.setEmail("test8@email.com");
+        test8.getInterests().add(Interest.BUSINESS);
+        test8.getInterests().add(Interest.NATURE);
 
-    Event sportEvent = new Event();
-    sportEvent.setTitle("Sport event");
-    sportEvent.setEndTime(LocalDateTime.of(2017, 6, 2, 13, 0));
-    sportEvent.setCategory(Interest.SPORT);
-
-
-    test5.sendFriendRequestTo(test6);
-    test6.acceptFriend(test5);
-
-    //TODO: make the event have the ablity for automatic acceptance
-    test5.organizeNewEvent(sportEvent);
-    test6.enrolEvent(sportEvent);
-    sportEvent.acceptAttendee(test6);
-    test7.enrolEvent(sportEvent);
-    test8.enrolEvent(sportEvent);
-    sportEvent.acceptAttendee(test8);
+        Event sportEvent = new Event();
+        sportEvent.setTitle("Sport event");
+        sportEvent.setEndTime(LocalDateTime.of(2017, 6, 2, 13, 0));
+        sportEvent.setCategory(Interest.SPORT);
 
 
+        test5.sendFriendRequestTo(test6);
+        test6.acceptFriend(test5);
 
-    userService.saveOrUpdateUser(test5);
-    userService.saveOrUpdateUser(test6);
-    userService.saveOrUpdateUser(test7);
-    userService.saveOrUpdateUser(test8);
-    eventService.saveOrUpdateEvent(sportEvent);
-  }
+        //TODO: make the event have the ablity for automatic acceptance
+        test5.organizeNewEvent(sportEvent);
+        test6.enrolEvent(sportEvent);
+        sportEvent.acceptAttendee(test6);
+        test7.enrolEvent(sportEvent);
+        test8.enrolEvent(sportEvent);
+        sportEvent.acceptAttendee(test8);
+
+
+        userService.saveOrUpdateUser(test5);
+        userService.saveOrUpdateUser(test6);
+        userService.saveOrUpdateUser(test7);
+        userService.saveOrUpdateUser(test8);
+        eventService.saveOrUpdateEvent(sportEvent);
+    }
 
     private void loadEvents() {
         Event sportEvent = new Event();
-        sportEvent.setName("Sport event");
-        sportEvent.setDateTime(LocalDateTime.of(2017, 6, 2, 13, 0));
+        sportEvent.setTitle("Sport event");
+        sportEvent.setEndTime(LocalDateTime.of(2017, 6, 2, 13, 0));
         sportEvent.setCategory(Interest.SPORT);
         eventService.saveOrUpdateEvent(sportEvent);
 
         Event partyEvent = new Event();
-        partyEvent.setName("Party event");
-        partyEvent.setDateTime(LocalDateTime.of(2017, 6, 10, 13, 0));
+        partyEvent.setTitle("Party event");
+        partyEvent.setEndTime(LocalDateTime.of(2017, 6, 10, 13, 0));
         partyEvent.setCategory(Interest.PARTY);
         eventService.saveOrUpdateEvent(partyEvent);
 
         Event businessEvent = new Event();
-        businessEvent.setName("Business event");
-        businessEvent.setDateTime(LocalDateTime.of(2017, 6, 2, 15, 0));
+        businessEvent.setTitle("Business event");
+        businessEvent.setEndTime(LocalDateTime.of(2017, 6, 2, 15, 0));
         businessEvent.setCategory(Interest.BUSINESS);
         eventService.saveOrUpdateEvent(businessEvent);
 
         Event businessEventPast = new Event();
-        businessEventPast.setName("Business event past");
-        businessEventPast.setDateTime(LocalDateTime.of(2017, 2, 2, 13, 0));
+        businessEventPast.setTitle("Business event past");
+        businessEventPast.setEndTime(LocalDateTime.of(2017, 2, 2, 13, 0));
         businessEventPast.setCategory(Interest.BUSINESS);
         eventService.saveOrUpdateEvent(businessEventPast);
 
         Event sportEventPast = new Event();
-        sportEventPast.setName("Sport event past");
-        sportEventPast.setDateTime(LocalDateTime.of(2017, 2, 3, 13, 0));
+        sportEventPast.setTitle("Sport event past");
+        sportEventPast.setEndTime(LocalDateTime.of(2017, 2, 3, 13, 0));
         sportEventPast.setCategory(Interest.SPORT);
         eventService.saveOrUpdateEvent(sportEventPast);
+
     }
 }
