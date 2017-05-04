@@ -5,72 +5,53 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 @Entity
 public class User {
 
-
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer userId;
-  /* TODO: put restrictions on fields in backend
-  @Size(min = 3, message = "Firstname should have minimum 3 characters.")
-  @NotNull
   private String firstName;
-  @Size(min = 3, message = "Last name should have minimum 3 characters.")
-  @NotNull
   private String lastName;
-  @Size(min = 3, message = "Username should have minimum 3 characters.")
-  @Column(unique = true)
-  @NotNull
   private String username;
-  @Column(unique = true)
-  @NotNull
   private String email;
+
   @Transient
-  @NotNull
   private String password;
   private String encryptedPassword;
-  */
-  private String firstName;
-  private String lastName;
-  private String username;
-  private String email;
-  private String password;
-  private String encryptedPassword;
+
   @OneToMany(cascade = CascadeType.ALL)
   private Set<Event> adminingEvents;
+
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
   @JoinTable
-  // ~ defaults to @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "user_id"),
-  //     inverseJoinColumns = @joinColumn(name = "role_id"))
   private List<Role> roles = new ArrayList<>();
   private String birthday;
   private String country;
   private Boolean enabled = true;
+
   @Enumerated(EnumType.STRING)
   @ElementCollection(targetClass = Interest.class, fetch = FetchType.EAGER)
   private Set<Interest> interests = new HashSet<>();
+
   @ManyToMany(cascade = CascadeType.ALL)
   private List<Event> attendingEvents;
   private byte[] photo;
+
   @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private Set<User> friends = new HashSet<User>();
+
   @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private Set<User> pendingFriendRequests = new HashSet<User>();
+
+    @OneToOne
+    private TimeSetting timeAvailability;
+
   public User() {
     interests = new HashSet<>();
     friends = new HashSet<>();
@@ -148,12 +129,20 @@ public class User {
     this.attendingEvents.add(event);
   }
 
-  public void acceptFriend(User sender) {
-    if ((sender != null) && pendingFriendRequests.contains(sender)) {
-      pendingFriendRequests.remove(sender);
-      this.friends.add(sender);
+    public TimeSetting getTimeAvailability() {
+        return timeAvailability;
     }
-  }
+
+    public void setTimeAvailability(TimeSetting timeAvailability) {
+        this.timeAvailability = timeAvailability;
+    }
+
+    public void acceptFriend(User sender) {
+        if ((sender != null) && pendingFriendRequests.contains(sender)) {
+            pendingFriendRequests.remove(sender);
+            this.friends.add(sender);
+        }
+    }
 
 
   public void recieveFriendRequestFrom(User user) {
@@ -282,6 +271,13 @@ public class User {
     this.username = username;
   }
 
+  public List<Event> getEvents() {
+    return events;
+  }
+
+  public void setEvents(List<Event> events) {
+    this.events = events;
+  }
 
   public Boolean getEnabled() {
     return enabled;

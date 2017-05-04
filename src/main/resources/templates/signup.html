@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+</head>
+<body>
+
+
+<form th:object="${user}" th:action="@{/signup.html}" method="post">
+    <input type="text" th:field="*{username}" placeholder="username"/>
+    <input type="text" th:field="*{firstName}" placeholder="first name"/>
+    <input type="text" th:field="*{lastName}" placeholder="last name"/>
+    <input type="text" th:field="*{email}" placeholder="e-mail account"/>
+    <input type="password" th:field="*{password}" placeholder="password"/>
+    <input type="date" th:field="*{birthday}"/>
+    <input type="text" th:field="*{country}" placeholder="country"></input>
+    <button type="submit">create user</button>
+</form>
+
+</body>
+</html>

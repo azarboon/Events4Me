@@ -19,83 +19,117 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringDataBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
+    private UserService userService;
+    private EventService eventService;
+    private RoleService roleService;
+    private TimeSettingService timeSettingService;
 
-  private UserService userService;
+    @Autowired
+    public void setTimeSettingService(TimeSettingService timeSettingService) {
+        this.timeSettingService = timeSettingService;
+    }
 
+    @Autowired
+    @Qualifier("UserServiceImpl")
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
-  private EventService eventService;
+    @Autowired
+    public void setEventService(EventService eventService) {
+        this.eventService = eventService;
+    }
 
+    @Autowired
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
-  private RoleService roleService;
-
-  @Autowired
-  @Qualifier("UserServiceImpl")
-  public void setUserService(UserService userService) {
-    this.userService = userService;
-  }
-
-  @Autowired
-  public void setEventService(EventService eventService) {
-    this.eventService = eventService;
-  }
-
-  @Autowired
-  public void setRoleService(RoleService roleService) {
-    this.roleService = roleService;
-  }
-
-  @Override
-  public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-    loadEvents();
-    loadRoles();
-    loadUsers();
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        loadEvents();
+        loadRoles();
+        loadUsers();
 //        assignUserRole();
-    assignAdminRole();
+        assignAdminRole();
+        loadTimeSettings();
 
-  }
+    }
 
-  private void assignAdminRole() {
-    List<Role> roles = roleService.listRoles();
-    List<User> users = userService.listUsers();
+    private void loadTimeSettings() {
+//        TimeSetting  test = new TimeSetting();
+//        LocalTime s = LocalTime.of(0, 0);
+//        LocalTime e = LocalTime.of(23, 59);
+//        String i = s + ";" + e;
+//        test.getTimeMap().put(Days.Monday, i);
+//        test.getTimeMap().put(Days.Tuesday, i);
+//        test.getTimeMap().put(Days.Wednesday, i);
+//        test.getTimeMap().put(Days.Thursday, i);
+//        test.getTimeMap().put(Days.Friday, i);
+//        test.getTimeMap().put(Days.Saturday, i);
+//        test.getTimeMap().put(Days.Sunday, i);
+//        TimeSettingConverter.convertForTemplate(test);
 
-    roles.forEach(role -> {
-      if (role.getRole().equalsIgnoreCase("ADMIN")) {
-        users.forEach(user -> {
-          if (user.getUsername().equals("dima")) {
-            user.addRole(role);
-            userService.saveOrUpdateUser(user);
-          }
+        for (User u : userService.listUsers()) {
+            TimeSetting  timeSetting = new TimeSetting();
+            LocalTime start = LocalTime.of(10, 10);
+            LocalTime end = LocalTime.of(23, 59);
+            String interval = start + ";" + end;
+            timeSetting.getTimeMap().put(Days.Monday, interval);
+            timeSetting.getTimeMap().put(Days.Tuesday, interval);
+            timeSetting.getTimeMap().put(Days.Wednesday, interval);
+            timeSetting.getTimeMap().put(Days.Thursday, interval);
+            timeSetting.getTimeMap().put(Days.Friday, interval);
+            timeSetting.getTimeMap().put(Days.Saturday, interval);
+            timeSetting.getTimeMap().put(Days.Sunday, interval);
+            u.setTimeAvailability(timeSetting);
+            timeSettingService.saveOrUpdate(timeSetting);
+            userService.saveOrUpdateUser(u);
+        }
+    }
+
+    private void assignAdminRole() {
+        List<Role> roles = roleService.listRoles();
+        List<User> users = userService.listUsers();
+
+        roles.forEach(role -> {
+            if (role.getRole().equalsIgnoreCase("ADMIN")) {
+                users.forEach(user -> {
+                    if (user.getUsername().equals("dima")) {
+                        user.addRole(role);
+                        userService.saveOrUpdateUser(user);
+                    }
+                });
+            }
         });
-      }
-    });
 
-  }
+    }
 
-  private void assignUserRole() {
-    List<Role> roles = roleService.listRoles();
-    List<User> users = userService.listUsers();
+    private void assignUserRole() {
+        List<Role> roles = roleService.listRoles();
+        List<User> users = userService.listUsers();
 
-    roles.forEach(role -> {
-      if (role.getRole().equalsIgnoreCase("USER")) {
-        users.forEach(user -> {
-          user.addRole(role);
-          userService.saveOrUpdateUser(user);
+        roles.forEach(role -> {
+            if (role.getRole().equalsIgnoreCase("USER")) {
+                users.forEach(user -> {
+                        user.addRole(role);
+                        userService.saveOrUpdateUser(user);
+                });
+            }
         });
-      }
-    });
-  }
+    }
 
-  private void loadRoles() {
-    Role role = new Role();
-    role.setRole("USER");
-    roleService.saveOrUpdateRole(role);
+    private void loadRoles() {
+        Role role = new Role();
+        role.setRole("USER");
+        roleService.saveOrUpdateRole(role);
 
-    Role adminRole = new Role();
-    adminRole.setRole("ADMIN");
-    roleService.saveOrUpdateRole(adminRole);
-  }
+        Role adminRole = new Role();
+        adminRole.setRole("ADMIN");
+        roleService.saveOrUpdateRole(adminRole);
+    }
 
-  private void loadUsers() {
+    private void loadUsers() {
 /*
         User dmitry = new User();
         dmitry.setUsername("dima");
@@ -112,11 +146,6 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         martin.setPassword("user");
         martin.getInterests().add(Interest.PARTY);
         martin.getInterests().add(Interest.ART);
-
-        martin.setFriend(dmitry);
-        dmitry.setFriend(martin);
-        dmitry.getFriends().add(martin);
-        martin.getFriends().add(dmitry);
         userService.saveOrUpdateUser(martin);
 
 
@@ -211,37 +240,35 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     eventService.saveOrUpdateEvent(sportEvent);
   }
 
-  private void loadEvents() {
-    /*
-    Event sportEvent = new Event();
-    sportEvent.setTitle("Sport event");
-    sportEvent.setEndTime(LocalDateTime.of(2017, 6, 2, 13, 0));
-    sportEvent.setCategory(Interest.SPORT);
-    eventService.saveOrUpdateEvent(sportEvent);
+    private void loadEvents() {
+        Event sportEvent = new Event();
+        sportEvent.setName("Sport event");
+        sportEvent.setDateTime(LocalDateTime.of(2017, 6, 2, 13, 0));
+        sportEvent.setCategory(Interest.SPORT);
+        eventService.saveOrUpdateEvent(sportEvent);
 
-    Event partyEvent = new Event();
-    partyEvent.setTitle("Party event");
-    partyEvent.setEndTime(LocalDateTime.of(2017, 6, 10, 13, 0));
-    partyEvent.setCategory(Interest.PARTY);
-    eventService.saveOrUpdateEvent(partyEvent);
+        Event partyEvent = new Event();
+        partyEvent.setName("Party event");
+        partyEvent.setDateTime(LocalDateTime.of(2017, 6, 10, 13, 0));
+        partyEvent.setCategory(Interest.PARTY);
+        eventService.saveOrUpdateEvent(partyEvent);
 
-    Event businessEvent = new Event();
-    businessEvent.setTitle("Business event");
-    businessEvent.setEndTime(LocalDateTime.of(2017, 6, 2, 15, 0));
-    businessEvent.setCategory(Interest.BUSINESS);
-    eventService.saveOrUpdateEvent(businessEvent);
+        Event businessEvent = new Event();
+        businessEvent.setName("Business event");
+        businessEvent.setDateTime(LocalDateTime.of(2017, 6, 2, 15, 0));
+        businessEvent.setCategory(Interest.BUSINESS);
+        eventService.saveOrUpdateEvent(businessEvent);
 
-    Event businessEventPast = new Event();
-    businessEventPast.setTitle("Business event past");
-    businessEventPast.setEndTime(LocalDateTime.of(2017, 2, 2, 13, 0));
-    businessEventPast.setCategory(Interest.BUSINESS);
-    eventService.saveOrUpdateEvent(businessEventPast);
+        Event businessEventPast = new Event();
+        businessEventPast.setName("Business event past");
+        businessEventPast.setDateTime(LocalDateTime.of(2017, 2, 2, 13, 0));
+        businessEventPast.setCategory(Interest.BUSINESS);
+        eventService.saveOrUpdateEvent(businessEventPast);
 
-    Event sportEventPast = new Event();
-    sportEventPast.setTitle("Sport event past");
-    sportEventPast.setEndTime(LocalDateTime.of(2017, 2, 3, 13, 0));
-    sportEventPast.setCategory(Interest.SPORT);
-    eventService.saveOrUpdateEvent(sportEventPast);
-    */
-  }
+        Event sportEventPast = new Event();
+        sportEventPast.setName("Sport event past");
+        sportEventPast.setDateTime(LocalDateTime.of(2017, 2, 3, 13, 0));
+        sportEventPast.setCategory(Interest.SPORT);
+        eventService.saveOrUpdateEvent(sportEventPast);
+    }
 }

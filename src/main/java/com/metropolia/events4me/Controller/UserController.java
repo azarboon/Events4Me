@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -66,7 +67,6 @@ public class UserController {
   }
 
 
-
 //    @RequestMapping(value = "/profile", method = RequestMethod.POST)
 //    public String profilePost(@ModelAttribute("user") User newUser, Model model) {
 //        User user = userService.findByUsername(newUser.getUsername());
@@ -82,51 +82,51 @@ public class UserController {
 //        return "profile";
 //    }
 
-  @RequestMapping({"/list", "/"})
-  public String listUsers(Model model) {
-    model.addAttribute("users", userService.listUsers());
-    return "user/list";
-  }
+    @RequestMapping({"/list", "/"})
+        public String listUsers(Principal principal, Model model){
+        User user = userService.findByUsername(principal.getName());
+        model.addAttribute("user",user);
+        model.addAttribute("users", userService.listUsers());
+        return "user/list";
+    }
 
-  @RequestMapping("/show/{id}")
-  public String getUser(@PathVariable Integer id, Model model) {
-    model.addAttribute("user", userService.getById(id));
-    return "user/show";
-  }
+    @RequestMapping("/show/{id}")
+    public String getUser(@PathVariable Integer id, Model model){
+        model.addAttribute("user", userService.getById(id));
+        return "user/show";
+    }
 
-  @RequestMapping("/edit")
-  public String edit(Principal principal, Model model) {
-    User user = userService.findByUsername(principal.getName());
-    model.addAttribute("user", user);
-    return "user/profile";
-  }
+    @RequestMapping("/edit")
+    public String edit(Principal principal, Model model){
+        User user = userService.findByUsername(principal.getName());
+        model.addAttribute("user", user);
+        return "user/profile";
+    }
 
-  @RequestMapping("/new")
-  public String newUser(Model model) {
-    model.addAttribute("user", new User());
-    return "user/profile";
-  }
+    @RequestMapping("/new")
+    public String newUser(Model model){
+        model.addAttribute("user", new User());
+        return "user/profile";
+    }
 
 
-  @RequestMapping(value = "/", method = RequestMethod.POST)
-  public String saveOrUpdate(User user) {
-    User savedUser = userService.saveOrUpdateUser(user);
-    return "redirect:/user/show/" + savedUser.getUserId();
-  }
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public String saveOrUpdate(User user){
+        User savedUser = userService.saveOrUpdateUser(user);
+        return "redirect:/user/show/" + savedUser.getUserId();
+    }
 
-  @RequestMapping("/delete/{id}")
-  public String delete(@PathVariable Integer id) {
-    userService.delete(id);
-    return "redirect:/user/list";
-  }
+    @RequestMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id){
+        userService.delete(id);
+        return "redirect:/user/list";
+    }
 
-  @RequestMapping("/userevents")
-  public
-  @ResponseBody
-  List<Event> listUserEvents(Principal principal) {
-    User user = userService.findByUsername(principal.getName());
-    return userService.listUserEvents(user);
-  }
-
+    @RequestMapping("/userevents")
+    public @ResponseBody
+    List<Event> listUserEvents(Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+        return userService.listUserEvents(user);
+    }
 
 }

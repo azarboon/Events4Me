@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org">
+<head th:replace="templates :: header">
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <!-- Insert LOGO here -->
+        <div class="navbar-header">
+            <a class="navbar-brand">Events4me</a>
+        </div>
+
+
+        <!-- Menu Items-->
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/events4me.html}">HOME</a></li>
+                <li><a th:href="@{/events4me/profile/} + ${user.userId}">MY PROFILE</a></li>
+                <li><a>MY EVENTS</a></li>
+                <li><a th:href="@{/events4me/discoverevents}">DISCOVER EVENTS</a></li>
+                <li><a th:href="@{/user/list}">DISCOVER PEOPLE</a></li>
+                <li><a th:href="@{/settimepref}">Test time</a></li>
+
+            </ul>
+            <ul class=" nav navbar-nav navbar-right">
+                <form th:action="@{/logout}">
+                <button type="submit" class="btn btn-default navbar-btn logout">LOGOUT</button>
+                </form>
+            </ul>
+        </div>
+
+
+
+    </div>
+</nav>
+
+<h1>Heelo naaaaaaaaa</h1>
+
+</body>
+</html>

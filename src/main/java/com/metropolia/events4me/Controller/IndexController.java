@@ -65,9 +65,27 @@ public class IndexController {
     @RequestMapping("/events4me")
     public String userFront(Principal principal, Model model) {
         User user = userService.findByUsername(principal.getName());
-        model.addAttribute("userEvents", user.getAttendingEvents());
+        model.addAttribute("user", user);
+        model.addAttribute("userEvents", user.getEvents());
         model.addAttribute("userFriend", user.getFriends());
         //Other information...
         return "events4me";
     }
+
+    //Users private profile (for testing) *REMEMBER TO MOVE TO CORRECT CONTROLLER*
+    @RequestMapping("events4me/profile/{id}")
+    public String getUser(@PathVariable Integer id, Model model){
+        model.addAttribute("user", userService.getById(id));
+        return "myprofile";
+    }
+
+    @RequestMapping("/events4me/discoverevents")
+    public String discoverEvents(Principal principal, Model model){
+        User user = userService.findByUsername(principal.getName());
+        model.addAttribute("user", user);
+        return "discoverevents";
+    }
+
+
+
 }

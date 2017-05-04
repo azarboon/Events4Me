@@ -38,6 +38,10 @@ public class UserServiceImpl implements UserService {
     return userDAO.findByEmail(email);
   }
 
+    @Override
+    public User findByUsername(String username) {
+        return userDAO.findByUsername(username);
+    }
 
   @Override
   public User findByUsername(String username) {
@@ -63,9 +67,6 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User saveOrUpdateUser(User user) {
-    /*
-    This metohd doesnt really update the data. If it exists, then throws exception. how to handle it?
-     */
 
     if (user.getPassword() != null) {
       user.setEncryptedPassword(encryptionService.encryptString(user.getPassword()));

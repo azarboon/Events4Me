@@ -18,8 +18,6 @@ public class Role {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable
-    // ~ defaults to @JoinTable(role = "USER_ROLE", joinColumns = @JoinColumn(role = "role_id"),
-    //     inverseJoinColumns = @joinColumn(role = "user_id"))
     private List<User> users = new ArrayList<>();
 
     public Role() {
