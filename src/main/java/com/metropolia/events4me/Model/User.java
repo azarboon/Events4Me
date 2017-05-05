@@ -2,14 +2,24 @@ package com.metropolia.events4me.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.metropolia.events4me.Model.security.Role;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -135,7 +145,9 @@ public class User {
     }
 
     public void attendEvent(Event event) {
-        this.attendingEvents.add(event);
+        if(!this.attendingEvents.contains(event)){
+            this.attendingEvents.add(event);
+        }
     }
 
     public TimeSetting getTimeAvailability() {
