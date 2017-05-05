@@ -1,16 +1,15 @@
 package com.metropolia.events4me.bootstrap;
 
+import com.metropolia.events4me.Converter.TimeSettingConverter;
 import com.metropolia.events4me.Model.*;
 import com.metropolia.events4me.Model.security.Role;
 import com.metropolia.events4me.Service.EventService;
 import com.metropolia.events4me.Service.RoleService;
 import com.metropolia.events4me.Service.TimeSettingService;
 import com.metropolia.events4me.Service.UserService;
-
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
@@ -32,7 +31,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     }
 
     @Autowired
-//    @Qualifier("UserServiceImpl")
+    @Qualifier("UserServiceImpl")
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
@@ -73,7 +72,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 //        TimeSettingConverter.convertForTemplate(test);
 
         for (User u : userService.listUsers()) {
-            TimeSetting timeSetting = new TimeSetting();
+            TimeSetting  timeSetting = new TimeSetting();
             LocalTime start = LocalTime.of(10, 10);
             LocalTime end = LocalTime.of(23, 59);
             String interval = start + ";" + end;
@@ -114,8 +113,8 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         roles.forEach(role -> {
             if (role.getRole().equalsIgnoreCase("USER")) {
                 users.forEach(user -> {
-                    user.addRole(role);
-                    userService.saveOrUpdateUser(user);
+                        user.addRole(role);
+                        userService.saveOrUpdateUser(user);
                 });
             }
         });
@@ -151,14 +150,22 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         userService.saveOrUpdateUser(martin);
 
 
-        User niklas = new User();
-        niklas.setUsername("nilas");
-        niklas.setFirstName("niklas");
-        niklas.setPassword("user");
-        niklas.getInterests().add(Interest.BUSINESS);
-        niklas.getInterests().add(Interest.SPORT);
-        niklas.getInterests().add(Interest.DANCE);
-        userService.saveOrUpdateUser(niklas);
+//        User niklas = new User();
+//        niklas.setUsername("nilas");
+//        niklas.setFirstName("niklas");
+//        niklas.setPassword("user");
+//        niklas.getInterests().add(Interest.BUSINESS);
+//        niklas.getInterests().add(Interest.SPORT);
+//        niklas.getInterests().add(Interest.DANCE);
+//        userService.saveOrUpdate(niklas);
+//
+//        User user4 = new User();
+//      user4.setUsername("user4");
+//      user4.setFirstName("firstname4");
+//      user4.setPassword("user");
+//      user4.getInterests().add(Interest.BUSINESS);
+//      user4.getInterests().add(Interest.NATURE);
+//      userService.saveOrUpdate(user4);
 
         User user4 = new User();
         user4.setUsername("user4");
@@ -271,6 +278,5 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         sportEventPast.setEndTime(LocalDateTime.of(2017, 2, 3, 13, 0));
         sportEventPast.setCategory(Interest.SPORT);
         eventService.saveOrUpdateEvent(sportEventPast);
-
     }
 }
