@@ -21,45 +21,50 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class UserController {
 
 
-    private UserService userService;
-
-    @Autowired
-    @Qualifier("UserServiceImpl")
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+  private UserService userService;
 
 
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String profile(Principal principal, Model model) {
+  @Autowired
+  @Qualifier("UserServiceImpl")
+  public void setUserService(UserService userService) {
+    this.userService = userService;
+  }
 
-        User user = userService.findByUsername(principal.getName());
-        model.addAttribute("user", user);
-        return "profile";
-    }
 
-    @RequestMapping(value = "/recomUsers", method = RequestMethod.GET)
-    public String getRecommendedUsers(Principal principal, Model model){
-        List<User> recommendedUsers = userService.getUsersWithCommonInterest(principal.getName());
-        model.addAttribute("recommendedUsers", recommendedUsers);
-        return "recommendedUsers";
-    }
 
-    public String sendFriendshipRequest(Principal principal, Model model, @PathVariable String recieverUsername){
-        User sender = userService.findByUsername(principal.getName());
-        User reciever = userService.findByUsername(recieverUsername);
-        sender.sendFriendRequestTo(reciever);
-        model.addAttribute("SentFriendshipRequest", "friendship request was sent to " + recieverUsername);
-        return "sentfriendshipRequest";
-    }
+  @RequestMapping(value = "/profile", method = RequestMethod.GET)
+  public String profile(Principal principal, Model model) {
 
-    public String acceptFriend(Principal principal, Model model, @PathVariable String senderUsername){
-        User reciever = userService.findByUsername(principal.getName());
-        User sender = userService.findByUsername(senderUsername);
-        reciever.acceptFriend(sender);
-        model.addAttribute("FriendshipAccepted", "Now you are friend with " + senderUsername);
-        return "friendshipAccepted";
-    }
+    User user = userService.findByUsername(principal.getName());
+    model.addAttribute("user", user);
+    return "profile";
+  }
+
+  @RequestMapping(value = "/recomUsers", method = RequestMethod.GET)
+  public String getRecommendedUsers(Principal principal, Model model) {
+    List<User> recommendedUsers = userService.getUsersWithCommonInterest(principal.getName());
+    model.addAttribute("recommendedUsers", recommendedUsers);
+    return "recommendedUsers";
+  }
+
+  public String sendFriendshipRequest(Principal principal, Model model,
+      @PathVariable String recieverUsername) {
+    User sender = userService.findByUsername(principal.getName());
+    User reciever = userService.findByUsername(recieverUsername);
+    sender.sendFriendRequestTo(reciever);
+    model.addAttribute("SentFriendshipRequest",
+        "friendship request was sent to " + recieverUsername);
+    return "sentfriendshipRequest";
+  }
+
+  public String acceptFriend(Principal principal, Model model,
+      @PathVariable String senderUsername) {
+    User reciever = userService.findByUsername(principal.getName());
+    User sender = userService.findByUsername(senderUsername);
+    reciever.acceptFriend(sender);
+    model.addAttribute("FriendshipAccepted", "Now you are friend with " + senderUsername);
+    return "friendshipAccepted";
+  }
 
 
 //    @RequestMapping(value = "/profile", method = RequestMethod.POST)
@@ -73,7 +78,7 @@ public class UserController {
 //        user.setBirthday(newUser.getBirthday());
 //        user.setInterests(newUser.getInterests());
 //        model.addAttribute("user", user);
-//        userService.saveOrUpdate(user);
+//        userService.saveOrUpdateUser(user);
 //        return "profile";
 //    }
 
@@ -123,10 +128,5 @@ public class UserController {
         User user = userService.findByUsername(principal.getName());
         return userService.listUserEvents(user);
     }
-
-
-
-
-
 
 }

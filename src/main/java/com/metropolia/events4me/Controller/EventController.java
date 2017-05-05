@@ -2,9 +2,11 @@ package com.metropolia.events4me.Controller;
 
 import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Service.EventService;
+import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -57,7 +59,7 @@ public class EventController {
         return "event/eventform";
     }
 
-    @RequestMapping("/event/new")
+    @RequestMapping(value = "/event/new")
     public String newProduct(Model model) {
         model.addAttribute("event", new Event());
         return "event/newEvent";

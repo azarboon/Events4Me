@@ -6,10 +6,9 @@
 	<groupId>com.metropolia.events4me</groupId>
 	<artifactId>socialmedia</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
-	<role>socialmedia</role>
-	<description>Demo project for Spring Boot</description>
+	<description>Software structures and modeling final project</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -25,10 +24,12 @@
 	</properties>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -37,13 +38,14 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<!--<scope>provided</scope>-->
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
@@ -70,25 +72,33 @@
 			<artifactId>jasypt</artifactId>
 			<version>1.9.2</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.jasypt</groupId>
 			<artifactId>jasypt-springsecurity3</artifactId>
 			<version>1.9.2</version>
 		</dependency>
 
+        <!--Joda time lib-->
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>2.9.7</version>
 		</dependency>
 
-		<!--Devtools dependance Remember to remove-->
+        <!--In-memory database-->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+		<!--Devtools for development-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 		</dependency>
+
 	</dependencies>
 
 	<build>

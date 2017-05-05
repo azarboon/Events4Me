@@ -37,7 +37,7 @@ public class EventServiceImpl implements EventService {
         LocalDate today = LocalDate.now();
         List<Event> pastEvents = new ArrayList<>();
         allEvents.forEach(event -> {
-            if (event.getDateTime().toLocalDate().isBefore(today)) {
+            if (event.getEndTime().toLocalDate().isBefore(today)) {
                 pastEvents.add(event);
             }
         });
@@ -50,11 +50,16 @@ public class EventServiceImpl implements EventService {
         LocalDate today = LocalDate.now();
         List<Event> futureEvents = new ArrayList<>();
         allEvents.forEach(event -> {
-            if (event.getDateTime().toLocalDate().isAfter(today)) {
+            if (event.getEndTime().toLocalDate().isAfter(today)) {
                 futureEvents.add(event);
             }
         });
         return futureEvents;
+    }
+
+    @Override
+    public Event findById(int id) {
+        return eventDAO.findOne(id);
     }
 
     @Override

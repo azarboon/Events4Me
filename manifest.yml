@@ -1,0 +1,4 @@
+applications:
+- name: events4me
+  memory: 512M
+  path: target/socialmedia-0.0.1-SNAPSHOT.jar

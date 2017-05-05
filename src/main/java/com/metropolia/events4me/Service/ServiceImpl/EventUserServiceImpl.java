@@ -42,13 +42,34 @@ public class EventUserServiceImpl implements EventUserService {
                             .collect(Collectors.toList());
     }
 
+
+
+    /* This was done by Dima. I refactored it compeltely.
+
     // Joining event by the user and
     // adding participant to the event
     @Override
     public void joinEvent(User user, Integer eventId) {
         Event event = eventService.getEventById(eventId);
-        user.getEvents().add(event);
-        event.getParticipants().add(user);
+        user.getAttendingEvents().add(event);
+        event.getConfirmedAttendees().add(user);
+        userService.saveOrUpdateUser(user);
+        eventService.saveOrUpdateEvent(event);
+    }
+*/
+    //TODO make integration test for this
+    @Override
+    public void joinEvent(User user, Integer eventId) {
+        Event event = eventService.getEventById(eventId);
+        user.enrolEvent(event);
+        event.acceptAttendee(user);
+        userService.saveOrUpdateUser(user);
+        eventService.saveOrUpdateEvent(event);
+    }
+
+    @Override
+    public void createEvent(User user, Event event) {
+        user.organizeNewEvent(event);
         userService.saveOrUpdateUser(user);
         eventService.saveOrUpdateEvent(event);
     }

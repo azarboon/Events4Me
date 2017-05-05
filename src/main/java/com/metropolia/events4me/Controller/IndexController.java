@@ -67,7 +67,7 @@ public class IndexController {
     public String userFront(Principal principal, Model model) {
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("user", user);
-        model.addAttribute("userEvents", user.getEvents());
+        model.addAttribute("userEvents", user.getAttendingEvents());
         model.addAttribute("userFriend", user.getFriends());
         //Other information...
         return "myprofile";
@@ -80,5 +80,7 @@ public class IndexController {
         model.addAttribute("user", user);
         return "discoverevents";
     }
+
+
 
 }

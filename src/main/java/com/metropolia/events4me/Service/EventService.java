@@ -13,6 +13,7 @@ public interface EventService {
 
     List<Event> listFutureEvents();
 
+    Event findById(int id);
     Event saveOrUpdateEvent(Event event);
 
     Event getEventById(Integer id);

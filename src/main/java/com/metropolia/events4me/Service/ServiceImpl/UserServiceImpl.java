@@ -15,17 +15,15 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 @Service("UserServiceImpl")
 public class UserServiceImpl implements UserService {
 
-
     private UserDAO userDAO;
-
-    private EncryptionService encryptionService;
-
+    private BCryptPasswordEncoder encryptionService;
     private RoleService roleService;
 
     @Autowired
@@ -34,7 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Autowired
-    public void setEncryptionService(EncryptionService encryptionService) {
+    public void setEncryptionService(BCryptPasswordEncoder encryptionService) {
         this.encryptionService = encryptionService;
     }
 
@@ -43,28 +41,16 @@ public class UserServiceImpl implements UserService {
         this.roleService = roleService;
     }
 
+
     @Override
     public User findByEmail(String email) {
         return userDAO.findByEmail(email);
     }
 
-  /*
-
-
-  //This is to mock user data
-  @Override
-  public User findByUsername(String username) {
-    return Users.getInstance().getUserbyusername(username);
-
-  }
-
-   */
-
     @Override
     public User findByUsername(String username) {
         return userDAO.findByUsername(username);
     }
-
 
     @Override
     public boolean checkUserExists(String username, String email) {
@@ -86,7 +72,7 @@ public class UserServiceImpl implements UserService {
     public User saveOrUpdateUser(User user) {
 
         if (user.getPassword() != null) {
-            user.setEncryptedPassword(encryptionService.encryptString(user.getPassword()));
+            user.setEncryptedPassword(encryptionService.encode(user.getPassword()));
         }
         if (user.getUserId() == null) {
             roleService.listRoles().forEach(role -> {
@@ -104,16 +90,9 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public List<Event> listUserEvents(Principal principal) {
-        User user = userDAO.findByUsername(principal.getName());
-        return user.getEvents();
-    }
-
-
     @Override
-    public void joinEvent(Principal principal, Event event) {
-        User user = userDAO.findByUsername(principal.getName());
-        user.getEvents().add(event);
+    public void joinEvent(User user, Event event) {
+        user.getAttendingEvents().add(event);
         userDAO.save(user);
     }
 
@@ -199,10 +178,15 @@ public class UserServiceImpl implements UserService {
         return topMatches;
     }
 
-    //?? How to mock data for this class in unit tests? recreating another class that has only two custom metohds (with mock data) is not reasonable.
+
     private List<userWithCountOfInterests> getSortedList(String username) {
         User currentUser = userDAO.findByUsername(username);
+
+        User test7 = userDAO.findByUsername("test7");
+        System.out.println("list6: finbyusername should now get test7: " + test7.getUsername());
         List<User> allUsers = userDAO.findAll();
+        System.out.println("List 4: these users were retrieved: ");
+        allUsers.forEach(u -> System.out.println(u.getUsername()));
         List<userWithCountOfInterests> usersWithNumberOfCommonInterests = new ArrayList<>();
 
         for (User each : allUsers) {
@@ -213,7 +197,7 @@ public class UserServiceImpl implements UserService {
         return usersWithNumberOfCommonInterests;
     }
 
-    protected int getNumberOfCommonInterests(User user1, User user2) {
+    private int getNumberOfCommonInterests(User user1, User user2) {
         int commonInterests = 0;
         Set<Interest> interests1 = user1.getInterests();
         Set<Interest> interests2 = user2.getInterests();
@@ -233,7 +217,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Event> listUserEvents(User user) {
-        return user.getEvents();
+        return user.getAttendingEvents();
     }
 
     private class userWithCountOfInterests implements Comparable<userWithCountOfInterests> {

@@ -17,13 +17,13 @@ public class SpringSecUserDetailsServiceImpl implements UserDetailsService {
     private Converter<User, UserDetails> userUserDetailsConverter;
 
     @Autowired
-    @Qualifier("UserServiceImpl")
+//    @Qualifier("UserServiceImpl")
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
     @Autowired
-    @Qualifier(value = "userToUserDetails")
+//    @Qualifier(value = "userToUserDetails")
     public void setUserUserDetailsConverter(Converter<User, UserDetails> userUserDetailsConverter) {
         this.userUserDetailsConverter = userUserDetailsConverter;
     }
