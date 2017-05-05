@@ -15,7 +15,7 @@
         <div>
             <ul class="nav navbar-nav">
                 <li ><a th:href="@{/events4me}">MY PROFILE</a></li>
-                <li class="active"><a th:text="${event.name}"></a></li>
+                <li class="active"><a>NEW EVENT</a></li>
             </ul>
         </div>
 
@@ -24,19 +24,15 @@
 <div class="container">
 
 
-        <form th:object="${event}" th:action="@{/event/update}" method="post">
+        <form th:object="${event}" th:action="@{/event}" method="post">
             <div class="col-md-4">
-                <div class="form-group row ">
-                    <label for="event-id-input">Event ID:</label>
-                    <input th:field="*{eventId}" class="form-control" type="text" value="Default value" id="event-id-input" readonly="readonly"></input>
-                </div>
                 <div class="form-group row ">
                     <label for="event-name-input">Event Name:</label>
                     <input th:field="*{name}" class="form-control" type="text" value="Default value" id="event-name-input"/>
                 </div>
                 <div class="row form-group  ">
                     <label for="event-time-input">Event Time:</label>
-                    <input th:field="*{dateTime}" class="form-control" type="text" value="Default value" id="event-time-input"/>
+                    <input th:field="*{dateTime}" class="form-control" type="text" value="Default value" id="event-time-input" placeholder="MM/DD/YY HH:MM PM/AM"/>
                 </div>
                 <div class="form-group row ">
                     <label for="event-location-input">Event Location:</label>

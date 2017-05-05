@@ -62,7 +62,7 @@ public class EventController {
     @RequestMapping(value = "/event/new")
     public String newProduct(Model model) {
         model.addAttribute("event", new Event());
-        return "event/eventform";
+        return "event/newEvent";
     }
 
     @RequestMapping(value = "/event", method = RequestMethod.POST)
@@ -71,6 +71,23 @@ public class EventController {
 
         return "redirect:/event/show/" + savedEvent.getEventId();
     }
+
+    @RequestMapping(value = "/event/update", method = RequestMethod.POST)
+    public String UpdateEvent(Event event){
+        Event eventToUpdate = eventService.getEventById(event.getEventId());
+        eventToUpdate.setCategory(event.getCategory());
+        eventToUpdate.setDateTime(event.getDateTime());
+        eventToUpdate.setDescription(event.getDescription());
+        eventToUpdate.setName(event.getName());
+        eventToUpdate.setParticipants(event.getParticipants());
+        eventToUpdate.setPhoto(event.getPhoto());
+        eventToUpdate.setPlace(event.getPlace());
+        eventService.saveOrUpdateEvent(eventToUpdate);
+
+        return "redirect:/event/show/" + eventToUpdate.getEventId();
+    }
+
+
 
     @RequestMapping("/event/delete/{id}")
     public String delete(@PathVariable Integer id){

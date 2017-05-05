@@ -1,7 +1,7 @@
 package com.metropolia.events4me.Controller;
 
-import com.metropolia.events4me.Converter.Period;
-import com.metropolia.events4me.Converter.TimeSettingConverter;
+import com.metropolia.events4me.converter.Period;
+import com.metropolia.events4me.converter.TimeSettingConverter;
 import com.metropolia.events4me.Model.Days;
 import com.metropolia.events4me.Model.TimeSetting;
 import com.metropolia.events4me.Model.User;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by Dmitry on 30.04.2017.

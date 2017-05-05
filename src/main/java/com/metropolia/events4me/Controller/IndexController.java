@@ -70,15 +70,9 @@ public class IndexController {
         model.addAttribute("userEvents", user.getAttendingEvents());
         model.addAttribute("userFriend", user.getFriends());
         //Other information...
-        return "events4me";
-    }
-
-    //Users private profile (for testing) *REMEMBER TO MOVE TO CORRECT CONTROLLER*
-    @RequestMapping("events4me/profile/{id}")
-    public String getUser(@PathVariable Integer id, Model model){
-        model.addAttribute("user", userService.getById(id));
         return "myprofile";
     }
+
 
     @RequestMapping("/events4me/discoverevents")
     public String discoverEvents(Principal principal, Model model){
