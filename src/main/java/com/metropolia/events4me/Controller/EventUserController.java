@@ -49,10 +49,13 @@ public class EventUserController {
     }
     */
 
-    @RequestMapping(value = "join/event/{id}", method = RequestMethod.POST)
-    public void joinEventSubmit(Principal principal, @PathVariable Integer id) {
+
+    @RequestMapping(value = "/join/event/{id}", method = RequestMethod.POST)
+    public @ResponseBody
+    String joinEventSubmit(Principal principal, @PathVariable Integer id) {
         User user = userService.findByUsername(principal.getName());
         eventUserService.joinEvent(user, id);
+        return "event joined";
     }
 
     @RequestMapping(value = "/newEvent", method = RequestMethod.GET)

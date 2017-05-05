@@ -1,13 +1,13 @@
 $(document).ready(function () {
     $("#join-button").click(function() {
         var urlArray= window.location.href.split("/");
-        urlArray = urlArray[5];
+        urlArray = urlArray[5][0];
         $.ajax({
             async: "true",
-            type: "GET",
+            type: "POST",
             url: "/join/event/" + urlArray,
-            success: function() {
-                console.log("Event joined");
+            success: function(data) {
+                console.log(data);
 
 
             }

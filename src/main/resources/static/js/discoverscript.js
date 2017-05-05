@@ -16,27 +16,15 @@ $(document).ready(function () {
 
                 var div = document.createElement("div");
                 li.appendChild(div);
-                div.innerHTML = singleEvent.name;
+                div.innerHTML = singleEvent.title;
 
-                var mins = singleEvent.dateTime.minute;
-                if (singleEvent.dateTime.minute < 10) {
-                    var mins = "0" + singleEvent.dateTime.minute;
+                var mins = singleEvent.endTime.minute;
+                if (singleEvent.endTime.minute < 10) {
+                    var mins = "0" + singleEvent.endTime.minute;
                 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-                div.innerHTML += " " + singleEvent.dateTime.dayOfMonth + "." + singleEvent.dateTime.monthValue;
-                div.innerHTML += "<br/>" + singleEvent.dateTime.dayOfWeek + " Starting:" + singleEvent.dateTime.hour + ":" + mins;
+                div.innerHTML += " " + singleEvent.endTime.dayOfMonth + "." + singleEvent.endTime.monthValue;
+                div.innerHTML += "<br/>" + singleEvent.endTime.dayOfWeek + " Starting:" + singleEvent.endTime.hour + ":" + mins;
 
                 var form = document.createElement("form");
                 form.setAttribute("action","/event/show/" + singleEvent.eventId)

@@ -1,6 +1,5 @@
 package com.metropolia.events4me.bootstrap;
 
-import com.metropolia.events4me.Converter.TimeSettingConverter;
 import com.metropolia.events4me.Model.*;
 import com.metropolia.events4me.Model.security.Role;
 import com.metropolia.events4me.Service.EventService;
