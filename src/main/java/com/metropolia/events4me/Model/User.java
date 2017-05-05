@@ -135,7 +135,9 @@ public class User {
     }
 
     public void attendEvent(Event event) {
-        this.attendingEvents.add(event);
+        if(!this.attendingEvents.contains(event)){
+            this.attendingEvents.add(event);
+        }
     }
 
     public TimeSetting getTimeAvailability() {
