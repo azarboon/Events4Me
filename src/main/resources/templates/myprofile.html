@@ -61,152 +61,25 @@
 <div class="container">
     <div class="row section recentworks topspace">
 
-        <h2 class="section-title"><span>Upcoming events</span></h2>
+        <h2 class="section-title"><span>Events:</span></h2>
 
-        <div class="thumbnails recentworks row">
+        <div class="thumbnails recentworks" id="attending" th:each="state : ${userEvents}" th:value="${state.title}">
 
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png" title="Dis is a picture">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" >
+                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png" >
 						<span class="img">
 							<img src="../img/placeholder.png" alt=""/>
 							<span class="cover"><span class="more">View bigger</span></span>
 						</span>
-                    <span class="title">Sample title - big data solutions</span>
+                    <span class="title" th:text="' '+${state.title}"></span>
                 </a>
 
             </div>
 
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Pure ipsum - development services for people</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Lorem studios - interior and patio design</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Pure ipsum - development services for people</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Lorem studios - interior and patio design</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Lorem studios - interior and patio design</span>
-                </a>
-
-            </div>
         </div>
 
-        <div class="section topspace">
-            <h2 class="section-title"><span>Past events</span></h2>
-        </div>
     </div>
-    <div class="row section recentworks topspace">
 
-        <div class="thumbnails recentworks row">
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png" title="Dis is a picture">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Sample title - big data solutions</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Pure ipsum - development services for people</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Lorem studios - interior and patio design</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Pure ipsum - development services for people</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Lorem studios - interior and patio design</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Lorem studios - interior and patio design</span>
-                </a>
-
-            </div>
-        </div>
-    </div>
 </div>
 </body>
 </html>
