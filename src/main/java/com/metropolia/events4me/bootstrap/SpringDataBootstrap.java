@@ -250,32 +250,32 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
     private void loadEvents() {
         Event sportEvent = new Event();
-        sportEvent.setName("Sport event");
-        sportEvent.setDateTime(LocalDateTime.of(2017, 6, 2, 13, 0));
+        sportEvent.setTitle("Sport event");
+        sportEvent.setEndTime(LocalDateTime.of(2017, 6, 2, 13, 0));
         sportEvent.setCategory(Interest.SPORT);
         eventService.saveOrUpdateEvent(sportEvent);
 
         Event partyEvent = new Event();
-        partyEvent.setName("Party event");
-        partyEvent.setDateTime(LocalDateTime.of(2017, 6, 10, 13, 0));
+        partyEvent.setTitle("Party event");
+        partyEvent.setEndTime(LocalDateTime.of(2017, 6, 10, 13, 0));
         partyEvent.setCategory(Interest.PARTY);
         eventService.saveOrUpdateEvent(partyEvent);
 
         Event businessEvent = new Event();
-        businessEvent.setName("Business event");
-        businessEvent.setDateTime(LocalDateTime.of(2017, 6, 2, 15, 0));
+        businessEvent.setTitle("Business event");
+        businessEvent.setEndTime(LocalDateTime.of(2017, 6, 2, 15, 0));
         businessEvent.setCategory(Interest.BUSINESS);
         eventService.saveOrUpdateEvent(businessEvent);
 
         Event businessEventPast = new Event();
-        businessEventPast.setName("Business event past");
-        businessEventPast.setDateTime(LocalDateTime.of(2017, 2, 2, 13, 0));
+        businessEventPast.setTitle("Business event past");
+        businessEventPast.setEndTime(LocalDateTime.of(2017, 2, 2, 13, 0));
         businessEventPast.setCategory(Interest.BUSINESS);
         eventService.saveOrUpdateEvent(businessEventPast);
 
         Event sportEventPast = new Event();
-        sportEventPast.setName("Sport event past");
-        sportEventPast.setDateTime(LocalDateTime.of(2017, 2, 3, 13, 0));
+        sportEventPast.setTitle("Sport event past");
+        sportEventPast.setEndTime(LocalDateTime.of(2017, 2, 3, 13, 0));
         sportEventPast.setCategory(Interest.SPORT);
         eventService.saveOrUpdateEvent(sportEventPast);
     }

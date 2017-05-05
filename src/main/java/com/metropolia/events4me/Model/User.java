@@ -1,5 +1,6 @@
 package com.metropolia.events4me.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.metropolia.events4me.Model.security.Role;
 
 import java.util.ArrayList;
@@ -27,10 +28,12 @@ public class User {
     private String encryptedPassword;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Event> adminingEvents;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinTable
+    @JsonIgnore
     private List<Role> roles = new ArrayList<>();
     private String birthday;
     private String country;
@@ -38,16 +41,20 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Interest.class, fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Interest> interests = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Event> attendingEvents;
     private byte[] photo;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<User> friends = new HashSet<User>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<User> pendingFriendRequests = new HashSet<User>();
 
     @OneToOne

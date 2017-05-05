@@ -23,7 +23,7 @@ public class EventServiceImpl implements EventService {
     }
 
     private Sort sortByDateTimeAsc() {
-        return new Sort(Sort.Direction.ASC, "dateTime");
+        return new Sort(Sort.Direction.ASC, "endTime");
     }
 
     @Override

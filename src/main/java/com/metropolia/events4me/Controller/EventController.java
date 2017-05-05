@@ -76,12 +76,11 @@ public class EventController {
     public String UpdateEvent(Event event){
         Event eventToUpdate = eventService.getEventById(event.getEventId());
         eventToUpdate.setCategory(event.getCategory());
-        eventToUpdate.setDateTime(event.getDateTime());
+        eventToUpdate.setEndTime(event.getEndTime());
         eventToUpdate.setDescription(event.getDescription());
-        eventToUpdate.setName(event.getName());
-        eventToUpdate.setParticipants(event.getParticipants());
-        eventToUpdate.setPhoto(event.getPhoto());
-        eventToUpdate.setPlace(event.getPlace());
+        eventToUpdate.setTitle(event.getTitle());
+        eventToUpdate.setConfirmedAttendees(event.getConfirmedAttendees());
+        eventToUpdate.setLocation(event.getLocation());
         eventService.saveOrUpdateEvent(eventToUpdate);
 
         return "redirect:/event/show/" + eventToUpdate.getEventId();
