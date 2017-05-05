@@ -212,3 +212,24 @@ body{
     font-size: 1em;
     margin: 15px 0 0;
 }
+
+.image-middle {
+    margin-top: 10%;
+}
+
+.image-middle .img-circle {
+    display: block;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border: 9px solid rgba(0, 0, 0, 0.05);
+    margin: 0 auto;
+}
+
+.signin-left {
+    float: left;
+}
+
+.signin-right {
+    float: right;
+}
