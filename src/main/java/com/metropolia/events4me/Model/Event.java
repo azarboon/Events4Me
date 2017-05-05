@@ -56,13 +56,17 @@ public class Event {
     public void acceptAttendee(User attendee) {
         if (pendingAttendees.contains(attendee)) {
             pendingAttendees.remove(attendee);
-            this.confirmedAttendees.add(attendee);
+            if(!this.confirmedAttendees.contains(attendee)){
+                this.confirmedAttendees.add(attendee);
+            }
             attendee.attendEvent(this);
         }
     }
 
     public void acceptEnrollment(User attendee) {
-        this.pendingAttendees.add(attendee);
+        if(!this.pendingAttendees.contains(attendee)){
+            this.pendingAttendees.add(attendee);
+        }
     }
 
 
