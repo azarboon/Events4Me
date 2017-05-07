@@ -69,7 +69,8 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 //        test.getTimeMap().put(Days.Friday, i);
 //        test.getTimeMap().put(Days.Saturday, i);
 //        test.getTimeMap().put(Days.Sunday, i);
-//        TimeSettingConverter.convertForTemplate(test);
+//        TimeSettingConverter converter = TimeSettingConverter.convertForTemplate(test);
+//        TimeSetting timeSetting = TimeSettingConverter.convertForDatabase(converter);
 
         for (User u : userService.listUsers()) {
             TimeSetting  timeSetting = new TimeSetting();

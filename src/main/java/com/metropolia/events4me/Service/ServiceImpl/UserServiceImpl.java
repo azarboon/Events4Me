@@ -1,6 +1,7 @@
 package com.metropolia.events4me.Service.ServiceImpl;
 
 import com.metropolia.events4me.DAO.UserDAO;
+import com.metropolia.events4me.Model.Days;
 import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Model.Interest;
 import com.metropolia.events4me.Model.User;
@@ -9,10 +10,7 @@ import com.metropolia.events4me.Service.UserService;
 import com.metropolia.events4me.Service.security.EncryptionService;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -219,6 +217,8 @@ public class UserServiceImpl implements UserService {
     public List<Event> listUserEvents(User user) {
         return user.getAttendingEvents();
     }
+
+
 
     private class userWithCountOfInterests implements Comparable<userWithCountOfInterests> {
 

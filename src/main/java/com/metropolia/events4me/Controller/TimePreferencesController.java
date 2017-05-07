@@ -1,6 +1,5 @@
 package com.metropolia.events4me.Controller;
 
-import com.metropolia.events4me.Converter.Period;
 import com.metropolia.events4me.Converter.TimeSettingConverter;
 import com.metropolia.events4me.Model.Days;
 import com.metropolia.events4me.Model.TimeSetting;
@@ -8,22 +7,18 @@ import com.metropolia.events4me.Model.User;
 import com.metropolia.events4me.Service.TimeSettingService;
 import com.metropolia.events4me.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
-import java.util.ArrayList;
-
-/**
- * Created by Dmitry on 30.04.2017.
- */
 
 @Controller
-public class TestControllerTimeSet {
+public class TimePreferencesController {
 
     @Autowired
     private TimeSettingService timeSettingService;
@@ -31,14 +26,7 @@ public class TestControllerTimeSet {
     @Autowired
     private UserService userService;
 
-//    @RequestMapping(value = "/settimepref", method = RequestMethod.GET)
-//    public String setTime(Principal principal, Model model) {
-//        User user = userService.findByUsername(principal.getName());
-//        TimeSetting timeSetting = user.getTimeAvailability();
-//        model.addAttribute("user", user);
-//        return "timepref";
-//    }
-
+    // Method shows the form for setting up time preferences
     @RequestMapping(value = "/settimepref", method = RequestMethod.GET)
     public String setTime(Principal principal, Model model) {
         User user = userService.findByUsername(principal.getName());
@@ -46,24 +34,25 @@ public class TestControllerTimeSet {
         TimeSettingConverter periodsWrapper = TimeSettingConverter.convertForTemplate(timeSetting);
         model.addAttribute("periodsWrapper", periodsWrapper);
         model.addAttribute("settingsId", timeSetting.getId());
+        model.addAttribute("days", Days.values());
         return "timepref";
     }
 
-//    @RequestMapping(value = "/setsettings", method = RequestMethod.POST)
-//    public String updateTime(@RequestParam Map<String, Object> dayTimeSetting) {
-//
-//
-//        return "myprofile";
-//    }
-
+    // Updates user's time preferences in database
     @RequestMapping(value = "/setsettings", method = RequestMethod.POST)
-    @ResponseBody
-    public String updateTime(@ModelAttribute("periodsWrapper") TimeSettingConverter periodsWrapper) {
-        ArrayList<Period> periods = periodsWrapper.getPeriodsList();
-        for (Period p : periods) {
-            System.out.println(p.getStart());
-            System.out.println(p.getEnd());
-        }
-        return "hello world";
+    public ResponseEntity<?> updateTime(@ModelAttribute("periodsWrapper") TimeSettingConverter periodsWrapper, @ModelAttribute("settingsId") int id) {
+        TimeSetting timeSetting = timeSettingService.getTimeSettingById(id);
+        TimeSetting converted = TimeSettingConverter.convertForDatabase(periodsWrapper);
+        timeSetting.setTimeMap(converted.getTimeMap());
+        timeSettingService.saveOrUpdate(timeSetting);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // Returns JSON object with time preferences
+    @RequestMapping(value = "/show/timesettings", method = RequestMethod.GET)
+    public ResponseEntity<?> lisTimeSettings(Principal principal) {
+        TimeSetting timeSetting = userService.findByUsername(principal.getName()).getTimeAvailability();
+        TimeSettingConverter periodsWrapper = TimeSettingConverter.convertForTemplate(timeSetting);
+        return new ResponseEntity<>(periodsWrapper.getPeriodsList(), HttpStatus.OK);
     }
 }

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
  * This class implements conversion between LocalDateTime
  * and Timestamp in order to be persisted in database
  */
+
 @Converter(autoApply = true)
 public class LocalDateTimeAttributeConverter implements AttributeConverter<LocalDateTime, Timestamp> {
 

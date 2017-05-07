@@ -9,8 +9,12 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * Created by Dmitry on 30.04.2017.
+ * This class serves as a wrapper for the list of Periods
+ * and contains two static utils methods for converting
+ * TimeSetting object for binding it with the template
+ * or storing into database
  */
+
 @Component
 public class TimeSettingConverter {
 
@@ -28,6 +32,9 @@ public class TimeSettingConverter {
         this.periodsList = periodsList;
     }
 
+
+    // The method converts TimeSettings object's Map<Days, String>
+    // TimeSettingConverter wrapper, ArrayList<Periods> for displaying into template
     public static TimeSettingConverter convertForTemplate(TimeSetting timeSetting) {
 
         TimeSettingConverter periodsWrapper = new TimeSettingConverter();
@@ -42,5 +49,21 @@ public class TimeSettingConverter {
         }
 
         return periodsWrapper;
+    }
+
+    // Method converts TimeSettingConverter object into TimeSetting
+    // after updating time preferences for storing into database
+    public static TimeSetting convertForDatabase(TimeSettingConverter periodsWrapper) {
+
+        TimeSetting timeSetting = new TimeSetting();
+        Map<Days, String> timeMap = timeSetting.getTimeMap();
+        ArrayList<Period> periodsList = periodsWrapper.getPeriodsList();
+
+        for (int i = 0; i < periodsList.size(); i++) {
+            String timeString = periodsList.get(i).getStart() + ";" + periodsList.get(i).getEnd();
+            timeMap.put(Days.values()[i], timeString);
+        }
+
+        return timeSetting;
     }
 }
