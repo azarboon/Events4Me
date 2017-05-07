@@ -76,6 +76,7 @@ public class EventUserServiceImpl implements EventUserService {
   public String createEvent(User user, Event event) {
     if(timeSlotIsFree(event)){
       user.organizeNewEvent(event);
+      //event.setOrganizer(user);
       if(!createEventOnCalendar(event)){
         return "There was an error. Couldn't create the event on Calendar.";
       }
@@ -173,7 +174,7 @@ public class EventUserServiceImpl implements EventUserService {
     //TODO: change the path to relative
     try {
       credentials = GoogleCredential
-          .fromStream(new FileInputStream("/home/mahdiaza/Dropbox/Metropolia/software-structure/Events4Me/src/main/resources/Events4Me.json"))
+          .fromStream(new FileInputStream("src/main/resources/Events4Me.json"))
           .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
     } catch (IOException e) {
       e.printStackTrace();
