@@ -22,9 +22,14 @@ import com.metropolia.events4me.Service.EventService;
 import com.metropolia.events4me.Service.EventUserService;
 import com.metropolia.events4me.Service.UserService;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.GeneralSecurityException;
+import java.security.KeyStore;
+import java.security.PrivateKey;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -113,7 +118,7 @@ public class EventUserServiceImpl implements EventUserService {
       e.printStackTrace();
       return false;
     }
-    System.out.printf("mmm Event created: %s\n", googleEvent.getHtmlLink());
+    System.out.printf("Event created: %s\n", googleEvent.getHtmlLink());
 
     return true;
   }
@@ -169,20 +174,48 @@ public class EventUserServiceImpl implements EventUserService {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    Collection<String> scope = Collections.singleton(CalendarScopes.CALENDAR);
+    FileInputStream auth_credentials = null;
+    try {
+      auth_credentials = new FileInputStream("src/main/resources/Events4Me.p12");
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
 
     GoogleCredential credentials = null;
-    //TODO: change the path to relative
     try {
-      credentials = GoogleCredential
-          .fromStream(new FileInputStream("src/main/resources/Events4Me.json"))
-          .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
+      credentials =  createCredentialForServiceAccount(HTTP_TRANSPORT, JSON_FACTORY, System.getenv("SERVICE_ACCOUNT_ID"), scope, auth_credentials);
     } catch (IOException e) {
+      e.printStackTrace();
+    } catch (GeneralSecurityException e) {
       e.printStackTrace();
     }
 
     Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
-        .setApplicationName("applicationName").build();
+        .setApplicationName("Events4ME").build();
     return service;
+  }
+
+  public  GoogleCredential createCredentialForServiceAccount(
+      HttpTransport transport,
+      JsonFactory jsonFactory,
+      String serviceAccountId,
+      Collection<String> serviceAccountScopes, InputStream p12file) throws GeneralSecurityException, IOException {
+
+
+    // need an environmental variable as P12_PASSWORD, which includes paassword
+    String p12Password = System.getenv("P12_PASSWORD");
+    KeyStore keystore = KeyStore.getInstance("PKCS12");
+
+    keystore.load(p12file, p12Password.toCharArray());
+    PrivateKey key = (PrivateKey) keystore.getKey("privatekey", p12Password.toCharArray());
+
+    return new GoogleCredential.Builder().setTransport(transport)
+        .setJsonFactory(jsonFactory)
+        .setServiceAccountId(serviceAccountId)
+        .setServiceAccountScopes(serviceAccountScopes)
+        .setServiceAccountPrivateKey(key)
+        .build();
   }
 
 

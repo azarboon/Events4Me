@@ -296,7 +296,4 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
   }
 
-  private void loadLocations() {
-
-  }
 }
