@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -22,8 +23,8 @@ public class Event {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer eventId;
-  //?? between Event and Locaiton, locaitoni s the owner so cascade should be done on LOcaiton but it doesnt work like that. why?
   @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "location_id")
   private Location location;
   private String title;
   private String description;
@@ -31,7 +32,7 @@ public class Event {
 
   @ManyToOne
   private User organizer;
-  private LocalDateTime startDate;
+  private LocalDateTime startTime;
   private LocalDateTime endTime;
   @Enumerated(EnumType.STRING)
   private Interest category;
@@ -46,12 +47,12 @@ public class Event {
     this.pendingAttendees = new HashSet<>();
   }
 
-  public LocalDateTime getStartDate() {
-    return startDate;
+  public LocalDateTime getStartTime() {
+    return startTime;
   }
 
-  public void setStartDate(LocalDateTime startDate) {
-    this.startDate = startDate;
+  public void setStartTime(LocalDateTime startTime) {
+    this.startTime = startTime;
   }
 
   public Set<User> getPendingAttendees() {

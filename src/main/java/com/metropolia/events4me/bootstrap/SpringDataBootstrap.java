@@ -14,7 +14,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -230,18 +229,18 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
       Event sportEvent = new Event();
         sportEvent.setTitle("Event in Cafe Mascot");
-        sportEvent.setStartDate(LocalDateTime.of(2017, 5, 8, 13, 0));
+        sportEvent.setStartTime(LocalDateTime.of(2017, 5, 8, 13, 0));
         sportEvent.setEndTime(LocalDateTime.of(2017, 5, 8, 18, 0));
         sportEvent.setLocation(cafe_mascot);
         eventUserService.createEvent(test5, sportEvent);
 
 
+      test5.sendFriendRequestTo(test6);
+      test6.acceptFriend(test5);
+/* change following to use serviceimplementations
 
 
 
-        test5.sendFriendRequestTo(test6);
-        test6.acceptFriend(test5);
-/* test creating and joining event without serviceImplementations
 
         test5.organizeNewEvent(sportEvent);
         test6.enrolEvent(sportEvent);
@@ -259,6 +258,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         userService.saveOrUpdateUser(test7);
         userService.saveOrUpdateUser(test8);
         eventService.saveOrUpdateEvent(sportEvent);
+
       locationService.saveOrUpdateLocation(cafe_mascot);
     }
 

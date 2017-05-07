@@ -94,7 +94,7 @@ public class EventUserServiceImpl implements EventUserService {
         .setLocation(event.getLocation().getAddress())
         .setDescription(event.getDescription());
 
-    DateTime startDate = new DateTime(event.getStartDate().toString() + ":00+03:00");
+    DateTime startDate = new DateTime(event.getStartTime().toString() + ":00+03:00");
     EventDateTime start = new EventDateTime()
         .setDateTime(startDate)
         .setTimeZone("Europe/Helsinki");
@@ -121,7 +121,7 @@ public class EventUserServiceImpl implements EventUserService {
   private boolean timeSlotIsFree(Event event) {
     String calendarID = event.getLocation().getCalendarID();
     FreeBusyRequest fbrq = new FreeBusyRequest();
-    DateTime startDate = new DateTime(event.getStartDate().toString() + ":00+03:00");
+    DateTime startDate = new DateTime(event.getStartTime().toString() + ":00+03:00");
     DateTime endTime = new DateTime(event.getEndTime().toString() + ":00+03:00");
 
     fbrq.setTimeMin(startDate);

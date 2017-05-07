@@ -18,7 +18,7 @@ public class Location {
   private String name;
   private String address;
   //TODO: double check relationship with event
-  @OneToMany(mappedBy = "location")
+  @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
   private Set<Event> events;
   private String calendarID;
   @Id
