@@ -14,6 +14,7 @@ import java.util.Collection;
  * Conversion of User type to UserDetails
  * Needed for security configuration
  */
+
 @Component
 public class UserToUserDetails implements Converter<User, UserDetails> {
 

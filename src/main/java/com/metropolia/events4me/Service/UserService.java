@@ -28,6 +28,10 @@ public interface UserService {
 
     List<Event> listUserEvents(User user);
 
+    List<Event> listUserFutureEvents(User user);
+
+    List<Event> listUserPastEvents(User user);
+
     void joinEvent(User user, Event event);
 
     List<User> getUsersWithCommonInterest(String username);

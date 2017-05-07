@@ -1,5 +1,12 @@
+#Development
 applications:
-- name: events
+- name: events4me
   memory: 512M
-  host: eventstest
+  host: events4mebeta
   path: target/socialmedia-0.0.1-SNAPSHOT.jar
+
+#Production
+#- name: events4merelease
+#  memory: 1024M
+#  host: eventsforme2017
+#  path: target/socialmedia-0.0.1-SNAPSHOT.jar

@@ -1,6 +1,7 @@
 package com.metropolia.events4me.Service.ServiceImpl;
 
 import com.metropolia.events4me.DAO.UserDAO;
+import com.metropolia.events4me.Model.Days;
 import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Model.Interest;
 import com.metropolia.events4me.Model.User;
@@ -9,10 +10,9 @@ import com.metropolia.events4me.Service.UserService;
 import com.metropolia.events4me.Service.security.EncryptionService;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -218,6 +218,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Event> listUserEvents(User user) {
         return user.getAttendingEvents();
+    }
+
+    @Override
+    public List<Event> listUserFutureEvents(User user) {
+        return user.getAttendingEvents().stream().filter(event -> event.getEndTime().isAfter(LocalDateTime.now()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Event> listUserPastEvents(User user) {
+        return user.getAttendingEvents().stream().filter(event -> event.getEndTime().isBefore(LocalDateTime.now()))
+                .collect(Collectors.toList());
     }
 
     private class userWithCountOfInterests implements Comparable<userWithCountOfInterests> {

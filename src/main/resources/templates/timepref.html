@@ -10,9 +10,10 @@
 
 <form action="#" th:action="@{/setsettings}" th:object="${periodsWrapper}" method="post">
 
-        <input type="hidden" th:value="${settingsId}"/>
+        <input type="hidden" th:value="${settingsId}" name="settingsId"/>
 
         <div th:each="period, stat : *{periodsList}">
+            <span th:text="${days[__${stat.index}__]}"></span>
         Start<label>
             <input type="time" th:field="*{periodsList[__${stat.index}__].start}"/>
         </label>
