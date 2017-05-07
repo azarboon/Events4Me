@@ -1,5 +1,5 @@
 applications:
-- name: eventsForMe
+- name: events
   memory: 512M
-  host: eventsForMe
+#  host: eventsForMe
   path: target/socialmedia-0.0.1-SNAPSHOT.jar
