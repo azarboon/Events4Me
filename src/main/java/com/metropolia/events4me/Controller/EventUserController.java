@@ -59,10 +59,11 @@ public class EventUserController {
         return "createEventForm";
     }
 
+
     @RequestMapping(value = "/newEvent", method = RequestMethod.POST)
-    public String newEventSubmit(@ModelAttribute Event event, Principal principal) {
+    public String newEventSubmit(@ModelAttribute Event event, Principal principal, Model model) {
         User organizer = userService.findByUsername(principal.getName());
-        eventUserService.createEvent(organizer, event);
+        model.addAttribute("result", eventUserService.createEvent(organizer, event));
         return "createEventResult";
     }
 }

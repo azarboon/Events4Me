@@ -3,6 +3,8 @@ package com.metropolia.events4me.bootstrap;
 import com.metropolia.events4me.Model.*;
 import com.metropolia.events4me.Model.security.Role;
 import com.metropolia.events4me.Service.EventService;
+import com.metropolia.events4me.Service.EventUserService;
+import com.metropolia.events4me.Service.LocationService;
 import com.metropolia.events4me.Service.RoleService;
 import com.metropolia.events4me.Service.TimeSettingService;
 import com.metropolia.events4me.Service.UserService;
@@ -25,6 +27,8 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     private EventService eventService;
     private RoleService roleService;
     private TimeSettingService timeSettingService;
+    private LocationService locationService;
+    private EventUserService eventUserService;
 
     @Autowired
     public void setTimeSettingService(TimeSettingService timeSettingService) {
@@ -32,7 +36,6 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     }
 
     @Autowired
-//    @Qualifier("UserServiceImpl")
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
@@ -47,6 +50,14 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         this.roleService = roleService;
     }
 
+    @Autowired
+    public void setLocationService(LocationService locationService){
+      this.locationService = locationService;
+    }
+    @Autowired
+    public void setEventUserService(EventUserService eventUserService){
+      this.eventUserService = eventUserService;
+    }
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         loadEvents();
@@ -181,12 +192,6 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
 
 
-    /*
-    User retrieved = userService.findByUsername("test5");
-    retrieved.setFirstName("another name");
-    userService.saveOrUpdateUser(retrieved);
-    */
-
         User test6 = new User();
         test6.setUsername("test6");
         test6.setFirstName("firstname6");
@@ -216,16 +221,28 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         test8.getInterests().add(Interest.BUSINESS);
         test8.getInterests().add(Interest.NATURE);
 
-        Event sportEvent = new Event();
-        sportEvent.setTitle("Sport event");
-        sportEvent.setEndTime(LocalDateTime.of(2017, 6, 2, 13, 0));
-        sportEvent.setCategory(Interest.SPORT);
+      //TODO: ensure that location can be persisted and retrieved from DB
+      Location cafe_mascot = new Location();
+      cafe_mascot.setAddress("Neljäs linja 2, 00530 Helsinki");
+      cafe_mascot.setCalendarID("qo8nro2mtp67dn78qk36b60vqg@group.calendar.google.com");
+      cafe_mascot.setName("Cafe Mascot");
+
+
+      Event sportEvent = new Event();
+        sportEvent.setTitle("Event in Cafe Mascot");
+        sportEvent.setStartDate(LocalDateTime.of(2017, 5, 8, 13, 0));
+        sportEvent.setEndTime(LocalDateTime.of(2017, 5, 8, 18, 0));
+        sportEvent.setLocation(cafe_mascot);
+        eventUserService.createEvent(test5, sportEvent);
+
+
+
 
 
         test5.sendFriendRequestTo(test6);
         test6.acceptFriend(test5);
+/* test creating and joining event without serviceImplementations
 
-        //TODO: make the event have the ablity for automatic acceptance
         test5.organizeNewEvent(sportEvent);
         test6.enrolEvent(sportEvent);
         sportEvent.acceptAttendee(test6);
@@ -234,11 +251,15 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         sportEvent.acceptAttendee(test8);
 
 
+*/
+
+
         userService.saveOrUpdateUser(test5);
         userService.saveOrUpdateUser(test6);
         userService.saveOrUpdateUser(test7);
         userService.saveOrUpdateUser(test8);
         eventService.saveOrUpdateEvent(sportEvent);
+      locationService.saveOrUpdateLocation(cafe_mascot);
     }
 
     private void loadEvents() {
@@ -271,6 +292,12 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         sportEventPast.setEndTime(LocalDateTime.of(2017, 2, 3, 13, 0));
         sportEventPast.setCategory(Interest.SPORT);
         eventService.saveOrUpdateEvent(sportEventPast);
+
+
+    }
+
+    private void loadLocations(){
+
 
     }
 }

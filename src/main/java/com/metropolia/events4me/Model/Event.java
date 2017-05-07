@@ -22,7 +22,8 @@ public class Event {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer eventId;
-  @Enumerated(EnumType.STRING)
+  //?? between Event and Locaiton, locaitoni s the owner so cascade should be done on LOcaiton but it doesnt work like that. why?
+  @ManyToOne(cascade = CascadeType.ALL)
   private Location location;
   private String title;
   private String description;
@@ -30,8 +31,8 @@ public class Event {
 
   @ManyToOne
   private User organizer;
+  private LocalDateTime startDate;
   private LocalDateTime endTime;
-
   @Enumerated(EnumType.STRING)
   private Interest category;
   private int maxAttenddees;
@@ -39,25 +40,37 @@ public class Event {
   private Set<User> confirmedAttendees;
   @ManyToMany(cascade = CascadeType.ALL)
   private Set<User> pendingAttendees;
-
   private BigDecimal price;
-
-
   public Event() {
     this.confirmedAttendees = new HashSet<>();
     this.pendingAttendees = new HashSet<>();
   }
 
+  public LocalDateTime getStartDate() {
+    return startDate;
+  }
+
+  public void setStartDate(LocalDateTime startDate) {
+    this.startDate = startDate;
+  }
+
+  public Set<User> getPendingAttendees() {
+    return pendingAttendees;
+  }
+
+  public void setPendingAttendees(Set<User> pendingAttendees) {
+    this.pendingAttendees = pendingAttendees;
+  }
 
   public void acceptAttendee(User attendee) {
-    if(pendingAttendees.contains(attendee)){
+    if (pendingAttendees.contains(attendee)) {
       pendingAttendees.remove(attendee);
       this.confirmedAttendees.add(attendee);
       attendee.attendEvent(this);
     }
   }
 
-  public void acceptEnrollment(User attendee){
+  public void acceptEnrollment(User attendee) {
     this.pendingAttendees.add(attendee);
   }
 
