@@ -10,7 +10,9 @@ import com.metropolia.events4me.Service.UserService;
 import com.metropolia.events4me.Service.security.EncryptionService;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -218,7 +220,17 @@ public class UserServiceImpl implements UserService {
         return user.getAttendingEvents();
     }
 
+    @Override
+    public List<Event> listUserFutureEvents(User user) {
+        return user.getAttendingEvents().stream().filter(event -> event.getEndTime().isAfter(LocalDateTime.now()))
+                .collect(Collectors.toList());
+    }
 
+    @Override
+    public List<Event> listUserPastEvents(User user) {
+        return user.getAttendingEvents().stream().filter(event -> event.getEndTime().isBefore(LocalDateTime.now()))
+                .collect(Collectors.toList());
+    }
 
     private class userWithCountOfInterests implements Comparable<userWithCountOfInterests> {
 
