@@ -177,7 +177,7 @@ public class EventUserServiceImpl implements EventUserService {
     Collection<String> scope = Collections.singleton(CalendarScopes.CALENDAR);
     FileInputStream auth_credentials = null;
     try {
-      auth_credentials = new FileInputStream("src/main/resources/Events4Me.p12");
+      auth_credentials = new FileInputStream("src/main/resources/Events4me.p12");
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }

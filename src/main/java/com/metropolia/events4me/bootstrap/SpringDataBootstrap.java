@@ -231,7 +231,6 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     sportEvent.setStartTime(LocalDateTime.of(2017, 5, 8, 13, 0));
     sportEvent.setEndTime(LocalDateTime.of(2017, 5, 8, 18, 0));
     sportEvent.setLocation(cafe_mascot);
-    //sportEvent.setOrganizer(test6);
     System.out.println("result of event creation:" + eventUserService.createEvent(test6, sportEvent));
 
 /* change following to use serviceimplementations
