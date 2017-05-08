@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface UserDAO extends CrudRepository<User, Integer> {
 
-
-    //TODO: delete this if no use
     User findByEmail(String email);
 
     User findByUsername(String username);
