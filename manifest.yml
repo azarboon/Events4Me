@@ -10,6 +10,6 @@ applications:
 - name: events4me
   memory: 1024M
   host: events4me
-  timeout: 600
-  health-check-type: process
+#  timeout: 600
+#  health-check-type: process
   path: target/socialmedia-0.0.1-SNAPSHOT.jar
