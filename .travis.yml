@@ -2,3 +2,4 @@ language: java
 script: ./mvnw install -DskipTests=false -Dmaven.javadoc.skip=true -B -V -e
 jdk:
   - oraclejdk8
+after_success: mvn spring-boot:run
