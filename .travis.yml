@@ -7,4 +7,4 @@ deploy:
     secure: "010f71d5-4637-492a-8c99-56ee7d69b002"
   app: software-structures
   strategy: git
-
+after_deploy: "./mvnw spring-boot:run"
