@@ -118,8 +118,10 @@ public class User {
 
 
     public void organizeNewEvent(Event event) {
-        event.setOrganizer(this);
-        this.adminingEvents.add(event);
+        if(!adminingEvents.contains(event)){
+            event.setOrganizer(this);
+            this.adminingEvents.add(event);
+        }
     }
 
     public Set<Event> getAdminingEvents() {

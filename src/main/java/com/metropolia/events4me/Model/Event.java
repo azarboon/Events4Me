@@ -24,6 +24,29 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer eventId;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Event event = (Event) o;
+
+        if (location != event.location) return false;
+        if (title != null ? !title.equals(event.title) : event.title != null) return false;
+        if (description != null ? !description.equals(event.description) : event.description != null) return false;
+        return organizer != null ? organizer.equals(event.organizer) : event.organizer == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = location != null ? location.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (organizer != null ? organizer.hashCode() : 0);
+        return result;
+    }
+
     @Enumerated(EnumType.STRING)
     private Location location;
     private String title;

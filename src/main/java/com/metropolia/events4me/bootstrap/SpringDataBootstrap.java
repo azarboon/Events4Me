@@ -233,6 +233,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
         //TODO: make the event have the ablity for automatic acceptance
         test5.organizeNewEvent(sportEvent);
+        test5.organizeNewEvent(sportEvent);
         test6.enrolEvent(sportEvent);
         sportEvent.acceptAttendee(test6);
         test7.enrolEvent(sportEvent);
