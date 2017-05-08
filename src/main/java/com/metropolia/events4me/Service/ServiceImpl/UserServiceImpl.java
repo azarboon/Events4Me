@@ -109,6 +109,9 @@ public class UserServiceImpl implements UserService {
             User sender = userDAO.findByUsername(senderUserName);
             User reciever = userDAO.findByUsername(recieverUserName);
             sender.sendFriendRequestTo(reciever);
+            userDAO.save(reciever);
+            userDAO.save(sender);
+
         }
     }
 
@@ -119,6 +122,8 @@ public class UserServiceImpl implements UserService {
             User sender = userDAO.findByUsername(senderUserName);
             User reciever = userDAO.findByUsername(recieverUserName);
             reciever.recieveFriendRequestFrom(sender);
+            userDAO.save(reciever);
+            userDAO.save(sender);
         }
     }
 
@@ -129,6 +134,8 @@ public class UserServiceImpl implements UserService {
             User sender = userDAO.findByUsername(senderUserName);
             User reciever = userDAO.findByUsername(recieverUserName);
             reciever.acceptFriend(sender);
+            userDAO.save(reciever);
+            userDAO.save(sender);
         }
 
     }

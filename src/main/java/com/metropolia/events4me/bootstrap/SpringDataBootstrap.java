@@ -238,23 +238,8 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     System.out.println("result of event creation:" + eventUserService.createEvent(test6, sportEvent));
 
 
-    //TODO: find out the correct cascading for pendingfriendrequest and friends set. And find whhy when
-    //TODO test7.acceptFriend(test8), we get error? why everything other than followings give error?
-    test5.sendFriendRequestTo(test6);
-    test7.sendFriendRequestTo(test6);
-    test8.sendFriendRequestTo(test6);
-    test8.sendFriendRequestTo(test7);
-    //test5.sendFriendRequestTo(test7);
-    test6.acceptFriend(test5);
-    //test7.acceptFriend(test8);
-
-
 /* change following to use serviceimplementations
 
-    test7.sendFriendRequestTo(test6);
-
-      test5.sendFriendRequestTo(test6);
-      test6.acceptFriend(test5);
 
         test5.organizeNewEvent(sportEvent);
         test6.enrolEvent(sportEvent);
@@ -273,8 +258,11 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     eventService.saveOrUpdateEvent(sportEvent);
     locationService.saveOrUpdateLocation(cafe_mascot);
 
-    System.out.println("number of recieved friendship requests should be 3 " +
-        userService.getPendingFriendRequests("test6").size());
+    userService.sendFriendRequestTo("test5", "test6");
+    userService.sendFriendRequestTo("test7", "test6");
+    userService.sendFriendRequestTo("test8", "test6");
+    userService.acceptFriend("test5", "test6");
+    userService.acceptFriend("test7", "test6");
 
 
   }
