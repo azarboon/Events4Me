@@ -1,14 +1,7 @@
 package com.metropolia.events4me;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import com.metropolia.events4me.Model.Event;
-import com.metropolia.events4me.Model.User;
 import com.metropolia.events4me.Service.EventService;
 import com.metropolia.events4me.Service.UserService;
-import java.util.List;
-import java.util.Set;
 import javax.annotation.PostConstruct;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,11 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class UserServiceImplIT {
 
-  @Autowired
-  @Qualifier("UserServiceImpl")
-  private UserService userService;
 
-  @Autowired
+  private UserService userService;
   private EventService eventService;
 
 
@@ -34,6 +24,21 @@ public class UserServiceImplIT {
 
   }
 
+  @Autowired
+  @Qualifier("UserServiceImpl")
+  public void setUserService(UserService userService) {
+    this.userService = userService;
+  }
+
+  @Autowired
+  public void setEventService(EventService eventService) {
+    this.eventService = eventService;
+  }
+
+  @Test
+  public void getLocations() {
+
+  }
 
   @PostConstruct
   private void populateDB() {
@@ -94,7 +99,7 @@ public class UserServiceImplIT {
     }
     */
   }
-
+/*
   @Test
   public void getUsersWithCommonInterestTest() {
     List<User> retrievedUsers = userService.getUsersWithCommonInterest("test5");
@@ -128,5 +133,7 @@ public class UserServiceImplIT {
     assertTrue(attendees.contains(test8));
 
   }
+*/
+
 
 }
