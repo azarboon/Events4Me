@@ -1,2 +1,2 @@
 language: java
-script: ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -X
+script: ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V -X -e
