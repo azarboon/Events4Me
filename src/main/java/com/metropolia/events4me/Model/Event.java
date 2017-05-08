@@ -1,7 +1,5 @@
 package com.metropolia.events4me.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -14,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -21,129 +20,140 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Event {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer eventId;
-    @Enumerated(EnumType.STRING)
-    private Location location;
-    private String title;
-    private String description;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer eventId;
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "location_id")
+  private Location location;
+  private String title;
+  private String description;
 
 
-    @ManyToOne
-    private User organizer;
-    private LocalDateTime endTime;
+  @ManyToOne
+  private User organizer;
+  private LocalDateTime startTime;
+  private LocalDateTime endTime;
+  @Enumerated(EnumType.STRING)
+  private Interest category;
+  private int maxAttenddees;
+  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  private Set<User> confirmedAttendees;
+  @ManyToMany(cascade = CascadeType.ALL)
+  private Set<User> pendingAttendees;
+  private BigDecimal price;
+  public Event() {
+    this.confirmedAttendees = new HashSet<>();
+    this.pendingAttendees = new HashSet<>();
+  }
 
-    @Enumerated(EnumType.STRING)
-    private Interest category;
-    private int maxAttenddees;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Set<User> confirmedAttendees;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Set<User> pendingAttendees;
+  public LocalDateTime getStartTime() {
+    return startTime;
+  }
 
-    private BigDecimal price;
+  public void setStartTime(LocalDateTime startTime) {
+    this.startTime = startTime;
+  }
 
+  public Set<User> getPendingAttendees() {
+    return pendingAttendees;
+  }
 
-    public Event() {
-        this.confirmedAttendees = new HashSet<>();
-        this.pendingAttendees = new HashSet<>();
+  public void setPendingAttendees(Set<User> pendingAttendees) {
+    this.pendingAttendees = pendingAttendees;
+  }
+
+  public void acceptAttendee(User attendee) {
+    if (pendingAttendees.contains(attendee)) {
+      pendingAttendees.remove(attendee);
+      this.confirmedAttendees.add(attendee);
+      attendee.attendEvent(this);
     }
+  }
+
+  public void acceptEnrollment(User attendee) {
+    this.pendingAttendees.add(attendee);
+  }
 
 
-    public void acceptAttendee(User attendee) {
-        if (pendingAttendees.contains(attendee)) {
-            pendingAttendees.remove(attendee);
-            this.confirmedAttendees.add(attendee);
-            attendee.attendEvent(this);
-        }
-    }
+  public int getMaxAttenddees() {
+    return maxAttenddees;
+  }
 
-    public void acceptEnrollment(User attendee) {
-        this.pendingAttendees.add(attendee);
-    }
+  public void setMaxAttenddees(int maxAttenddees) {
+    this.maxAttenddees = maxAttenddees;
+  }
 
+  public Location getLocation() {
+    return location;
+  }
 
-    public int getMaxAttenddees() {
-        return maxAttenddees;
-    }
+  public void setLocation(Location location) {
+    this.location = location;
+  }
 
-    public void setMaxAttenddees(int maxAttenddees) {
-        this.maxAttenddees = maxAttenddees;
-    }
+  public User getOrganizer() {
+    return organizer;
+  }
 
-    public Location getLocation() {
-        return location;
-    }
+  public void setOrganizer(User organizer) {
+    this.organizer = organizer;
+  }
 
-    public void setLocation(Location location) {
-        this.location = location;
-    }
+  public LocalDateTime getEndTime() {
+    return endTime;
+  }
 
-    public User getOrganizer() {
-        return organizer;
-    }
+  public void setEndTime(LocalDateTime endTime) {
+    this.endTime = endTime;
+  }
 
-    public void setOrganizer(User organizer) {
-        this.organizer = organizer;
-    }
+  public BigDecimal getPrice() {
+    return price;
+  }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
+  public void setPrice(BigDecimal price) {
+    this.price = price;
+  }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
+  public Integer getEventId() {
+    return eventId;
+  }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+  public void setEventId(Integer eventId) {
+    this.eventId = eventId;
+  }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public Integer getEventId() {
-        return eventId;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public void setEventId(Integer eventId) {
-        this.eventId = eventId;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public Interest getCategory() {
+    return category;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public void setCategory(Interest category) {
+    this.category = category;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public Set<User> getConfirmedAttendees() {
+    return confirmedAttendees;
+  }
 
-    public Interest getCategory() {
-        return category;
-    }
-
-    public void setCategory(Interest category) {
-        this.category = category;
-    }
-
-    public Set<User> getConfirmedAttendees() {
-        return confirmedAttendees;
-    }
-
-    public void setConfirmedAttendees(Set<User> confirmedAttendees) {
-        this.confirmedAttendees = confirmedAttendees;
-    }
+  public void setConfirmedAttendees(Set<User> confirmedAttendees) {
+    this.confirmedAttendees = confirmedAttendees;
+  }
 
 }

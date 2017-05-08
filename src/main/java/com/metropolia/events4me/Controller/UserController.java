@@ -5,6 +5,7 @@ import com.metropolia.events4me.Model.User;
 import com.metropolia.events4me.Service.UserService;
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -129,4 +130,10 @@ public class UserController {
         return userService.listUserEvents(user);
     }
 
+  @RequestMapping("/getFriendRequests")
+    public String findFriendRequests(Principal principal, Model model){
+    Set<User> friendRequests = userService.getPendingFriendRequests(principal.getName());
+    model.addAttribute("friendRequests", friendRequests);
+    return "getFriendRequests";
+    }
 }
