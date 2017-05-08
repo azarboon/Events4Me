@@ -70,6 +70,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 //        assignUserRole();
     assignAdminRole();
     loadTimeSettings();
+    loadLocations();
 
   }
 
@@ -221,10 +222,17 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     test8.getInterests().add(Interest.NATURE);
 
     //TODO: ensure that location can be persisted and retrieved from DB
+
     Location cafe_mascot = new Location();
     cafe_mascot.setAddress("Neljäs linja 2, 00530 Helsinki");
     cafe_mascot.setCalendarID("qo8nro2mtp67dn78qk36b60vqg@group.calendar.google.com");
     cafe_mascot.setName("Cafe Mascot");
+
+    Location maxine = new Location();
+    maxine.setAddress("Urho Kekkosen katu 1A, 00100 Helsinki");
+    maxine.setCalendarID("3n4jiu1vp1hma8459b71jbmh8g@group.calendar.google.com");
+    maxine.setName("Maxine");
+
 
     Event sportEvent = new Event();
     sportEvent.setTitle("Event in Cafe Mascot");
@@ -234,9 +242,6 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     System.out.println("result of event creation:" + eventUserService.createEvent(test6, sportEvent));
 
 /* change following to use serviceimplementations
-
-
-
 
 
       test5.sendFriendRequestTo(test6);
@@ -259,6 +264,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     eventService.saveOrUpdateEvent(sportEvent);
 
     locationService.saveOrUpdateLocation(cafe_mascot);
+    locationService.saveOrUpdateLocation(maxine);
   }
 
   private void loadEvents() {
@@ -295,4 +301,9 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
   }
 
+  public void loadLocations(){
+
+
+    System.out.println("bbb: number of saved locations:" + locationService.listLocations().size());
+  }
 }
