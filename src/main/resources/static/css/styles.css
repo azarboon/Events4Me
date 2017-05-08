@@ -31,6 +31,24 @@
     margin-top: 20px;
 }
 
+.userPicture {
+    height:150px;
+}
+
+.tableUsername {
+    font-size: 16px;
+    text-align: center;
+}
+.tableTitle {
+    text-align: center;
+}
+.tableColumns {
+    padding-left: 100px !important;
+    padding-right: 50px !important;
+    text-align: center;
+}
+
+
 body{
     background-color: lightgray;
 }

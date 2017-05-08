@@ -64,10 +64,10 @@ public class EventUserController {
     }
 
     @RequestMapping(value = "/newEvent", method = RequestMethod.POST)
-    public String newEventSubmit(@ModelAttribute Event event, Principal principal) {
-        User organizer = userService.findByUsername(principal.getName());
-        eventUserService.createEvent(organizer, event);
-        eventUserService.joinEvent(organizer, event.getEventId());
-        return "redirect:/event/show/" + event.getEventId();
+        public String newEventSubmit(@ModelAttribute Event event, Principal principal) {
+            User organizer = userService.findByUsername(principal.getName());
+            eventUserService.createEvent(organizer, event);
+            eventUserService.joinEvent(organizer, event.getEventId());
+            return "redirect:/event/show/" + event.getEventId();
     }
 }

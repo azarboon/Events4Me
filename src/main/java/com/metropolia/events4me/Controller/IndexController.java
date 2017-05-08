@@ -88,7 +88,4 @@ public class IndexController {
         model.addAttribute("futureEvents", eventService.listFutureEvents());
         return "discoverevents";
     }
-
-
-
 }

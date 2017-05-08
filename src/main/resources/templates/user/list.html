@@ -30,14 +30,44 @@
         </div>
     </div>
 </nav>
-<div class = "container">
-    <table th:each="eachuser : ${users}">
-        <tr>
-            <td th:text="${eachuser.firstName} +' '+ ${eachuser.lastName}"></td>
-        </tr>
-    </table>
-</div>
 
+
+<div class="container">
+    <div class="col-md-6">
+        <table class="table">
+            <tr>
+                <th class="tableTitle">Picture</th>
+                <th class="tableColumns">Username</th>
+                <th class="tableTitle"></th>
+            </tr>
+            <th:block th:each="user : ${users}">
+                <tr>
+                    <td><img th:src="@{/img/GenericUser.png}" alt="user picture" class="userPicture"/></td>
+
+                    <td th:text="${user.getUsername()}" class="tableUsername" style="border-top: 0px"></td>
+                    <td></td>
+                    <td style="border-top: 0px">
+                        <form th:action="'/user/show/' + ${user.getUserId()}">
+                            <button th:href="'/user/show/' + ${user.getUserId()}" type="submit" class="btn btn-default">
+                                View profile
+                            </button>
+                        </form>
+                    </td>
+                    <td style="border-top: 0px">
+                        <form th:action="${user.sendFriendRequestTo(user.getUserId())}">
+                            <button type="submit" class="btn btn-default">
+                                Send friend request
+                            </button>
+                        </form>
+                    </td>
+
+
+                </tr>
+            </th:block>
+        </table>
+    </div>
+
+</div>
 
 </body>
 </html>
