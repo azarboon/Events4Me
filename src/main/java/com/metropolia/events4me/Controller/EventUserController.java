@@ -42,20 +42,16 @@ public class EventUserController {
 
     /* This was done by Dima. I refactored it.
     @RequestMapping("join/event/{id}")
-    public @ResponseBody
-    void joinEvent(Principal principal, @PathVariable Integer id) {
+    public void joinEvent(Principal principal, @PathVariable Integer id) {
         User user = userService.findByUsername(principal.getName());
         eventUserService.joinEvent(user, id);
     }
     */
 
-
-    @RequestMapping(value = "/join/event/{id}", method = RequestMethod.POST)
-    public @ResponseBody
-    String joinEventSubmit(Principal principal, @PathVariable Integer id) {
+    @RequestMapping(value = "join/event/{id}", method = RequestMethod.POST)
+    public void joinEventSubmit(Principal principal, @PathVariable Integer id) {
         User user = userService.findByUsername(principal.getName());
         eventUserService.joinEvent(user, id);
-        return "event joined";
     }
 
     @RequestMapping(value = "/newEvent", method = RequestMethod.GET)
@@ -63,11 +59,11 @@ public class EventUserController {
         return "createEventForm";
     }
 
+
     @RequestMapping(value = "/newEvent", method = RequestMethod.POST)
-    public String newEventSubmit(@ModelAttribute Event event, Principal principal) {
+    public String newEventSubmit(@ModelAttribute Event event, Principal principal, Model model) {
         User organizer = userService.findByUsername(principal.getName());
-        eventUserService.createEvent(organizer, event);
-        eventUserService.joinEvent(organizer, event.getEventId());
-        return "redirect:/event/show/" + event.getEventId();
+        model.addAttribute("result", eventUserService.createEvent(organizer, event));
+        return "createEventResult";
     }
 }
