@@ -98,6 +98,11 @@ public class Event {
         return endTime;
     }
 
+    //NiklasTEST
+    public String getEndTimeString() {
+        return endTime.toString();
+    }
+
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }

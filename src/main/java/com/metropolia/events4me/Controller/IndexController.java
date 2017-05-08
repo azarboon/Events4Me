@@ -1,6 +1,7 @@
 package com.metropolia.events4me.Controller;
 
 import com.metropolia.events4me.Model.User;
+import com.metropolia.events4me.Service.EventService;
 import com.metropolia.events4me.Service.UserService;
 import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class IndexController {
 
     private UserService userService;
-
+    private EventService eventService;
     @Autowired
     @Qualifier("UserServiceImpl")
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+
+    @Autowired
+    public void setEventService(EventService eventService) {
+        this.eventService = eventService;
     }
 
     // Redirects to index page for login/sign-up
@@ -78,6 +85,7 @@ public class IndexController {
     public String discoverEvents(Principal principal, Model model){
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("user", user);
+        model.addAttribute("futureEvents", eventService.listFutureEvents());
         return "discoverevents";
     }
 

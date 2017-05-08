@@ -67,6 +67,7 @@ public class EventUserController {
     public String newEventSubmit(@ModelAttribute Event event, Principal principal) {
         User organizer = userService.findByUsername(principal.getName());
         eventUserService.createEvent(organizer, event);
-        return "createEventResult";
+        eventUserService.joinEvent(organizer, event.getEventId());
+        return "redirect:/event/show/" + event.getEventId();
     }
 }

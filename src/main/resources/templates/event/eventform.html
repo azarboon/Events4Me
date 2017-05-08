@@ -25,7 +25,7 @@
 
 
         <form th:object="${event}" th:action="@{/event/update}" method="post">
-            <div class="col-md-4">
+            <div class="col-md-4 col-md-offset-1">
                 <div class="form-group row ">
                     <label for="event-id-input">Event ID:</label>
                     <input th:field="*{eventId}" class="form-control" type="text" value="Default value" id="event-id-input" readonly="readonly"></input>
@@ -47,7 +47,14 @@
                     <textarea th:field="*{description}" class="form-control" id="descriptionTextarea" rows="4"></textarea>
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-4 col-md-offset-1">
+                <div class="form-group row ">
+                    <label for="event-category-input">Event Category:</label>
+                    <select th:field="*{category}" th:remove="all-but-first" class="form-control" id="event-category-input">
+                        <option th:each="interest : ${T(com.metropolia.events4me.Model.Interest).values()}"
+                                th:value="${interest}" th:text="${interest}">default option</option>
+                    </select>
+                </div>
                 <div>
                     <button type="submit" class="btn btn-default">Commit Changes</button>
                 </div>

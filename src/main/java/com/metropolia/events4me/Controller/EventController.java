@@ -3,7 +3,10 @@ package com.metropolia.events4me.Controller;
 import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Service.EventService;
 import java.security.Principal;
+
+import com.metropolia.events4me.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,11 +25,18 @@ import java.util.List;
 public class EventController {
 
     private EventService eventService;
+    private UserService userService;
 
     @Autowired
     public void setEventService(EventService eventService) {
         this.eventService = eventService;
     }
+    @Autowired
+    @Qualifier("UserServiceImpl")
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
 
     @RequestMapping("/event/list")
     public String listEvents(Model model){
@@ -47,8 +57,9 @@ public class EventController {
     }
 
     @RequestMapping("/event/show/{id}")
-    public String getEvent(@PathVariable Integer id, Model model){
+    public String getEvent(Principal principal,@PathVariable Integer id, Model model){
         model.addAttribute("product", eventService.getEventById(id));
+        model.addAttribute("user",userService.findByUsername(principal.getName()));
         return "event/show";
     }
 
