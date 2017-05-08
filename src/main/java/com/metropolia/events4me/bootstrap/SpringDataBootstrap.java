@@ -3,12 +3,7 @@ package com.metropolia.events4me.bootstrap;
 import com.metropolia.events4me.Converter.TimeSettingConverter;
 import com.metropolia.events4me.Model.*;
 import com.metropolia.events4me.Model.security.Role;
-import com.metropolia.events4me.Service.EventService;
-import com.metropolia.events4me.Service.EventUserService;
-import com.metropolia.events4me.Service.LocationService;
-import com.metropolia.events4me.Service.RoleService;
-import com.metropolia.events4me.Service.TimeSettingService;
-import com.metropolia.events4me.Service.UserService;
+import com.metropolia.events4me.Service.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -24,22 +19,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringDataBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
-  private UserService userService;
-  private EventService eventService;
-  private RoleService roleService;
-  private TimeSettingService timeSettingService;
-  private LocationService locationService;
-  private EventUserService eventUserService;
+    private UserService userService;
+    private EventService eventService;
+    private RoleService roleService;
+    private TimeSettingService timeSettingService;
+    private LocationService locationService;
+    private EventUserService eventUserService;
 
     @Autowired
     public void setTimeSettingService(TimeSettingService timeSettingService) {
         this.timeSettingService = timeSettingService;
     }
 
-  @Autowired
-  public void setUserService(UserService userService) {
-    this.userService = userService;
-  }
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     public void setEventService(EventService eventService) {
@@ -51,22 +46,22 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         this.roleService = roleService;
     }
 
-  @Autowired
-  public void setLocationService(LocationService locationService) {
-    this.locationService = locationService;
-  }
+    @Autowired
+    public void setLocationService(LocationService locationService) {
+        this.locationService = locationService;
+    }
 
-  @Autowired
-  public void setEventUserService(EventUserService eventUserService) {
-    this.eventUserService = eventUserService;
-  }
+    @Autowired
+    public void setEventUserService(EventUserService eventUserService) {
+        this.eventUserService = eventUserService;
+    }
 
-  @Override
-  public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-    loadLocations();
-    loadEvents();
-    loadRoles();
-    loadUsers();
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        loadLocations();
+        loadEvents();
+        loadRoles();
+        loadUsers();
 //        assignUserRole();
         assignAdminRole();
         loadTimeSettings();
@@ -85,7 +80,8 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 //        test.getTimeMap().put(Days.Friday, i);
 //        test.getTimeMap().put(Days.Saturday, i);
 //        test.getTimeMap().put(Days.Sunday, i);
-//        TimeSettingConverter.convertForTemplate(test);
+//        TimeSettingConverter converter = TimeSettingConverter.convertForTemplate(test);
+//        TimeSetting timeSetting = TimeSettingConverter.convertForDatabase(converter);
 
         for (User u : userService.listUsers()) {
             TimeSetting timeSetting = new TimeSetting();
@@ -194,14 +190,14 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         test5.getInterests().add(Interest.SPORT);
         test5.getInterests().add(Interest.DANCE);
 
-    User test6 = new User();
-    test6.setUsername("test6");
-    test6.setFirstName("firstname6");
-    test6.setLastName("lastname6");
-    test6.setPassword("user");
-    test6.setEmail("test6@email.com");
-    test6.getInterests().add(Interest.PARTY);
-    test6.getInterests().add(Interest.ART);
+        User test6 = new User();
+        test6.setUsername("test6");
+        test6.setFirstName("firstname6");
+        test6.setLastName("lastname6");
+        test6.setPassword("user");
+        test6.setEmail("test6@email.com");
+        test6.getInterests().add(Interest.PARTY);
+        test6.getInterests().add(Interest.ART);
 
 
         User test7 = new User();
@@ -223,25 +219,25 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         test8.getInterests().add(Interest.BUSINESS);
         test8.getInterests().add(Interest.NATURE);
 
-    //TODO: ensure that location can be persisted and retrieved from DB
+        //TODO: ensure that location can be persisted and retrieved from DB
 
-    Location cafe_mascot = new Location();
-    cafe_mascot.setAddress("Neljäs linja 2, 00530 Helsinki");
-    cafe_mascot.setCalendarID("qo8nro2mtp67dn78qk36b60vqg@group.calendar.google.com");
-    cafe_mascot.setName("Cafe Mascot");
+        Location cafe_mascot = new Location();
+        cafe_mascot.setAddress("Neljäs linja 2, 00530 Helsinki");
+        cafe_mascot.setCalendarID("qo8nro2mtp67dn78qk36b60vqg@group.calendar.google.com");
+        cafe_mascot.setName("Cafe Mascot");
 
 //TODO: migrate following to loadlocations
-    Event sportEvent = new Event();
-    sportEvent.setTitle("Event in Cafe Mascot");
-    sportEvent.setStartTime(LocalDateTime.of(2017, 5, 8, 13, 0));
-    sportEvent.setEndTime(LocalDateTime.of(2017, 5, 8, 18, 0));
-    sportEvent.setLocation(cafe_mascot);
-    System.out.println("result of event creation:" + eventUserService.createEvent(test6, sportEvent));
+        Event sportEvent = new Event();
+        sportEvent.setTitle("Event in Cafe Mascot");
+        sportEvent.setStartTime(LocalDateTime.of(2017, 5, 8, 13, 0));
+        sportEvent.setEndTime(LocalDateTime.of(2017, 5, 8, 18, 0));
+        sportEvent.setLocation(cafe_mascot);
+        System.out.println("result of event creation:" + eventUserService.createEvent(test6, sportEvent));
 
 
 /* change following to use serviceimplementations
 
-
+        //TODO: make the event have the ablity for automatic acceptance
         test5.organizeNewEvent(sportEvent);
         test6.enrolEvent(sportEvent);
         sportEvent.acceptAttendee(test6);
@@ -252,21 +248,21 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
 */
 
-    userService.saveOrUpdateUser(test5);
-    userService.saveOrUpdateUser(test6);
-    userService.saveOrUpdateUser(test7);
-    userService.saveOrUpdateUser(test8);
-    eventService.saveOrUpdateEvent(sportEvent);
-    locationService.saveOrUpdateLocation(cafe_mascot);
+        userService.saveOrUpdateUser(test5);
+        userService.saveOrUpdateUser(test6);
+        userService.saveOrUpdateUser(test7);
+        userService.saveOrUpdateUser(test8);
+        eventService.saveOrUpdateEvent(sportEvent);
+        locationService.saveOrUpdateLocation(cafe_mascot);
 
-    userService.sendFriendRequestTo("test5", "test6");
-    userService.sendFriendRequestTo("test7", "test6");
-    userService.sendFriendRequestTo("test8", "test6");
-    userService.acceptFriend("test5", "test6");
-    userService.acceptFriend("test7", "test6");
+        userService.sendFriendRequestTo("test5", "test6");
+        userService.sendFriendRequestTo("test7", "test6");
+        userService.sendFriendRequestTo("test8", "test6");
+        userService.acceptFriend("test5", "test6");
+        userService.acceptFriend("test7", "test6");
 
 
-  }
+    }
 
     private void loadEvents() {
         Event sportEvent = new Event();
@@ -293,23 +289,23 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         businessEventPast.setCategory(Interest.BUSINESS);
         eventService.saveOrUpdateEvent(businessEventPast);
 
-    Event sportEventPast = new Event();
-    sportEventPast.setTitle("Sport event past");
-    sportEventPast.setEndTime(LocalDateTime.of(2017, 2, 3, 13, 0));
-    sportEventPast.setCategory(Interest.SPORT);
-    eventService.saveOrUpdateEvent(sportEventPast);
+        Event sportEventPast = new Event();
+        sportEventPast.setTitle("Sport event past");
+        sportEventPast.setEndTime(LocalDateTime.of(2017, 2, 3, 13, 0));
+        sportEventPast.setCategory(Interest.SPORT);
+        eventService.saveOrUpdateEvent(sportEventPast);
 
 
-  }
+    }
 
-  public void loadLocations(){
+    public void loadLocations() {
 
 
-    Location maxine = new Location();
-    maxine.setAddress("Urho Kekkosen katu 1A, 00100 Helsinki");
-    maxine.setCalendarID("3n4jiu1vp1hma8459b71jbmh8g@group.calendar.google.com");
-    maxine.setName("Maxine");
+        Location maxine = new Location();
+        maxine.setAddress("Urho Kekkosen katu 1A, 00100 Helsinki");
+        maxine.setCalendarID("3n4jiu1vp1hma8459b71jbmh8g@group.calendar.google.com");
+        maxine.setName("Maxine");
 
-    locationService.saveOrUpdateLocation(maxine);
-  }
+        locationService.saveOrUpdateLocation(maxine);
+    }
 }
