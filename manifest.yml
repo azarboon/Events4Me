@@ -7,9 +7,8 @@
 
 #Production
 applications:
-- name: events4merelease
+- name: events4me
   memory: 1024M
-  host: eventsforme2017
+  host: events4me
   timeout: 600
-  health-check-type: none
   path: target/socialmedia-0.0.1-SNAPSHOT.jar
