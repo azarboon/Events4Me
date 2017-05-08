@@ -44,7 +44,7 @@ public class User {
     private List<Event> attendingEvents;
     private byte[] photo;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Set<User> friends = new HashSet<User>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

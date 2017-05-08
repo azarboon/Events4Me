@@ -64,13 +64,14 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
   @Override
   public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+    loadLocations();
     loadEvents();
     loadRoles();
     loadUsers();
 //        assignUserRole();
     assignAdminRole();
     loadTimeSettings();
-    loadLocations();
+
 
   }
 
@@ -228,12 +229,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     cafe_mascot.setCalendarID("qo8nro2mtp67dn78qk36b60vqg@group.calendar.google.com");
     cafe_mascot.setName("Cafe Mascot");
 
-    Location maxine = new Location();
-    maxine.setAddress("Urho Kekkosen katu 1A, 00100 Helsinki");
-    maxine.setCalendarID("3n4jiu1vp1hma8459b71jbmh8g@group.calendar.google.com");
-    maxine.setName("Maxine");
-
-
+//TODO: migrate following to loadlocations
     Event sportEvent = new Event();
     sportEvent.setTitle("Event in Cafe Mascot");
     sportEvent.setStartTime(LocalDateTime.of(2017, 5, 8, 13, 0));
@@ -241,8 +237,21 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     sportEvent.setLocation(cafe_mascot);
     System.out.println("result of event creation:" + eventUserService.createEvent(test6, sportEvent));
 
+
+    //TODO: find out the correct cascading for pendingfriendrequest and friends set. And find whhy when
+    //TODO test7.acceptFriend(test8), we get error? why everything other than followings give error?
+    test5.sendFriendRequestTo(test6);
+    test7.sendFriendRequestTo(test6);
+    test8.sendFriendRequestTo(test6);
+    test8.sendFriendRequestTo(test7);
+    //test5.sendFriendRequestTo(test7);
+    test6.acceptFriend(test5);
+    //test7.acceptFriend(test8);
+
+
 /* change following to use serviceimplementations
 
+    test7.sendFriendRequestTo(test6);
 
       test5.sendFriendRequestTo(test6);
       test6.acceptFriend(test5);
@@ -262,9 +271,12 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     userService.saveOrUpdateUser(test7);
     userService.saveOrUpdateUser(test8);
     eventService.saveOrUpdateEvent(sportEvent);
-
     locationService.saveOrUpdateLocation(cafe_mascot);
-    locationService.saveOrUpdateLocation(maxine);
+
+    System.out.println("number of recieved friendship requests should be 3 " +
+        userService.getPendingFriendRequests("test6").size());
+
+
   }
 
   private void loadEvents() {
@@ -304,6 +316,11 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
   public void loadLocations(){
 
 
-    System.out.println("bbb: number of saved locations:" + locationService.listLocations().size());
+    Location maxine = new Location();
+    maxine.setAddress("Urho Kekkosen katu 1A, 00100 Helsinki");
+    maxine.setCalendarID("3n4jiu1vp1hma8459b71jbmh8g@group.calendar.google.com");
+    maxine.setName("Maxine");
+
+    locationService.saveOrUpdateLocation(maxine);
   }
 }

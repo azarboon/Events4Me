@@ -136,6 +136,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<User> getPendingFriendRequests(String username) {
         if (userDAO.findByUsername(username) != null) {
+
             User user = userDAO.findByUsername(username);
             return user.getPendingFriendRequests();
         }
