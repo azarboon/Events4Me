@@ -3,9 +3,11 @@ package com.metropolia.events4me.Controller;
 import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Model.User;
 import com.metropolia.events4me.Service.UserService;
+
 import java.security.Principal;
 import java.util.List;
 import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -16,56 +18,54 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
-
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
 
-  private UserService userService;
+    private UserService userService;
 
 
-  @Autowired
-  @Qualifier("UserServiceImpl")
-  public void setUserService(UserService userService) {
-    this.userService = userService;
-  }
+    @Autowired
+    @Qualifier("UserServiceImpl")
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
 
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public String profile(Principal principal, Model model) {
 
-  @RequestMapping(value = "/profile", method = RequestMethod.GET)
-  public String profile(Principal principal, Model model) {
+        User user = userService.findByUsername(principal.getName());
+        model.addAttribute("user", user);
+        return "profile";
+    }
 
-    User user = userService.findByUsername(principal.getName());
-    model.addAttribute("user", user);
-    return "profile";
-  }
+    @RequestMapping(value = "/recomUsers", method = RequestMethod.GET)
+    public String getRecommendedUsers(Principal principal, Model model) {
+        List<User> recommendedUsers = userService.getUsersWithCommonInterest(principal.getName());
+        model.addAttribute("recommendedUsers", recommendedUsers);
+        return "recommendedUsers";
+    }
 
-  @RequestMapping(value = "/recomUsers", method = RequestMethod.GET)
-  public String getRecommendedUsers(Principal principal, Model model) {
-    List<User> recommendedUsers = userService.getUsersWithCommonInterest(principal.getName());
-    model.addAttribute("recommendedUsers", recommendedUsers);
-    return "recommendedUsers";
-  }
+    public String sendFriendshipRequest(Principal principal, Model model,
+                                        @PathVariable String recieverUsername) {
+        User sender = userService.findByUsername(principal.getName());
+        User reciever = userService.findByUsername(recieverUsername);
+        sender.sendFriendRequestTo(reciever);
+        model.addAttribute("SentFriendshipRequest",
+                "friendship request was sent to " + recieverUsername);
+        return "sentfriendshipRequest";
+    }
 
-  public String sendFriendshipRequest(Principal principal, Model model,
-      @PathVariable String recieverUsername) {
-    User sender = userService.findByUsername(principal.getName());
-    User reciever = userService.findByUsername(recieverUsername);
-    sender.sendFriendRequestTo(reciever);
-    model.addAttribute("SentFriendshipRequest",
-        "friendship request was sent to " + recieverUsername);
-    return "sentfriendshipRequest";
-  }
-
-  public String acceptFriend(Principal principal, Model model,
-      @PathVariable String senderUsername) {
-    User reciever = userService.findByUsername(principal.getName());
-    User sender = userService.findByUsername(senderUsername);
-    reciever.acceptFriend(sender);
-    model.addAttribute("FriendshipAccepted", "Now you are friend with " + senderUsername);
-    return "friendshipAccepted";
-  }
+    public String acceptFriend(Principal principal, Model model,
+                               @PathVariable String senderUsername) {
+        User reciever = userService.findByUsername(principal.getName());
+        User sender = userService.findByUsername(senderUsername);
+        reciever.acceptFriend(sender);
+        model.addAttribute("FriendshipAccepted", "Now you are friend with " + senderUsername);
+        return "friendshipAccepted";
+    }
 
 
 //    @RequestMapping(value = "/profile", method = RequestMethod.POST)
@@ -84,56 +84,57 @@ public class UserController {
 //    }
 
     @RequestMapping({"/list", "/"})
-        public String listUsers(Principal principal, Model model){
+    public String listUsers(Principal principal, Model model) {
         User user = userService.findByUsername(principal.getName());
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         model.addAttribute("users", userService.listUsers());
         return "user/list";
     }
 
     @RequestMapping("/show/{id}")
-    public String getUser(@PathVariable Integer id, Model model){
+    public String getUser(@PathVariable Integer id, Model model) {
         model.addAttribute("user", userService.getById(id));
         return "user/show";
     }
 
     @RequestMapping("/edit")
-    public String edit(Principal principal, Model model){
+    public String edit(Principal principal, Model model) {
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("user", user);
         return "user/profile";
     }
 
     @RequestMapping("/new")
-    public String newUser(Model model){
+    public String newUser(Model model) {
         model.addAttribute("user", new User());
         return "user/profile";
     }
 
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String saveOrUpdate(User user){
+    public String saveOrUpdate(User user) {
         User savedUser = userService.saveOrUpdateUser(user);
         return "redirect:/user/show/" + savedUser.getUserId();
     }
 
     @RequestMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id){
+    public String delete(@PathVariable Integer id) {
         userService.delete(id);
         return "redirect:/user/list";
     }
 
     @RequestMapping("/userevents")
-    public @ResponseBody
+    public
+    @ResponseBody
     List<Event> listUserEvents(Principal principal) {
         User user = userService.findByUsername(principal.getName());
         return userService.listUserEvents(user);
     }
 
-  @RequestMapping("/getFriendRequests")
-    public String findFriendRequests(Principal principal, Model model){
-    Set<User> friendRequests = userService.getPendingFriendRequests(principal.getName());
-    model.addAttribute("friendRequests", friendRequests);
-    return "getFriendRequests";
+    @RequestMapping("/getFriendRequests")
+    public String findFriendRequests(Principal principal, Model model) {
+        Set<User> friendRequests = userService.getPendingFriendRequests(principal.getName());
+        model.addAttribute("friendRequests", friendRequests);
+        return "getFriendRequests";
     }
 }
