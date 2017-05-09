@@ -31,12 +31,19 @@
                 <input th:field="*{title}" class="form-control" type="text" value="Default value" id="event-name-input"/>
             </div>
             <div class="row form-group  ">
-                <label for="event-time-input">Event Time:</label>
+                <label for="event-startTime-input">Event Start Time:</label>
+                <input th:field="*{startTime}" class="form-control" type="text" value="Default value" id="event-startTime-input" placeholder="M/D/YY HH:MM AM/PM"/>
+            </div>
+            <div class="row form-group ">
+                <label for="event-time-input">Event End Time:</label>
                 <input th:field="*{endTime}" class="form-control" type="text" value="Default value" id="event-time-input" placeholder="M/D/YY HH:MM AM/PM"/>
             </div>
             <div class="form-group row ">
                 <label for="event-location-input">Event Location:</label>
-                <input th:field="*{location}" class="form-control" type="text" value="Default value" id="event-location-input"/>
+                <select th:field="*{locationID}" th:remove="all-but-first" class="form-control" id="event-location-input">
+                    <option th:each="location : ${locations}"
+                            th:value="${location.id}" th:text="${location.name} + ', ' + ${location.address}">default option</option>
+                </select>
             </div>
             <div class="form-group row">
                 <label for="descriptionTextarea">Event Description</label>

@@ -28,6 +28,7 @@ public class Event {
   private Location location;
   private String title;
   private String description;
+  private Integer locationID;
 
 
   @ManyToOne
@@ -45,6 +46,14 @@ public class Event {
   public Event() {
     this.confirmedAttendees = new HashSet<>();
     this.pendingAttendees = new HashSet<>();
+  }
+
+  public Integer getLocationID() {
+    return locationID;
+  }
+
+  public void setLocationID(Integer locationID) {
+    this.locationID = locationID;
   }
 
   public LocalDateTime getStartTime() {

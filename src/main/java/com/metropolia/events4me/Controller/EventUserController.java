@@ -63,15 +63,17 @@ public class EventUserController {
     @RequestMapping(value = "/newEvent", method = RequestMethod.GET)
     public String newEventForm(Model model) {
         model.addAttribute("locations", locationService.listLocations());
-        return "createEventForm";
+
+        model.addAttribute("event",new Event());
+        return "event/newEvent";
     }
 
 
     @RequestMapping(value = "/newEvent", method = RequestMethod.POST)
-    public String newEventSubmit(@ModelAttribute Event event, Principal principal, Model model) {
+    public String newEventSubmit(@ModelAttribute Event event, @ModelAttribute String locationID, Principal principal, Model model) {
         User organizer = userService.findByUsername(principal.getName());
-
+        event.setLocation(locationService.listLocations().get(event.getLocationID()-1));
         model.addAttribute("result", eventUserService.createEvent(organizer, event));
-        return "createEventResult";
+        return "redirect:/event/show/" + event.getEventId();
     }
 }

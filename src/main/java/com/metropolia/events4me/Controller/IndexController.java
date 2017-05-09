@@ -86,6 +86,7 @@ public class IndexController {
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("user", user);
         model.addAttribute("futureEvents", eventService.listFutureEvents());
+        model.addAttribute("pastEvents", eventService.listPastEvents());
         return "discoverevents";
     }
 }
