@@ -35,11 +35,11 @@ public class EventServiceImplTest {
 
     @Test
     public void listPastEventsTest() throws Exception {
-        assert eventService.listPastEvents().size() == 2;
+        assert eventService.listPastEvents().size() == 3;
     }
 
     @Test
     public void listFutureEventsTest() throws Exception {
-        assert eventService.listFutureEvents().size() == 4;
+        assert eventService.listFutureEvents().size() == 3;
     }
 }

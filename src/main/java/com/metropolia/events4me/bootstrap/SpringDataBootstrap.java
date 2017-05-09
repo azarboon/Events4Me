@@ -1,6 +1,5 @@
 package com.metropolia.events4me.bootstrap;
 
-import com.metropolia.events4me.Converter.TimeSettingConverter;
 import com.metropolia.events4me.Model.*;
 import com.metropolia.events4me.Model.security.Role;
 import com.metropolia.events4me.Service.*;
@@ -10,7 +9,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -73,28 +71,28 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 //        LocalTime s = LocalTime.of(0, 0);
 //        LocalTime e = LocalTime.of(23, 59);
 //        String i = s + ";" + e;
-//        test.getTimeMap().put(Days.Monday, i);
-//        test.getTimeMap().put(Days.Tuesday, i);
-//        test.getTimeMap().put(Days.Wednesday, i);
-//        test.getTimeMap().put(Days.Thursday, i);
-//        test.getTimeMap().put(Days.Friday, i);
-//        test.getTimeMap().put(Days.Saturday, i);
-//        test.getTimeMap().put(Days.Sunday, i);
+//        test.getTimeMap().put(Days.MONDAY, i);
+//        test.getTimeMap().put(Days.TUESDAY, i);
+//        test.getTimeMap().put(Days.WEDNESDAY, i);
+//        test.getTimeMap().put(Days.THURSDAY, i);
+//        test.getTimeMap().put(Days.FRIDAY, i);
+//        test.getTimeMap().put(Days.SATURDAY, i);
+//        test.getTimeMap().put(Days.SUNDAY, i);
 //        TimeSettingConverter converter = TimeSettingConverter.convertForTemplate(test);
 //        TimeSetting timeSetting = TimeSettingConverter.convertForDatabase(converter);
 
         for (User u : userService.listUsers()) {
             TimeSetting timeSetting = new TimeSetting();
-            LocalTime start = LocalTime.of(10, 10);
-            LocalTime end = LocalTime.of(23, 59);
+            LocalTime start = LocalTime.of(12, 10);
+            LocalTime end = LocalTime.of(16, 30);
             String interval = start + ";" + end;
-            timeSetting.getTimeMap().put(Days.Monday, interval);
-            timeSetting.getTimeMap().put(Days.Tuesday, interval);
-            timeSetting.getTimeMap().put(Days.Wednesday, interval);
-            timeSetting.getTimeMap().put(Days.Thursday, interval);
-            timeSetting.getTimeMap().put(Days.Friday, interval);
-            timeSetting.getTimeMap().put(Days.Saturday, interval);
-            timeSetting.getTimeMap().put(Days.Sunday, interval);
+            timeSetting.getTimeMap().put(Days.MONDAY, interval);
+            timeSetting.getTimeMap().put(Days.TUESDAY, interval);
+            timeSetting.getTimeMap().put(Days.WEDNESDAY, interval);
+            timeSetting.getTimeMap().put(Days.THURSDAY, interval);
+            timeSetting.getTimeMap().put(Days.FRIDAY, interval);
+            timeSetting.getTimeMap().put(Days.SATURDAY, interval);
+            timeSetting.getTimeMap().put(Days.SUNDAY, interval);
             u.setTimeAvailability(timeSetting);
             timeSettingService.saveOrUpdate(timeSetting);
             userService.saveOrUpdateUser(u);
@@ -232,7 +230,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         sportEvent.setStartTime(LocalDateTime.of(2017, 5, 8, 13, 0));
         sportEvent.setEndTime(LocalDateTime.of(2017, 5, 8, 18, 0));
         sportEvent.setLocation(cafe_mascot);
-        System.out.println("result of event creation:" + eventUserService.createEvent(test6, sportEvent));
+//        System.out.println("result of event creation:" + eventUserService.createEvent(test6, sportEvent));
 
 
 /* change following to use serviceimplementations
@@ -267,19 +265,22 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     private void loadEvents() {
         Event sportEvent = new Event();
         sportEvent.setTitle("Sport event");
-        sportEvent.setEndTime(LocalDateTime.of(2017, 6, 2, 13, 0));
+        sportEvent.setStartTime(LocalDateTime.of(2017, 5, 22, 13, 0));
+        sportEvent.setEndTime(LocalDateTime.of(2017, 5, 22, 15, 0));
         sportEvent.setCategory(Interest.SPORT);
         eventService.saveOrUpdateEvent(sportEvent);
 
         Event partyEvent = new Event();
         partyEvent.setTitle("Party event");
+        partyEvent.setStartTime(LocalDateTime.of(2017, 6, 10, 13, 0));
         partyEvent.setEndTime(LocalDateTime.of(2017, 6, 10, 13, 0));
         partyEvent.setCategory(Interest.PARTY);
         eventService.saveOrUpdateEvent(partyEvent);
 
         Event businessEvent = new Event();
         businessEvent.setTitle("Business event");
-        businessEvent.setEndTime(LocalDateTime.of(2017, 6, 2, 15, 0));
+        businessEvent.setStartTime(LocalDateTime.of(2017, 5, 22, 18, 0));
+        businessEvent.setEndTime(LocalDateTime.of(2017, 5, 22, 22, 0));
         businessEvent.setCategory(Interest.BUSINESS);
         eventService.saveOrUpdateEvent(businessEvent);
 
