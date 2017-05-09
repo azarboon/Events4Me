@@ -49,8 +49,40 @@
             <span class="title" th:text="${user.firstName}"></span>
             <br/>
             <span class="title" th:text="${user.lastName}"></span>
-            <span class="tagline">infoo</span>
+            <span class="tagline" th:text="${user.username}"></span>
+
         </h1>
+        <div class="col-md-4">
+            <table class="col-md-offset-6">
+                <tr>
+                    <th>Interests:</th>
+                </tr>
+                <tr th:each="interest : ${user.getInterests()}">
+                    <th th:text="${interest}"></th>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <table class="col-md-offset-6">
+                <tr>
+                    <th>Country:</th>
+                </tr>
+                <tr>
+                    <th th:text="${user.getCountry()}"></th>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <table class="col-md-offset-6">
+                <tr>
+                    <th>Birthday:</th>
+                </tr>
+                <tr>
+                    <th th:text="${user.getBirthday()}"></th>
+                </tr>
+            </table>
+        </div>
+
     </div>
 
     <div class="navbar">
