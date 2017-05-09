@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class LocationServiceImpl implements LocationService{
 
+
+
   private LocationDAO locationDAO;
 
   @Autowired
@@ -28,7 +30,20 @@ public class LocationServiceImpl implements LocationService{
     return locationDAO.findAll();
   }
 
-  public Iterable<Location> findAll(){return locationDAO.findAll();}
+  @Override
+  public Location findByName(String name) {
+    return locationDAO.findByName(name);
+  }
+
+  @Override
+  public Location findById(int id) {
+    return locationDAO.findOne(id);
+  }
+
+  @Override
+  public Location findOne(int id) {
+    return locationDAO.findOne(id);
+  }
 
 
 }

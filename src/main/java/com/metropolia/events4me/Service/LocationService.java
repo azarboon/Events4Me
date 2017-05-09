@@ -10,4 +10,10 @@ public interface LocationService {
 
   List<Location> listLocations();
 
+  Location findByName(String name);
+
+  Location findById(int id);
+
+  Location findOne(int id);
+
 }
