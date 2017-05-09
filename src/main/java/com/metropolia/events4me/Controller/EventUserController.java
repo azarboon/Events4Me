@@ -72,8 +72,9 @@ public class EventUserController {
     @RequestMapping(value = "/newEvent", method = RequestMethod.POST)
     public String newEventSubmit(@ModelAttribute Event event, @ModelAttribute String locationID, Principal principal, Model model) {
         User organizer = userService.findByUsername(principal.getName());
-        // event.setLocation(locationService.listLocations().get(event.getLocationID()-1));
-        model.addAttribute("result", eventUserService.createEvent(organizer, event));
-        return "redirect:/event/show/" + event.getEventId();
+
+        System.out.println("event created");
+        Event newEvent = eventUserService.createEvent(organizer, event);
+        return "redirect:/event/show/" + newEvent.getEventId();
     }
 }

@@ -10,7 +10,7 @@ public interface EventUserService {
 
     List<Event> matchEventsForUser(User user);
 
-    String createEvent(User user, Event event);
+    Event createEvent(User user, Event event);
 
     void joinEvent(User user, Integer eventId);
 

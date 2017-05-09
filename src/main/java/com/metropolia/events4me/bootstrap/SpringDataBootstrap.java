@@ -227,10 +227,10 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 //TODO: migrate following to loadlocations
         Event sportEvent = new Event();
         sportEvent.setTitle("Event in Cafe Mascot");
-        sportEvent.setStartTime(LocalDateTime.of(2017, 5, 8, 13, 0));
-        sportEvent.setEndTime(LocalDateTime.of(2017, 5, 8, 18, 0));
+        sportEvent.setStartTime(LocalDateTime.of(2017, 5, 5, 13, 0));
+        sportEvent.setEndTime(LocalDateTime.of(2017, 5, 5, 18, 0));
         sportEvent.setLocation(cafe_mascot);
-//        System.out.println("result of event creation:" + eventUserService.createEvent(test6, sportEvent));
+ //System.out.println("result of event creation:" + eventUserService.createEvent(test6, sportEvent));
 
 
 /* change following to use serviceimplementations
