@@ -25,10 +25,15 @@
                 <li><a th:href="@{/user/list}">DISCOVER PEOPLE</a></li>
 
             </ul>
+
             <ul class=" nav navbar-nav navbar-right">
+                <li title="Pending friend requests"><a th:text="${user.getPendingFriendRequests().size()}">
+                </a></li>
+                <li>
                 <form th:action="@{/logout}">
                     <button type="submit" class="btn btn-default navbar-btn logout">LOGOUT</button>
                 </form>
+                </li>
             </ul>
         </div>
     </div>
