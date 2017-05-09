@@ -23,8 +23,17 @@
     </div>
 </nav>
 <div class="container">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <img id="eventImage" style="max-width: 100%;" src="http://avalimousine.com/wp-content/uploads/2015/02/2013-january-february-1859-magazine-best-of-oregon-portland-best-sporting-event-timbers-game-fc-dallas-winner.jpg?quality=100.3015021919180" />
+
+
+    </div>
+    <div class="col-md.2"></div>
+</div>
+<div class="container">
     <form th:object="${product}">
-        <div class="col-md-4 col-md-offset-1">
+        <div class="row col-md-4 col-md-offset-2">
             <div class="form-group row ">
                 <label for="event-name-input">Event Name:</label>
                 <input th:field="*{title}" class="form-control" type="text" value="Default value" id="event-name-input" readonly="readonly"/>
@@ -35,7 +44,7 @@
             </div>
             <div class="form-group row ">
                 <label for="event-location-input">Event Location:</label>
-                <input th:field="*{location}" class="form-control" type="text" value="Default value" id="event-location-input" readonly="readonly"/>
+                <input th:field="*{location.address}" class="form-control" type="text" value="Default value" id="event-location-input" readonly="readonly"/>
             </div>
             <div class="form-group row">
                 <label for="descriptionTextarea">Event Description</label>
