@@ -5,6 +5,7 @@
 #  host: events4mebeta
 #  path: target/socialmedia-0.0.1-SNAPSHOT.jar
 
+
 #Production
 applications:
 - name: eventsformefinal
