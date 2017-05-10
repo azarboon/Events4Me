@@ -88,17 +88,16 @@ public class EventUserServiceImpl implements EventUserService {
     }
 
     @Override
-    public String createEvent(User user, Event event) {
+    public Event createEvent(User user, Event event) {
         if (timeSlotIsFree(event)) {
             user.organizeNewEvent(event);
             if (!createEventOnCalendar(event)) {
-                return "There was an error. Couldn't create the event on Calendar.";
+                //return "There was an error. Couldn't create the event on Calendar.";
             }
             userService.saveOrUpdateUser(user);
-            eventService.saveOrUpdateEvent(event);
-            return "Event was created successfully";
+
         }
-        return "Specified timeslot for tihs location is not free";
+        return eventService.saveOrUpdateEvent(event);
     }
 
 
