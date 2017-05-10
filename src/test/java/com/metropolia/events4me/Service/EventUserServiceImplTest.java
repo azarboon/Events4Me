@@ -12,9 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.transaction.Transactional;
 import java.util.List;
 
-/**
- * Created by Dmitry on 18.04.2017.
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -22,7 +19,6 @@ public class EventUserServiceImplTest {
 
     private EventUserService eventUserService;
     private UserService userService;
-    private EventService eventService;
 
     @Autowired
     public void setEventUserService(EventUserService eventUserService) {
@@ -34,33 +30,12 @@ public class EventUserServiceImplTest {
         this.userService = userService;
     }
 
-    @Autowired
-    public void setEventService(EventService eventService) {
-        this.eventService = eventService;
-    }
-
     @Test
     @Transactional
     public void matchEventsForUserTest() throws Exception {
-        User user = userService.findByUsername("dima");
+        User user = userService.findByUsername("niklas");
         List<Event> list = eventUserService.matchEventsForUser(user);
-        for (Event e : list) {
-            System.out.println(e.getTitle());
-        }
         assert list.size() == 1;
     }
 
-//    @Test
-//    @Transactional
-//    public void joinEventTest() throws Exception {
-//        User user = userService.findByUsername("dima");
-//        eventService.listFutureEvents().forEach(event -> eventUserService.joinEvent(user, event.getEventId()));
-//        User userWithEvents = userService.findByUsername("dima");
-//        assert userWithEvents.getAttendingEvents().size() == 3;
-//        int counter = 0;
-//        for (Event event : eventService.listFutureEvents()) {
-//            counter += event.getConfirmedAttendees().size();
-//        }
-//        assert counter == 3;
-//    }
 }

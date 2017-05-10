@@ -1,15 +1,11 @@
 package com.metropolia.events4me.Service.ServiceImpl;
 
 import com.metropolia.events4me.DAO.UserDAO;
-import com.metropolia.events4me.Model.Days;
 import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Model.Interest;
 import com.metropolia.events4me.Model.User;
 import com.metropolia.events4me.Service.RoleService;
 import com.metropolia.events4me.Service.UserService;
-import com.metropolia.events4me.Service.security.EncryptionService;
-
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -18,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
-@Service("UserServiceImpl")
+@Service
 public class UserServiceImpl implements UserService {
 
     private UserDAO userDAO;
@@ -41,31 +36,20 @@ public class UserServiceImpl implements UserService {
         this.roleService = roleService;
     }
 
-
-    @Override
-    public User findByEmail(String email) {
-        return userDAO.findByEmail(email);
-    }
-
     @Override
     public User findByUsername(String username) {
         return userDAO.findByUsername(username);
     }
 
     @Override
-    public boolean checkUserExists(String username, String email) {
-        return checkUsernameExists(username) || checkEmailExists(username);
+    public boolean checkUserExists(String username) {
+        return checkUsernameExists(username);
     }
 
 
     @Override
     public boolean checkUsernameExists(String username) {
         return null != findByUsername(username);
-    }
-
-    @Override
-    public boolean checkEmailExists(String email) {
-        return null != findByEmail(email);
     }
 
     @Override

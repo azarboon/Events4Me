@@ -14,9 +14,13 @@ public interface EventService {
     List<Event> listFutureEvents();
 
     Event findById(int id);
+
+    Event findByTitle(String title);
     Event saveOrUpdateEvent(Event event);
 
     Event getEventById(Integer id);
 
     void delete(Integer id);
+
+    void setLocationForEvent(Integer eventId, Integer locationId);
 }

@@ -1,6 +1,5 @@
 package com.metropolia.events4me.Service.ServiceImpl;
 
-
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
@@ -15,8 +14,8 @@ import com.google.api.services.calendar.model.FreeBusyRequest;
 import com.google.api.services.calendar.model.FreeBusyRequestItem;
 import com.google.api.services.calendar.model.FreeBusyResponse;
 import com.google.api.services.calendar.model.TimePeriod;
-import com.metropolia.events4me.Converter.Period;
-import com.metropolia.events4me.Converter.TimeSettingConverter;
+import com.metropolia.events4me.converter.Period;
+import com.metropolia.events4me.converter.TimeSettingConverter;
 import com.metropolia.events4me.Model.Days;
 import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Model.Interest;
@@ -43,7 +42,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class EventUserServiceImpl implements EventUserService {
 
@@ -51,7 +49,6 @@ public class EventUserServiceImpl implements EventUserService {
     private EventService eventService;
 
     @Autowired
-    @Qualifier("UserServiceImpl")
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
@@ -60,6 +57,7 @@ public class EventUserServiceImpl implements EventUserService {
     public void setEventService(EventService eventService) {
         this.eventService = eventService;
     }
+
 
     // The method returns the list of recommended events
     // for the user according to his interests
@@ -77,7 +75,6 @@ public class EventUserServiceImpl implements EventUserService {
             .collect(Collectors.toList());
     }
 
-    //TODO make integration test for this
     @Override
     public void joinEvent(User user, Integer eventId) {
         Event event = eventService.getEventById(eventId);
@@ -88,19 +85,18 @@ public class EventUserServiceImpl implements EventUserService {
     }
 
     @Override
-    public String createEvent(User user, Event event) {
+    public Event createEvent(User user, Event event) {
         if (timeSlotIsFree(event)) {
             user.organizeNewEvent(event);
             if (!createEventOnCalendar(event)) {
-                return "There was an error. Couldn't create the event on Calendar.";
+                return null;
             }
+            Event newEvent = eventService.saveOrUpdateEvent(event);
             userService.saveOrUpdateUser(user);
-            eventService.saveOrUpdateEvent(event);
-            return "Event was created successfully";
+            return newEvent;
         }
-        return "Specified timeslot for tihs location is not free";
+        return null;
     }
-
 
     private boolean createEventOnCalendar(Event event) {
         String calendarID = event.getLocation().getCalendarID();
@@ -131,7 +127,6 @@ public class EventUserServiceImpl implements EventUserService {
 
         return true;
     }
-
 
     private boolean timeSlotIsFree(Event event) {
         String calendarID = event.getLocation().getCalendarID();
@@ -171,11 +166,9 @@ public class EventUserServiceImpl implements EventUserService {
         }
     }
 
-    //TODO: create singleton of this method
     private Calendar getCalendar() {
         JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
         HttpTransport HTTP_TRANSPORT = null;
-        //TODO: use logger
         try {
             HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         } catch (GeneralSecurityException e) {
@@ -226,6 +219,5 @@ public class EventUserServiceImpl implements EventUserService {
                 .setServiceAccountPrivateKey(key)
                 .build();
     }
-
 
 }

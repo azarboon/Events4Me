@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="templates :: header">
 </head>
+<script th:src="@{/../js/showscript.js}"></script>
 <body>
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -11,31 +12,92 @@
             <a class="navbar-brand">Events4me</a>
         </div>
 
+
         <!-- Menu Items-->
         <div>
             <ul class="nav navbar-nav">
-                <li ><a th:href="@{/events4me}">MY PROFILE</a></li>
-                <li class="active"><a th:text="${product.name}"></a></li>
+                <li><a class="navbar-brand"></a></li>
+                <li><a class="navbar-brand"></a></li>
+                <li><a th:href="@{/events4me}">MY PROFILE</a></li>
+
+                <li class="active"><a th:href="@{/events4me/discoverevents/}">DISCOVER EVENTS</a></li>
+                <li><a th:href="@{/user/list}">DISCOVER PEOPLE</a></li>
+
+            </ul>
+
+            <ul class=" nav navbar-nav navbar-right">
+                <li>
+
+                    <div class="dropdown friendbutton" title="Pending friend requests">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"
+                                th:text="${user.getPendingFriendRequests().size()}">
+                        </button>
+                        <ul th:each="friend : ${user.getPendingFriendRequests()}" class="dropdown-menu">
+                            <li>
+                                <p th:text="${friend.username}"></p>
+                                <form th:action="'/user/acceptFriend/' + ${friend.username}" method="post">
+                                    <button type="submit" class="btn">accept</button>
+                                </form>
+                                <button type="button" class="btn">reject</button>
+                            </li>
+                        </ul>
+                    </div>
+
+                </li>
+                <li>
+                    <form th:action="@{/logout}">
+                        <button type="submit" class="btn btn-default navbar-btn logout">LOGOUT</button>
+                    </form>
+                </li>
             </ul>
         </div>
-
     </div>
 </nav>
 <div class="container">
-    <img  th:src="@{'data:image/jpg;base64,'+ *{T(org.springframework.util.Base64Utils).encodeToString(product.getPhoto())}}"/>
-    <div class="row col-md-8 col-md-offset-2">
-        <div class="col-md-6">
-            <h2 th:text="${product.name}"></h2>
-            <h3 class="row" th:text="'Date: ' + ${product.dateTime.toLocalDate()}"></h3>
-            <h3 class="row" th:text="'Time: ' + ${product.dateTime.toLocalTime()}"></h3>
-            <h3 class="row" th:text="${product.place}">There is no place available for this event.</h3>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <img id="eventImage" style="max-width: 100%;" />
 
-        </div>
-        <div class="col-md-6">
-            <h3 th:text="${product.description}">There is no description available for this event.</h3>
-        </div>
 
     </div>
+    <div class="col-md.2"></div>
+</div>
+<div class="container">
+    <form th:object="${product}">
+        <div class="row col-md-4 col-md-offset-2">
+            <div class="form-group row ">
+                <label for="event-name-input">Event Name:</label>
+                <input th:field="*{title}" class="form-control" type="text" value="Default value" id="event-name-input" readonly="readonly"/>
+            </div>
+            <div class="row form-group  ">
+                <label for="event-time-input">Event Time:</label>
+                <input th:field="*{startTime}" class="form-control" type="text" value="Default value" id="event-time-input" placeholder="M/D/YY HH:MM AM/PM" readonly="readonly"/>
+            </div>
+            <div class="form-group row ">
+                <label for="event-location-input">Event Location:</label>
+                <input th:field="*{location.address}" class="form-control" type="text" value="Default value" id="event-location-input" readonly="readonly"/>
+            </div>
+            <div class="form-group row">
+                <label for="descriptionTextarea">Event Description</label>
+                <textarea th:field="*{description}" class="form-control" id="descriptionTextarea" rows="4" readonly="readonly"></textarea>
+            </div>
+        </div>
+        <div class="col-md-4 col-md-offset-1">
+            <div class="form-group row ">
+                <label for="event-category-input">Event category:</label>
+                <input th:field="*{category}" class="form-control" type="text" value="Default value" id="event-category-input" readonly="readonly"/>
+
+            </div>
+            <div th:if="${product.organizer} != ${user}" class="form-group row ">
+                <button class="btn btn-default" id="join-button">Join Event</button>
+
+            </div>
+            <p id="JoinMessage"></p>
+        </div>
+
+
+    </form>
+
 
 </div>
 

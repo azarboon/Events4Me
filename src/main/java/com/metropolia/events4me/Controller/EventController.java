@@ -3,7 +3,12 @@ package com.metropolia.events4me.Controller;
 import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Service.EventService;
 import java.security.Principal;
+
+import com.metropolia.events4me.Service.EventUserService;
+import com.metropolia.events4me.Service.LocationService;
+import com.metropolia.events4me.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,19 +19,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-/**
- * Created by Dmitry on 13.04.2017.
- */
-
 @Controller
 public class EventController {
 
     private EventService eventService;
+    private UserService userService;
+    private LocationService locationService;
 
     @Autowired
     public void setEventService(EventService eventService) {
         this.eventService = eventService;
     }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Autowired
+    public void setLocationService(LocationService locationService){
+        this.locationService = locationService;
+    }
+
 
     @RequestMapping("/event/list")
     public String listEvents(Model model){
@@ -47,8 +61,9 @@ public class EventController {
     }
 
     @RequestMapping("/event/show/{id}")
-    public String getEvent(@PathVariable Integer id, Model model){
+    public String getEvent(Principal principal,@PathVariable Integer id, Model model){
         model.addAttribute("product", eventService.getEventById(id));
+        model.addAttribute("user",userService.findByUsername(principal.getName()));
         return "event/show";
     }
 
@@ -56,6 +71,7 @@ public class EventController {
     public String edit(@PathVariable Integer id, Model model){
         Event product = eventService.getEventById(id);
         model.addAttribute("event", product);
+        model.addAttribute("locations", locationService.listLocations());
         return "event/eventform";
     }
 
@@ -85,8 +101,6 @@ public class EventController {
 
         return "redirect:/event/show/" + eventToUpdate.getEventId();
     }
-
-
 
     @RequestMapping("/event/delete/{id}")
     public String delete(@PathVariable Integer id){

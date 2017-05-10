@@ -8,9 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 
 @Entity
 public class User {
@@ -27,7 +24,7 @@ public class User {
     private String password;
     private String encryptedPassword;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Event> adminingEvents;
 
@@ -44,10 +41,9 @@ public class User {
     @JsonIgnore
     private Set<Interest> interests = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Event> attendingEvents;
-    private byte[] photo;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
@@ -64,7 +60,6 @@ public class User {
         interests = new HashSet<>();
         friends = new HashSet<>();
         this.adminingEvents = new HashSet<>();
-        //TODO: make this hashset
         this.attendingEvents = new ArrayList<>();
     }
 
@@ -116,10 +111,11 @@ public class User {
         this.attendingEvents = attendingEvents;
     }
 
-
     public void organizeNewEvent(Event event) {
-        event.setOrganizer(this);
-        this.adminingEvents.add(event);
+        if(!adminingEvents.contains(event)){
+            event.setOrganizer(this);
+            this.adminingEvents.add(event);
+        }
     }
 
     public Set<Event> getAdminingEvents() {
@@ -135,7 +131,9 @@ public class User {
     }
 
     public void attendEvent(Event event) {
-        this.attendingEvents.add(event);
+        if(!this.attendingEvents.contains(event)){
+            this.attendingEvents.add(event);
+        }
     }
 
     public TimeSetting getTimeAvailability() {
@@ -157,21 +155,23 @@ public class User {
         this.pendingFriendRequests.add(user);
     }
 
-
     public Set<User> getPendingFriendRequests() {
         return pendingFriendRequests;
+    }
+
+    public void setPendingFriendRequests(Set<User> pendingFriendRequests) {
+        this.pendingFriendRequests = pendingFriendRequests;
     }
 
     public void sendFriendRequestTo(User user) {
         user.recieveFriendRequestFrom(this);
     }
 
-
     public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -261,14 +261,6 @@ public class User {
 
     public void setInterests(Set<Interest> interests) {
         this.interests = interests;
-    }
-
-    public byte[] getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
     }
 
     public String getUsername() {

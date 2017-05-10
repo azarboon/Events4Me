@@ -1,28 +1,85 @@
 <!DOCTYPE html>
 <html xmlns:th = "http://www.thymeleaf.org">
-<head>
-    <title>Title</title>
+<head th:replace="templates :: header">
+
 </head>
 <body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
 
-
-<h2>Time settings</h2>
-
-<form action="#" th:action="@{/setsettings}" th:object="${periodsWrapper}" method="post">
-
-        <input type="hidden" th:value="${settingsId}" name="settingsId"/>
-
-        <div th:each="period, stat : *{periodsList}">
-            <span th:text="${days[__${stat.index}__]}"></span>
-        Start<label>
-            <input type="time" th:field="*{periodsList[__${stat.index}__].start}"/>
-        </label>
-        End<label>
-            <input type="time" th:field="*{periodsList[__${stat.index}__].end}"/>
-        </label>
+        <!-- Insert LOGO here -->
+        <div class="navbar-header">
+            <a class="navbar-brand">Events4me</a>
         </div>
+
+
+        <!-- Menu Items-->
+        <div>
+            <ul class="nav navbar-nav">
+                <li><a class="navbar-brand"></a></li>
+                <li><a class="navbar-brand"></a></li>
+                <li ><a th:href="@{/events4me}">MY PROFILE</a></li>
+
+                <li><a th:href="@{/events4me/discoverevents}">DISCOVER EVENTS</a></li>
+                <li><a th:href="@{/user/list}">DISCOVER PEOPLE</a></li>
+                <li class="active"><a th:href="@{/settimepref}">TIME SETTINGS</a></li>
+
+            </ul>
+            <ul class=" nav navbar-nav navbar-right">
+                <li>
+
+                    <div class="dropdown friendbutton" title="Pending friend requests">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"
+                                th:text="${user.getPendingFriendRequests().size()}">
+                        </button>
+                        <ul th:each="friend : ${user.getPendingFriendRequests()}" class="dropdown-menu">
+                            <li>
+                                <p th:text="${friend.username}"></p>
+                                <form th:action="'/user/acceptFriend/' + ${friend.username}" method="post">
+                                    <button type="submit" class="btn">accept</button>
+                                </form>
+                                <button type="button" class="btn">reject</button>
+                            </li>
+                        </ul>
+                    </div>
+
+                </li>
+                <li>
+                    <form th:action="@{/logout}">
+                        <button type="submit" class="btn btn-default navbar-btn logout">LOGOUT</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+</nav>
+
+
+<div class="container">
+    <div class="col-md-4 col-md-offset-2">
+        <h2>Time settings</h2>
+<form action="#" th:action="@{/setsettings}" th:object="${periodsWrapper}" method="post">
+    <input type="hidden" th:value="${settingsId}" name="settingsId"/>
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Start</th>
+            <th>End</th>
+        </tr>
+        <th:block th:each="period, stat : *{periodsList}">
+            <tr>
+                <td th:text="${days[__${stat.index}__]}"></td>
+                <td><input type="time" th:field="*{periodsList[__${stat.index}__].start}"/></td>
+                <td><input type="time" th:field="*{periodsList[__${stat.index}__].end}"/></td>
+            </tr>
+        </th:block>
+    </table>
     <button type="submit" value="submit">Submit</button>
 </form>
+    </div>
+</div>
 <!--th:value="${period.getStart()}"-->
 <!--th:name="|periodsList[${stat.index}]|"-->
 

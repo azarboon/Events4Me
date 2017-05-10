@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="templates :: header">
 </head>
 <body>
@@ -24,38 +24,47 @@
 <div class="container">
 
 
-        <form th:object="${event}" th:action="@{/event}" method="post">
-            <div class="col-md-4">
-                <div class="form-group row ">
-                    <label for="event-name-input">Event Name:</label>
-                    <input th:field="*{name}" class="form-control" type="text" value="Default value" id="event-name-input"/>
-                </div>
-                <div class="row form-group  ">
-                    <label for="event-time-input">Event Time:</label>
-                    <input th:field="*{dateTime}" class="form-control" type="text" value="Default value" id="event-time-input" placeholder="MM/DD/YY HH:MM PM/AM"/>
-                </div>
-                <div class="form-group row ">
-                    <label for="event-location-input">Event Location:</label>
-                    <input th:field="*{place}" class="form-control" type="text" value="Default value" id="event-location-input"/>
-                </div>
-                <div class="form-group row">
-                    <label for="descriptionTextarea">Event Description</label>
-                    <textarea th:field="*{description}" class="form-control" id="descriptionTextarea" rows="4"></textarea>
-                </div>
+    <form th:object="${event}" th:action="@{/newEvent}" method="post">
+        <div class="col-md-4 col-md-offset-1">
+            <div class="form-group row ">
+                <label for="event-name-input">Event Name:</label>
+                <input th:field="*{title}" class="form-control" type="text" value="Default value" id="event-name-input"/>
             </div>
-            <div class="col-md-8">
-                <div class="form-group">
-                    <label for="exampleInputFile">Event picture:</label>
-                    <input th:field="*{photo}" type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp"/>
-
-                </div>
-                <div>
-                    <button type="submit" class="btn btn-default">Commit Changes</button>
-                </div>
+            <div class="row form-group  ">
+                <label for="event-startTime-input">Event Start Time:</label>
+                <input th:field="*{startTime}" class="form-control" type="text" value="Default value" id="event-startTime-input" placeholder="M/D/YY HH:MM "/>
             </div>
+            <div class="row form-group ">
+                <label for="event-time-input">Event End Time:</label>
+                <input th:field="*{endTime}" class="form-control" type="text" value="Default value" id="event-time-input" placeholder="M/D/YY HH:MM "/>
+            </div>
+            <div class="form-group row ">
+                <label for="event-location-input">Event Location:</label>
+                <select th:field="*{location}" th:remove="all-but-first" class="form-control" id="event-location-input">
+                    <option th:each="location : ${locations}"
+                            th:value="${location.id}" th:text="${location.name} + ', ' + ${location.address}">default option</option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label for="descriptionTextarea">Event Description</label>
+                <textarea th:field="*{description}" class="form-control" id="descriptionTextarea" rows="4"></textarea>
+            </div>
+        </div>
+        <div class="col-md-4 col-md-offset-1">
+            <div class="form-group row ">
+                <label for="event-category-input">Event Category:</label>
+                <select th:field="*{category}" th:remove="all-but-first" class="form-control" id="event-category-input">
+                    <option th:each="interest : ${T(com.metropolia.events4me.Model.Interest).values()}"
+                            th:value="${interest}" th:text="${interest}">default option</option>
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-default">Commit Changes</button>
+            </div>
+        </div>
 
 
-        </form>
+    </form>
 
 
 

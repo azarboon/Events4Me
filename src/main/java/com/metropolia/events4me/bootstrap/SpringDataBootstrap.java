@@ -13,6 +13,10 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+/**
+ * THis class starts methods which populates database
+ * with data for testing
+ */
 
 @Component
 public class SpringDataBootstrap implements ApplicationListener<ContextRefreshedEvent> {
@@ -22,7 +26,6 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     private RoleService roleService;
     private TimeSettingService timeSettingService;
     private LocationService locationService;
-    private EventUserService eventUserService;
 
     @Autowired
     public void setTimeSettingService(TimeSettingService timeSettingService) {
@@ -49,11 +52,6 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         this.locationService = locationService;
     }
 
-    @Autowired
-    public void setEventUserService(EventUserService eventUserService) {
-        this.eventUserService = eventUserService;
-    }
-
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         loadLocations();
@@ -63,28 +61,16 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 //        assignUserRole();
         assignAdminRole();
         loadTimeSettings();
-
+        setLocationForEvents();
+        makeUsersConnect();
     }
 
     private void loadTimeSettings() {
-//        TimeSetting  test = new TimeSetting();
-//        LocalTime s = LocalTime.of(0, 0);
-//        LocalTime e = LocalTime.of(23, 59);
-//        String i = s + ";" + e;
-//        test.getTimeMap().put(Days.MONDAY, i);
-//        test.getTimeMap().put(Days.TUESDAY, i);
-//        test.getTimeMap().put(Days.WEDNESDAY, i);
-//        test.getTimeMap().put(Days.THURSDAY, i);
-//        test.getTimeMap().put(Days.FRIDAY, i);
-//        test.getTimeMap().put(Days.SATURDAY, i);
-//        test.getTimeMap().put(Days.SUNDAY, i);
-//        TimeSettingConverter converter = TimeSettingConverter.convertForTemplate(test);
-//        TimeSetting timeSetting = TimeSettingConverter.convertForDatabase(converter);
 
         for (User u : userService.listUsers()) {
             TimeSetting timeSetting = new TimeSetting();
-            LocalTime start = LocalTime.of(12, 10);
-            LocalTime end = LocalTime.of(16, 30);
+            LocalTime start = LocalTime.of(17, 0);
+            LocalTime end = LocalTime.of(21, 0);
             String interval = start + ";" + end;
             timeSetting.getTimeMap().put(Days.MONDAY, interval);
             timeSetting.getTimeMap().put(Days.TUESDAY, interval);
@@ -144,8 +130,12 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
         User dmitry = new User();
         dmitry.setUsername("dima");
-        dmitry.setFirstName("dmitry");
+        dmitry.setFirstName("Dmitry");
+        dmitry.setLastName("Khramov");
+        dmitry.setEmail("dk@metropolia.fi");
         dmitry.setPassword("admin");
+        dmitry.setCountry("Finland");
+        dmitry.setBirthday("02.05.1992");
         dmitry.getInterests().add(Interest.BUSINESS);
         dmitry.getInterests().add(Interest.SPORT);
         dmitry.getInterests().add(Interest.DANCE);
@@ -153,133 +143,47 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
         User martin = new User();
         martin.setUsername("martin");
-        martin.setFirstName("martin");
-        martin.setPassword("user");
+        martin.setFirstName("Martin");
+        martin.setLastName("Anderson");
+        martin.setEmail("ma@metropolia.fi");
+        martin.setPassword("martin");
+        martin.setCountry("Finland");
+        martin.setBirthday("15.12.1985");
         martin.getInterests().add(Interest.PARTY);
         martin.getInterests().add(Interest.ART);
+        martin.getInterests().add(Interest.MOVIES);
         userService.saveOrUpdateUser(martin);
 
-
         User niklas = new User();
-        niklas.setUsername("nilas");
-        niklas.setFirstName("niklas");
-        niklas.setPassword("user");
-        niklas.getInterests().add(Interest.BUSINESS);
+        niklas.setUsername("niklas");
+        niklas.setFirstName("Niklas");
+        niklas.setLastName("Kuusisto");
+        niklas.setEmail("nk@metropolia.fi");
+        niklas.setPassword("niklas");
+        niklas.setCountry("Finland");
+        niklas.setBirthday("20.08.1990");
+        niklas.getInterests().add(Interest.PARTY);
         niklas.getInterests().add(Interest.SPORT);
-        niklas.getInterests().add(Interest.DANCE);
+        niklas.getInterests().add(Interest.ART);
         userService.saveOrUpdateUser(niklas);
 
-        User user4 = new User();
-        user4.setUsername("user4");
-        user4.setFirstName("firstname4");
-        user4.setPassword("user");
-        user4.getInterests().add(Interest.BUSINESS);
-        user4.getInterests().add(Interest.NATURE);
-        userService.saveOrUpdateUser(user4);
-
-
-        User test5 = new User();
-        test5.setUsername("test5");
-        test5.setFirstName("firstname5");
-        test5.setLastName("lastname5");
-        test5.setEmail("test5@email.com");
-        test5.setPassword("admin");
-        test5.getInterests().add(Interest.BUSINESS);
-        test5.getInterests().add(Interest.SPORT);
-        test5.getInterests().add(Interest.DANCE);
-
-        User test6 = new User();
-        test6.setUsername("test6");
-        test6.setFirstName("firstname6");
-        test6.setLastName("lastname6");
-        test6.setPassword("user");
-        test6.setEmail("test6@email.com");
-        test6.getInterests().add(Interest.PARTY);
-        test6.getInterests().add(Interest.ART);
-
-
-        User test7 = new User();
-        test7.setUsername("test7");
-        test7.setFirstName("firstname7");
-        test7.setLastName("lastname7");
-        test7.setPassword("user");
-        test7.setEmail("test7@email.com");
-        test7.getInterests().add(Interest.BUSINESS);
-        test7.getInterests().add(Interest.SPORT);
-        test7.getInterests().add(Interest.DANCE);
-
-        User test8 = new User();
-        test8.setUsername("test8");
-        test8.setFirstName("firstname8");
-        test8.setLastName("lastname8");
-        test8.setPassword("user");
-        test8.setEmail("test8@email.com");
-        test8.getInterests().add(Interest.BUSINESS);
-        test8.getInterests().add(Interest.NATURE);
-
-        //TODO: ensure that location can be persisted and retrieved from DB
-
-        Location cafe_mascot = new Location();
-        cafe_mascot.setAddress("Neljäs linja 2, 00530 Helsinki");
-        cafe_mascot.setCalendarID("qo8nro2mtp67dn78qk36b60vqg@group.calendar.google.com");
-        cafe_mascot.setName("Cafe Mascot");
-
-        Location maxine = new Location();
-        maxine.setAddress("Urho Kekkosen katu 1A, 00100 Helsinki");
-        maxine.setCalendarID("3n4jiu1vp1hma8459b71jbmh8g@group.calendar.google.com");
-        maxine.setName("Maxine");
-
-
-
-//TODO: migrate following to loadlocations
-        Event sportEvent = new Event();
-        sportEvent.setTitle("Event in Cafe Mascot");
-        sportEvent.setStartTime(LocalDateTime.of(2017, 5, 8, 13, 0));
-        sportEvent.setEndTime(LocalDateTime.of(2017, 5, 8, 18, 0));
-        sportEvent.setLocation(cafe_mascot);
-        System.out.println("result of event creation:" + eventUserService.createEvent(test6, sportEvent));
-
-        Event sportEvent2 = new Event();
-        sportEvent2.setTitle("Event in Maxine");
-        sportEvent2.setStartTime(LocalDateTime.of(2017, 5, 9, 13, 0));
-        sportEvent2.setEndTime(LocalDateTime.of(2017, 5, 9, 18, 0));
-        sportEvent2.setLocation(maxine);
-        System.out.println("result of event creation:" + eventUserService.createEvent(test6, sportEvent2));
-
-
-
-
-/* change following to use serviceimplementations
-
-        //TODO: make the event have the ablity for automatic acceptance
-        test5.organizeNewEvent(sportEvent);
-        test6.enrolEvent(sportEvent);
-        sportEvent.acceptAttendee(test6);
-        test7.enrolEvent(sportEvent);
-        test8.enrolEvent(sportEvent);
-        sportEvent.acceptAttendee(test8);
-
-
-*/
-
-        userService.saveOrUpdateUser(test5);
-        userService.saveOrUpdateUser(test6);
-        userService.saveOrUpdateUser(test7);
-        userService.saveOrUpdateUser(test8);
-        eventService.saveOrUpdateEvent(sportEvent);
-        locationService.saveOrUpdateLocation(cafe_mascot);
-        locationService.saveOrUpdateLocation(maxine);
-
-        userService.sendFriendRequestTo("test5", "test6");
-        userService.sendFriendRequestTo("test7", "test6");
-        userService.sendFriendRequestTo("test8", "test6");
-        userService.acceptFriend("test5", "test6");
-        userService.acceptFriend("test7", "test6");
-
+        User henri = new User();
+        henri.setUsername("henri");
+        henri.setFirstName("Henri");
+        henri.setLastName("Järvinen");
+        henri.setEmail("hj@metropolia.fi");
+        henri.setPassword("henri");
+        henri.setCountry("Finland");
+        henri.setBirthday("01.02.1990");
+        henri.getInterests().add(Interest.NATURE);
+        henri.getInterests().add(Interest.SPORT);
+        henri.getInterests().add(Interest.PARTY);
+        userService.saveOrUpdateUser(henri);
 
     }
 
     private void loadEvents() {
+
         Event sportEvent = new Event();
         sportEvent.setTitle("Sport event");
         sportEvent.setStartTime(LocalDateTime.of(2017, 5, 22, 13, 0));
@@ -289,8 +193,8 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
         Event partyEvent = new Event();
         partyEvent.setTitle("Party event");
-        partyEvent.setStartTime(LocalDateTime.of(2017, 6, 10, 13, 0));
-        partyEvent.setEndTime(LocalDateTime.of(2017, 6, 10, 13, 0));
+        partyEvent.setStartTime(LocalDateTime.of(2017, 6, 10, 18, 0));
+        partyEvent.setEndTime(LocalDateTime.of(2017, 6, 10, 20, 0));
         partyEvent.setCategory(Interest.PARTY);
         eventService.saveOrUpdateEvent(partyEvent);
 
@@ -303,22 +207,62 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
         Event businessEventPast = new Event();
         businessEventPast.setTitle("Business event past");
-        businessEventPast.setEndTime(LocalDateTime.of(2017, 2, 2, 13, 0));
+        businessEventPast.setStartTime(LocalDateTime.of(2017, 2, 2, 13, 0));
+        businessEventPast.setEndTime(LocalDateTime.of(2017, 2, 2, 14, 0));
         businessEventPast.setCategory(Interest.BUSINESS);
         eventService.saveOrUpdateEvent(businessEventPast);
 
         Event sportEventPast = new Event();
         sportEventPast.setTitle("Sport event past");
-        sportEventPast.setEndTime(LocalDateTime.of(2017, 2, 3, 13, 0));
+        sportEventPast.setStartTime(LocalDateTime.of(2017, 2, 3, 13, 0));
+        sportEventPast.setEndTime(LocalDateTime.of(2017, 2, 3, 14, 0));
         sportEventPast.setCategory(Interest.SPORT);
         eventService.saveOrUpdateEvent(sportEventPast);
 
 
     }
 
-    public void loadLocations() {
+    private void loadLocations() {
 
+        Location cafeMascot = new Location();
+        cafeMascot.setAddress("Neljäs linja 2, 00530 Helsinki");
+        cafeMascot.setCalendarID("qo8nro2mtp67dn78qk36b60vqg@group.calendar.google.com");
+        cafeMascot.setName("Cafe Mascot");
 
+        Location maxine = new Location();
+        maxine.setAddress("Urho Kekkosen katu 1A, 00100 Helsinki");
+        maxine.setCalendarID("3n4jiu1vp1hma8459b71jbmh8g@group.calendar.google.com");
+        maxine.setName("Maxine");
 
+        Location sportHall = new Location();
+        sportHall.setName("Töölö Sports Hall");
+        sportHall.setCalendarID("t5v4rltbcsqkb3fdusfp4k2jqk@group.calendar.google.com");
+        sportHall.setAddress("Paavo Nurmen kuja 1, 00250 Helsinki");
+
+        Location businessHall = new Location();
+        businessHall.setAddress("Mannerheimintie 13e, 00100 Helsinki");
+        businessHall.setName("Finlandia Hall");
+        businessHall.setCalendarID("b6tatnpuvhi29gkq7aafn6sm8g@group.calendar.google.com");
+
+        locationService.saveOrUpdateLocation(cafeMascot);
+        locationService.saveOrUpdateLocation(maxine);
+        locationService.saveOrUpdateLocation(sportHall);
+        locationService.saveOrUpdateLocation(businessHall);
+    }
+
+    private void setLocationForEvents() {
+        eventService.setLocationForEvent(1, 3);
+        eventService.setLocationForEvent(2, 2);
+        eventService.setLocationForEvent(3, 4);
+        eventService.setLocationForEvent(4, 2);
+        eventService.setLocationForEvent(5, 3);
+    }
+
+    private void makeUsersConnect() {
+        userService.sendFriendRequestTo("henri", "niklas");
+        userService.sendFriendRequestTo("dima", "niklas");
+        userService.sendFriendRequestTo("martin", "niklas");
+        userService.acceptFriend("henri", "niklas");
+        userService.acceptFriend("dima", "niklas");
     }
 }
