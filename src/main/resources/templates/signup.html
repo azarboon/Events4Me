@@ -11,9 +11,9 @@
         <div class="image-middle">
             <div class="form-group">
                 <img class="img-circle" th:src="@{img/placeholder2.png}" alt=""/>
-                <label for="exampleInputFile">Profile picture:</label>
+               <!-- <label for="exampleInputFile">Profile picture:</label>
                 <input th:field="*{photo}" type="file" class="form-control-file" id="exampleInputFile"
-                       aria-describedby="fileHelp"/>
+                       aria-describedby="fileHelp"/>-->
             </div>
         </div>
         <div class="col-md-3">
@@ -294,7 +294,7 @@
             </div>
             <div class="form-group row ">
                 <label for="password">password:</label>
-                <input th:field="*{password}" class="form-control" type="text" name="password1" id="password1"/>
+                <input th:field="*{password}" class="form-control" type="password" name="password" id="password1"/>
             </div>
         </div>
 

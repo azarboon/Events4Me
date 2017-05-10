@@ -75,6 +75,7 @@ public class EventUserController {
 
         System.out.println("event created");
         Event newEvent = eventUserService.createEvent(organizer, event);
+        userService.joinEvent(organizer,newEvent);
         return "redirect:/event/show/" + newEvent.getEventId();
     }
 }

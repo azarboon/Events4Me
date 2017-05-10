@@ -32,6 +32,7 @@ public class TimePreferencesController {
         User user = userService.findByUsername(principal.getName());
         TimeSetting timeSetting = user.getTimeAvailability();
         TimeSettingConverter periodsWrapper = TimeSettingConverter.convertForTemplate(timeSetting);
+        model.addAttribute("user",user);
         model.addAttribute("periodsWrapper", periodsWrapper);
         model.addAttribute("settingsId", timeSetting.getId());
         model.addAttribute("days", Days.values());
@@ -40,12 +41,12 @@ public class TimePreferencesController {
 
     // Updates user's time preferences in database
     @RequestMapping(value = "/setsettings", method = RequestMethod.POST)
-    public ResponseEntity<?> updateTime(@ModelAttribute("periodsWrapper") TimeSettingConverter periodsWrapper, @ModelAttribute("settingsId") int id) {
+    public String updateTime(@ModelAttribute("periodsWrapper") TimeSettingConverter periodsWrapper, @ModelAttribute("settingsId") int id) {
         TimeSetting timeSetting = timeSettingService.getTimeSettingById(id);
         TimeSetting converted = TimeSettingConverter.convertForDatabase(periodsWrapper);
         timeSetting.setTimeMap(converted.getTimeMap());
         timeSettingService.saveOrUpdate(timeSetting);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return "redirect:/events4me";
     }
 
     // Returns JSON object with time preferences
