@@ -53,13 +53,12 @@ public class UserController {
         return "redirect:/user/list/ ";
     }
 
+    @RequestMapping(value = "/acceptFriend/{recieverUsername}", method = RequestMethod.POST)
     public String acceptFriend(Principal principal, Model model,
-                               @PathVariable String senderUsername) {
-        User reciever = userService.findByUsername(principal.getName());
-        User sender = userService.findByUsername(senderUsername);
-        reciever.acceptFriend(sender);
-        model.addAttribute("FriendshipAccepted", "Now you are friend with " + senderUsername);
-        return "friendshipAccepted";
+                               @PathVariable String recieverUsername) {
+        System.out.println("ahahahhahaaaha");
+        userService.acceptFriend(recieverUsername, principal.getName());
+        return "redirect:/events4me";
     }
 
 

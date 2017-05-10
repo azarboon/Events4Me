@@ -35,7 +35,9 @@
                         <ul th:each="friend : ${user.getPendingFriendRequests()}" class="dropdown-menu">
                             <li>
                                 <p th:text="${friend.username}"></p>
-                                <button type="button" class="btn">accept</button>
+                                <form th:action="'/user/acceptFriend/' + ${friend.username}" method="post">
+                                    <button type="submit" class="btn">accept</button>
+                                </form>
                                 <button type="button" class="btn">reject</button>
                             </li>
                         </ul>
@@ -88,7 +90,7 @@
             </div>
             <div th:if="${product.organizer} != ${user}" class="form-group row ">
                 <button class="btn btn-default" id="join-button">Join Event</button>
-                
+
             </div>
             <p id="JoinMessage"></p>
         </div>

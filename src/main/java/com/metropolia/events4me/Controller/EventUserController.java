@@ -6,6 +6,8 @@ import com.metropolia.events4me.Service.EventUserService;
 import com.metropolia.events4me.Service.LocationService;
 import com.metropolia.events4me.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -57,9 +59,10 @@ public class EventUserController {
     */
 
     @RequestMapping(value = "join/event/{id}", method = RequestMethod.POST)
-    public void joinEventSubmit(Principal principal, @PathVariable Integer id) {
+    public ResponseEntity<?> joinEventSubmit(Principal principal, @PathVariable Integer id) {
         User user = userService.findByUsername(principal.getName());
         eventUserService.joinEvent(user, id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/newEvent", method = RequestMethod.GET)
