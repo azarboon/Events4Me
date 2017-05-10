@@ -57,11 +57,16 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         loadLocations();
         loadEvents();
+
         loadRoles();
         loadUsers();
 //        assignUserRole();
         assignAdminRole();
         loadTimeSettings();
+        setLocationForEvents();
+        usersOrganizeAndJoinEvents();
+        makeUsersConnect();
+
 
     }
 
@@ -208,52 +213,18 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         test8.getInterests().add(Interest.BUSINESS);
         test8.getInterests().add(Interest.NATURE);
 
-        //TODO: ensure that location can be persisted and retrieved from DB
-
-        Location cafe_mascot = new Location();
-        cafe_mascot.setAddress("Neljäs linja 2, 00530 Helsinki");
-        cafe_mascot.setCalendarID("qo8nro2mtp67dn78qk36b60vqg@group.calendar.google.com");
-        cafe_mascot.setName("Cafe Mascot");
-
-//TODO: migrate following to loadlocations
-        Event sportEvent = new Event();
-        sportEvent.setTitle("Event in Cafe Mascot");
-        sportEvent.setStartTime(LocalDateTime.of(2017, 5, 8, 13, 0));
-        sportEvent.setEndTime(LocalDateTime.of(2017, 5, 8, 18, 0));
-        sportEvent.setLocation(cafe_mascot);
-//        System.out.println("result of event creation:" + eventUserService.createEvent(test6, sportEvent));
-
-
-/* change following to use serviceimplementations
-
-        //TODO: make the event have the ablity for automatic acceptance
-        test5.organizeNewEvent(sportEvent);
-        test6.enrolEvent(sportEvent);
-        sportEvent.acceptAttendee(test6);
-        test7.enrolEvent(sportEvent);
-        test8.enrolEvent(sportEvent);
-        sportEvent.acceptAttendee(test8);
-
-
-*/
 
         userService.saveOrUpdateUser(test5);
         userService.saveOrUpdateUser(test6);
         userService.saveOrUpdateUser(test7);
         userService.saveOrUpdateUser(test8);
-        eventService.saveOrUpdateEvent(sportEvent);
-        locationService.saveOrUpdateLocation(cafe_mascot);
 
-        userService.sendFriendRequestTo("test5", "test6");
-        userService.sendFriendRequestTo("test7", "test6");
-        userService.sendFriendRequestTo("test8", "test6");
-        userService.acceptFriend("test5", "test6");
-        userService.acceptFriend("test7", "test6");
 
 
     }
 
     private void loadEvents() {
+
         Event sportEvent = new Event();
         sportEvent.setTitle("Sport event");
         sportEvent.setStartTime(LocalDateTime.of(2017, 5, 22, 13, 0));
@@ -278,12 +249,14 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         Event businessEventPast = new Event();
         businessEventPast.setTitle("Business event past");
         businessEventPast.setEndTime(LocalDateTime.of(2017, 2, 2, 13, 0));
+        businessEventPast.setEndTime(LocalDateTime.of(2017, 2, 2, 14, 0));
         businessEventPast.setCategory(Interest.BUSINESS);
         eventService.saveOrUpdateEvent(businessEventPast);
 
         Event sportEventPast = new Event();
         sportEventPast.setTitle("Sport event past");
         sportEventPast.setEndTime(LocalDateTime.of(2017, 2, 3, 13, 0));
+        sportEventPast.setEndTime(LocalDateTime.of(2017, 2, 3, 14, 0));
         sportEventPast.setCategory(Interest.SPORT);
         eventService.saveOrUpdateEvent(sportEventPast);
 
@@ -292,12 +265,64 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
     public void loadLocations() {
 
+        Location cafeMascot = new Location();
+        cafeMascot.setAddress("Neljäs linja 2, 00530 Helsinki");
+        cafeMascot.setCalendarID("qo8nro2mtp67dn78qk36b60vqg@group.calendar.google.com");
+        cafeMascot.setName("Cafe Mascot");
 
         Location maxine = new Location();
         maxine.setAddress("Urho Kekkosen katu 1A, 00100 Helsinki");
         maxine.setCalendarID("3n4jiu1vp1hma8459b71jbmh8g@group.calendar.google.com");
         maxine.setName("Maxine");
 
+        locationService.saveOrUpdateLocation(cafeMascot);
         locationService.saveOrUpdateLocation(maxine);
     }
+
+    public void setLocationForEvents(){
+        eventService.setLocationForEvent(1,2);
+        eventService.setLocationForEvent(2, 1);
+    }
+
+    public void usersOrganizeAndJoinEvents(){
+        /* change following to use serviceimplementations
+
+
+        test5.organizeNewEvent(sportEvent);
+        test6.enrolEvent(sportEvent);
+        sportEvent.acceptAttendee(test6);
+        test7.enrolEvent(sportEvent);
+        test8.enrolEvent(sportEvent);
+        sportEvent.acceptAttendee(test8);
+
+
+*/
+
+        User test6 = userService.findByUsername("test6");
+        User test7 = userService.findByUsername("test7");
+        User test8 = userService.findByUsername("test8");
+
+        Event sportEvent = eventService.findByTitle("Sport event");
+        eventUserService.createEvent(test6, sportEvent);
+
+        /*
+        eventUserService.joinEvent(test7, 1);
+        eventUserService.joinEvent(test8, 1);
+        */
+    }
+
+    public void makeUsersConnect(){
+        userService.sendFriendRequestTo("test5", "test6");
+        userService.sendFriendRequestTo("test7", "test6");
+        userService.sendFriendRequestTo("test8", "test6");
+        userService.acceptFriend("test5", "test6");
+        userService.acceptFriend("test7", "test6");
+
+    }
 }
+
+/*
+?? quesitons ot ask dima:
+hat is pro way, having arhuments as id or as object?
+how many layers have we been using in our app?
+ */
