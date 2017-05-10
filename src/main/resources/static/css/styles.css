@@ -31,6 +31,23 @@
     margin-top: 20px;
 }
 
+.userPicture {
+    height:150px;
+}
+
+.tableUsername {
+    font-size: 16px;
+    text-align: center;
+}
+.tableTitle {
+    text-align: center;
+}
+.tableColumns {
+    padding-left: 100px !important;
+    padding-right: 50px !important;
+    text-align: center;
+}
+
 body{
     background-color: lightgray;
 }
@@ -211,4 +228,50 @@ body{
 .home #head .tagline {
     font-size: 1em;
     margin: 15px 0 0;
+}
+
+.image-middle {
+    margin-top: 10%;
+}
+
+.image-middle .img-circle {
+    display: block;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border: 9px solid rgba(0, 0, 0, 0.05);
+    margin: 0 auto;
+}
+
+.signin-left {
+    float: left;
+}
+
+.signin-right {
+    float: right;
+}
+
+.freedays {
+    margin-top: 8%;
+}
+
+.freeheader {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.friendbutton {
+    padding-top: 8px;
+    margin-right: 5px;"
+}
+
+.topspace {
+    margin-top: 40px;
+}
+.midspace {
+    margin-top: 20px;
+}
+.lowspace {
+    margin-top: 18px;
 }

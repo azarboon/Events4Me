@@ -41,24 +41,18 @@ public class UserController {
         model.addAttribute("recommendedUsers", recommendedUsers);
         return "recommendedUsers";
     }
-
-    public String sendFriendshipRequest(Principal principal, Model model,
-                                        @PathVariable String recieverUsername) {
-        User sender = userService.findByUsername(principal.getName());
-        User reciever = userService.findByUsername(recieverUsername);
-        sender.sendFriendRequestTo(reciever);
-        model.addAttribute("SentFriendshipRequest",
-                "friendship request was sent to " + recieverUsername);
-        return "sentfriendshipRequest";
+    @RequestMapping(value = "/sendFriend/{recieverUsername}", method = RequestMethod.POST)
+    public String sendFriendshipRequest(Principal principal, @PathVariable String recieverUsername) {
+        userService.sendFriendRequestTo(principal.getName(), recieverUsername);
+        return "redirect:/user/list/ ";
     }
 
+    @RequestMapping(value = "/acceptFriend/{recieverUsername}", method = RequestMethod.POST)
     public String acceptFriend(Principal principal, Model model,
-                               @PathVariable String senderUsername) {
-        User reciever = userService.findByUsername(principal.getName());
-        User sender = userService.findByUsername(senderUsername);
-        reciever.acceptFriend(sender);
-        model.addAttribute("FriendshipAccepted", "Now you are friend with " + senderUsername);
-        return "friendshipAccepted";
+                               @PathVariable String recieverUsername) {
+        System.out.println("ahahahhahaaaha");
+        userService.acceptFriend(recieverUsername, principal.getName());
+        return "redirect:/events4me";
     }
 
     @RequestMapping({"/list", "/"})

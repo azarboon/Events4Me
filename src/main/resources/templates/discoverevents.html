@@ -2,7 +2,8 @@
 <html lang="en">
 <head th:replace="templates :: header">
 </head>
-<script th:src="@{/../js/discoverscript.js}"></script>
+<!-- Old implementation using ajax
+<script th:src="@{/../js/discoverscript.js}"></script> -->
 <body>
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -24,24 +25,159 @@
                 <li><a th:href="@{/user/list}">DISCOVER PEOPLE</a></li>
 
             </ul>
+
             <ul class=" nav navbar-nav navbar-right">
-                <form th:action="@{/logout}">
-                    <button type="submit" class="btn btn-default navbar-btn logout">LOGOUT</button>
-                </form>
+                <li>
+
+                    <div class="dropdown friendbutton" title="Pending friend requests">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"
+                                th:text="${user.getPendingFriendRequests().size()}">
+                        </button>
+                        <ul th:each="friend : ${user.getPendingFriendRequests()}" class="dropdown-menu">
+                            <li>
+                                <p th:text="${friend.username}"></p>
+                                <form th:action="'/user/acceptFriend/' + ${friend.username}" method="post">
+                                    <button type="submit" class="btn">accept</button>
+                                </form>
+                                <button type="button" class="btn">reject</button>
+                            </li>
+                        </ul>
+                    </div>
+
+                </li>
+                <li>
+                    <form th:action="@{/logout}">
+                        <button type="submit" class="btn btn-default navbar-btn logout">LOGOUT</button>
+                    </form>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
 <div class="container">
     <div id="eventList" class="col-md-6">
+        <h1>Future events</h1>
+        <table class="table">
+            <tr>
+                <th>Event Name</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+            <th:block th:each="event : ${futureEvents}">
+                <tr>
+                    <td th:text="${event.title}" style="border-top: 0px"></td>
+                    <td th:text="${event.endTime.toString().substring(0,10)}" style="border-top: 0px"></td>
+                    <td th:text="${event.endTime.toString().substring(11,16)}" style="border-top: 0px"></td>
+                    <td style="border-top: 0px">
+                        <form th:action="'/event/show/' + ${event.eventId}">
+                            <button class="btn btn-default" type="submit">View</button>
+                        </form>
+                    </td>
+                    <td th:if="${event.organizer} == ${user}" style="border-top: 0px">
+                        <form th:action="'/product/edit/' + ${event.eventId}">
+                            <button class="btn btn-default" type="submit">Edit</button>
+                        </form>
+                    </td>
+                </tr>
+            </th:block>
+
+
+        </table>
     </div>
+
+    <div id="pastEventList" class="row col-md-6">
+        <h1>Past Events</h1>
+        <table class="table">
+            <tr>
+                <th>Event Name</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+            <th:block th:each="event : ${pastEvents}">
+                <tr>
+                    <td th:text="${event.title}" style="border-top: 0px"></td>
+                    <td th:text="${event.endTime.toString().substring(0,10)}" style="border-top: 0px"></td>
+                    <td th:text="${event.endTime.toString().substring(11,16)}" style="border-top: 0px"></td>
+                    <td style="border-top: 0px">
+                        <form th:action="'/event/show/' + ${event.eventId}">
+                            <button class="btn btn-default" type="submit">View</button>
+                        </form>
+                    </td>
+                    <td th:if="${event.organizer} == ${user}" style="border-top: 0px">
+                        <form th:action="'/product/edit/' + ${event.eventId}">
+                            <button class="btn btn-default" type="submit">Edit</button>
+                        </form>
+                    </td>
+                </tr>
+            </th:block>
+
+
+        </table>
+    </div>
+
+
     <div class="col-md-6">
-        <form action="/event/new" method="get">
+        <form action="/newEvent" method="get">
             <button type="submit" class="btn btn-default eventButton"> Create a new Event</button>
 
 
         </form>
     </div>
+
+    <div class="container">
+        <div class="row section recentworks topspace">
+
+            <h2 class="section-title"><span>Recommended events:</span></h2>
+
+            <div class="thumbnails recentworks" id="attending" th:each="recom : ${preferedevents}" th:value="${recom.title}">
+
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                    <a class="thumbnail" rel="gallery" th:href="'/event/show/' + ${recom.eventId}">
+						<span class="img">
+                            <img th:if="${recom.category.toString()} == 'SPORT'"
+                                 src="http://avalimousine.com/wp-content/uploads/2015/02/2013-january-february-1859-magazine-best-of-oregon-portland-best-sporting-event-timbers-game-fc-dallas-winner.jpg?quality=100.3015021919180"/>
+                            <img th:if="${recom.category.toString()} == 'BUSINESS'"
+                                 src="https://www.makingdifferent.com/wp-content/uploads/2015/04/business-event-planning.jpg"/>
+                            <img th:if="${recom.category.toString()} == 'PARTY'"
+                                 src="http://www.eventlounge.be/wp-content/gallery/end-year-party/private-party-event-12.jpg"/>
+                            <img th:if="${recom.category.toString()} == 'MOVIES'"
+                                 src="http://listsurge.com/wp-content/uploads/2015/08/t-hill-s-top-movies-of-2011-so-far-.jpg"/>
+                            <img th:if="${recom.category.toString()} == 'NATURE'"
+                                 src="https://www.nature.org/cs/groups/webcontent/@web/@magazine/documents/media/spirit-bear-926-x-518.jpg"/>
+                            <img th:if="${recom.category.toString()} == 'DANCE'"
+                                 src="http://images.clipartpanda.com/dancer-clipart-6a09711db88a77919169ef8dd649441c.jpg"/>
+                            <img th:if="${recom.category.toString()} == 'ART'"
+                                 src="https://s-media-cache-ak0.pinimg.com/736x/94/e5/c8/94e5c8f8a38382c6750f26a2467ad670.jpg"/>
+                            <!-- <img class="OwneventPicture" src="../img/placeholder.png" alt=""/> -->
+							<span class="cover"><span class="more">View Event</span></span>
+						</span>
+                        <span class="title" th:text="' '+${recom.title}"></span>
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!--            <div class="thumbnails recentworks" th:each="recom : ${preferedevents}" th:value="${recom.title}">
+
+                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
+                                    <span class="img">
+                                        <img src="../img/placeholder.png" alt=""/>
+                                        <span class="cover"><span class="more">View bigger</span></span>
+                                    </span>
+                                    <span class="title" th:text="' '+${recom.title}"></span>
+                                </a>
+
+                            </div>
+
+                        </div>-->
+
+        </div>
+
+
+    </div>
+
 
 </div>
 

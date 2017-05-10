@@ -14,8 +14,8 @@ import com.google.api.services.calendar.model.FreeBusyRequest;
 import com.google.api.services.calendar.model.FreeBusyRequestItem;
 import com.google.api.services.calendar.model.FreeBusyResponse;
 import com.google.api.services.calendar.model.TimePeriod;
-import com.metropolia.events4me.Converter.Period;
-import com.metropolia.events4me.Converter.TimeSettingConverter;
+import com.metropolia.events4me.converter.Period;
+import com.metropolia.events4me.converter.TimeSettingConverter;
 import com.metropolia.events4me.Model.Days;
 import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Model.Interest;
@@ -85,17 +85,17 @@ public class EventUserServiceImpl implements EventUserService {
     }
 
     @Override
-    public String createEvent(User user, Event event) {
+    public Event createEvent(User user, Event event) {
         if (timeSlotIsFree(event)) {
             user.organizeNewEvent(event);
             if (!createEventOnCalendar(event)) {
-                return "There was an error. Couldn't create the event on Calendar.";
+                return null;
             }
+            Event newEvent = eventService.saveOrUpdateEvent(event);
             userService.saveOrUpdateUser(user);
-            eventService.saveOrUpdateEvent(event);
-            return "Event was created successfully";
+            return newEvent;
         }
-        return "Specified timeslot for tihs location is not free";
+        return null;
     }
 
     private boolean createEventOnCalendar(Event event) {

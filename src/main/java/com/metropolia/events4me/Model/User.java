@@ -112,8 +112,10 @@ public class User {
     }
 
     public void organizeNewEvent(Event event) {
-        event.setOrganizer(this);
-        this.adminingEvents.add(event);
+        if(!adminingEvents.contains(event)){
+            event.setOrganizer(this);
+            this.adminingEvents.add(event);
+        }
     }
 
     public Set<Event> getAdminingEvents() {
@@ -129,7 +131,9 @@ public class User {
     }
 
     public void attendEvent(Event event) {
-        this.attendingEvents.add(event);
+        if(!this.attendingEvents.contains(event)){
+            this.attendingEvents.add(event);
+        }
     }
 
     public TimeSetting getTimeAvailability() {

@@ -23,16 +23,36 @@
 
                 <li><a th:href="@{/events4me/discoverevents}">DISCOVER EVENTS</a></li>
                 <li><a th:href="@{/user/list}">DISCOVER PEOPLE</a></li>
-                <li><a th:href="@{/settimepref}">Testing settings</a></li>
+                <li><a th:href="@{/settimepref}">TIME SETTINGS</a></li>
 
             </ul>
+
             <ul class=" nav navbar-nav navbar-right">
-                <form th:action="@{/logout}">
-                    <button type="submit" class="btn btn-default navbar-btn logout">LOGOUT</button>
-                </form>
+                <li>
+
+                    <div class="dropdown friendbutton" title="Pending friend requests">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"
+                                th:text="${user.getPendingFriendRequests().size()}">
+                        </button>
+                        <ul th:each="friend : ${user.getPendingFriendRequests()}" class="dropdown-menu">
+                            <li>
+                                <p th:text="${friend.username}"></p>
+                                <form th:action="'/user/acceptFriend/' + ${friend.username}" method="post">
+                                <button type="submit" class="btn">accept</button>
+                                </form>
+                                <button type="button" class="btn">reject</button>
+                            </li>
+                        </ul>
+                    </div>
+
+                </li>
+                <li>
+                    <form th:action="@{/logout}">
+                        <button type="submit" class="btn btn-default navbar-btn logout">LOGOUT</button>
+                    </form>
+                </li>
             </ul>
         </div>
-
 
 
     </div>
@@ -43,17 +63,64 @@
     <div id="head">
         <h1 id="logo" class="text-center">
             <img class="img-circle" th:src="@{img/placeholder2.png}" alt=""/>
-            <span class="title" th:text="${user.firstName}"></span>
+            <span class="title" th:text="${user.firstName + ' ' + user.lastName}"></span>
             <br/>
-            <span class="title" th:text="${user.lastName}"></span>
-            <span class="tagline">infoo</span>
+            <span class="tagline" th:text="${user.username}"></span>
+
         </h1>
+        <div class="col-md-4">
+            <table class="col-md-offset-6">
+                <tr>
+                    <th>Interests:</th>
+                </tr>
+                <tr th:each="interest : ${user.getInterests()}">
+                    <th th:text="${interest}"></th>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <table class="col-md-offset-6">
+                <tr>
+                    <th>Country:</th>
+                </tr>
+                <tr>
+                    <th th:text="${user.getCountry()}"></th>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <table class="col-md-offset-6">
+                <tr>
+                    <th>Birthday:</th>
+                </tr>
+                <tr>
+                    <th th:text="${user.getBirthday()}"></th>
+                </tr>
+            </table>
+        </div>
+        <table class="container midspace freedays">
+            <caption class="freeheader">Availability</caption>
+            <tr>
+                <th>Monday</th>
+                <th>Thuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+                <th>Sunday</th>
+            </tr>
+            <tr id="timeschedule">
+
+            </tr>
+        </table>
+
+
     </div>
 
     <div class="navbar">
         <div class="container midspace">
             <div>
-                <p class="lead text-center text-muted">something something here</p>
+                <p class="lead text-center text-muted">User activity</p>
             </div>
         </div>
     </div>
@@ -62,152 +129,61 @@
 <div class="container">
     <div class="row section recentworks topspace">
 
-        <h2 class="section-title"><span>Upcoming events</span></h2>
+        <h2 class="section-title"><span>Events:</span></h2>
+        <div id="notattending">
 
-        <div class="thumbnails recentworks row">
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png" title="Dis is a picture">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Sample title - big data solutions</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Pure ipsum - development services for people</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Lorem studios - interior and patio design</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Pure ipsum - development services for people</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Lorem studios - interior and patio design</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Lorem studios - interior and patio design</span>
-                </a>
-
-            </div>
         </div>
 
-        <div class="section topspace">
-            <h2 class="section-title"><span>Past events</span></h2>
+        <div class="thumbnails recentworks" id="attending" th:each="state : ${userEvents}" th:value="${state.title}">
+
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                <a class="thumbnail" rel="gallery" th:href="'/event/show/' + ${state.eventId}">
+						<span class="img">
+                            <img th:if="${state.category.toString()} == 'SPORT'"
+                                 src="http://avalimousine.com/wp-content/uploads/2015/02/2013-january-february-1859-magazine-best-of-oregon-portland-best-sporting-event-timbers-game-fc-dallas-winner.jpg?quality=100.3015021919180"/>
+                            <img th:if="${state.category.toString()} == 'BUSINESS'"
+                                 src="https://www.makingdifferent.com/wp-content/uploads/2015/04/business-event-planning.jpg"/>
+                            <img th:if="${state.category.toString()} == 'PARTY'"
+                                 src="http://www.eventlounge.be/wp-content/gallery/end-year-party/private-party-event-12.jpg"/>
+                            <img th:if="${state.category.toString()} == 'MOVIES'"
+                                 src="http://listsurge.com/wp-content/uploads/2015/08/t-hill-s-top-movies-of-2011-so-far-.jpg"/>
+                            <img th:if="${state.category.toString()} == 'NATURE'"
+                                 src="https://www.nature.org/cs/groups/webcontent/@web/@magazine/documents/media/spirit-bear-926-x-518.jpg"/>
+                            <img th:if="${state.category.toString()} == 'DANCE'"
+                                 src="http://images.clipartpanda.com/dancer-clipart-6a09711db88a77919169ef8dd649441c.jpg"/>
+                            <img th:if="${state.category.toString()} == 'ART'"
+                                 src="https://s-media-cache-ak0.pinimg.com/736x/94/e5/c8/94e5c8f8a38382c6750f26a2467ad670.jpg"/>
+                            <!-- <img class="OwneventPicture" src="../img/placeholder.png" alt=""/> -->
+							<span class="cover"><span class="more">View Event</span></span>
+						</span>
+                    <span class="title" th:text="' '+${state.title}"></span>
+                </a>
+
+            </div>
+
         </div>
+
+
     </div>
-    <div class="row section recentworks topspace">
+    <div>
+        <h2 class="section-title topspace">Friends:</h2>
 
-        <div class="thumbnails recentworks row">
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png" title="Dis is a picture">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Sample title - big data solutions</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Pure ipsum - development services for people</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Lorem studios - interior and patio design</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Pure ipsum - development services for people</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Lorem studios - interior and patio design</span>
-                </a>
-
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                <a class="thumbnail" rel="gallery" href="../img/placeholder2.png">
-						<span class="img">
-							<img src="../img/placeholder.png" alt=""/>
-							<span class="cover"><span class="more">View bigger</span></span>
-						</span>
-                    <span class="title">Lorem studios - interior and patio design</span>
-                </a>
-
-            </div>
-        </div>
     </div>
+    <table class="table">
+        <tr>
+            <th class="tableTitle">Picture</th>
+            <th class="tableColumns">Username</th>
+            <th class="tableTitle"></th>
+        </tr>
+        <th:block th:each="friend : ${user.getFriends()}">
+            <tr>
+                <td><img th:src="@{/img/GenericUser.png}" alt="user picture" class="userPicture"/></td>
+
+                <td th:text="${friend.username}" class="tableUsername" style="border-top: 0px"></td>
+
+            </tr>
+        </th:block>
+    </table>
 </div>
 </body>
 </html>
