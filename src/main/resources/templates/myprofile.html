@@ -29,20 +29,20 @@
 
             <ul class=" nav navbar-nav navbar-right">
                 <li>
-                    <a>
-                        <div class="dropdown" title="Pending friend requests">
-                            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"
-                                    th:text="${user.getPendingFriendRequests().size()}">
-                            </button>
-                            <ul th:each="friend : ${user.getPendingFriendRequests()}" class="dropdown-menu">
-                                <li>
-                                    <p th:text="${friend.username}"></p>
-                                    <button type="button" class="btn">accept</button>
-                                    <button type="button" class="btn">reject</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </a>
+
+                    <div class="dropdown friendbutton" title="Pending friend requests">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"
+                                th:text="${user.getPendingFriendRequests().size()}">
+                        </button>
+                        <ul th:each="friend : ${user.getPendingFriendRequests()}" class="dropdown-menu">
+                            <li>
+                                <p th:text="${friend.username}"></p>
+                                <button type="button" class="btn">accept</button>
+                                <button type="button" class="btn">reject</button>
+                            </li>
+                        </ul>
+                    </div>
+
                 </li>
                 <li>
                     <form th:action="@{/logout}">
@@ -118,7 +118,7 @@
     <div class="navbar">
         <div class="container midspace">
             <div>
-                <p class="lead text-center text-muted">something something here</p>
+                <p class="lead text-center text-muted">User activity</p>
             </div>
         </div>
     </div>
@@ -137,13 +137,20 @@
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                 <a class="thumbnail" rel="gallery" th:href="'/event/show/' + ${state.eventId}">
 						<span class="img">
-                            <img th:if="${state.category.toString()} == 'SPORT'" src="http://avalimousine.com/wp-content/uploads/2015/02/2013-january-february-1859-magazine-best-of-oregon-portland-best-sporting-event-timbers-game-fc-dallas-winner.jpg?quality=100.3015021919180" />
-                            <img th:if="${state.category.toString()} == 'BUSINESS'" src="https://www.makingdifferent.com/wp-content/uploads/2015/04/business-event-planning.jpg" />
-                            <img th:if="${state.category.toString()} == 'PARTY'" src="http://www.eventlounge.be/wp-content/gallery/end-year-party/private-party-event-12.jpg" />
-                            <img th:if="${state.category.toString()} == 'MOVIES'" src="http://listsurge.com/wp-content/uploads/2015/08/t-hill-s-top-movies-of-2011-so-far-.jpg"/>
-                            <img th:if="${state.category.toString()} == 'NATURE'" src="https://www.nature.org/cs/groups/webcontent/@web/@magazine/documents/media/spirit-bear-926-x-518.jpg"/>
-                            <img th:if="${state.category.toString()} == 'DANCE'" src="http://images.clipartpanda.com/dancer-clipart-6a09711db88a77919169ef8dd649441c.jpg"/>
-                            <img th:if="${state.category.toString()} == 'ART'" src="https://s-media-cache-ak0.pinimg.com/736x/94/e5/c8/94e5c8f8a38382c6750f26a2467ad670.jpg"/>
+                            <img th:if="${state.category.toString()} == 'SPORT'"
+                                 src="http://avalimousine.com/wp-content/uploads/2015/02/2013-january-february-1859-magazine-best-of-oregon-portland-best-sporting-event-timbers-game-fc-dallas-winner.jpg?quality=100.3015021919180"/>
+                            <img th:if="${state.category.toString()} == 'BUSINESS'"
+                                 src="https://www.makingdifferent.com/wp-content/uploads/2015/04/business-event-planning.jpg"/>
+                            <img th:if="${state.category.toString()} == 'PARTY'"
+                                 src="http://www.eventlounge.be/wp-content/gallery/end-year-party/private-party-event-12.jpg"/>
+                            <img th:if="${state.category.toString()} == 'MOVIES'"
+                                 src="http://listsurge.com/wp-content/uploads/2015/08/t-hill-s-top-movies-of-2011-so-far-.jpg"/>
+                            <img th:if="${state.category.toString()} == 'NATURE'"
+                                 src="https://www.nature.org/cs/groups/webcontent/@web/@magazine/documents/media/spirit-bear-926-x-518.jpg"/>
+                            <img th:if="${state.category.toString()} == 'DANCE'"
+                                 src="http://images.clipartpanda.com/dancer-clipart-6a09711db88a77919169ef8dd649441c.jpg"/>
+                            <img th:if="${state.category.toString()} == 'ART'"
+                                 src="https://s-media-cache-ak0.pinimg.com/736x/94/e5/c8/94e5c8f8a38382c6750f26a2467ad670.jpg"/>
                             <!-- <img class="OwneventPicture" src="../img/placeholder.png" alt=""/> -->
 							<span class="cover"><span class="more">View Event</span></span>
 						</span>

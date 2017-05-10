@@ -12,14 +12,43 @@
             <a class="navbar-brand">Events4me</a>
         </div>
 
+
         <!-- Menu Items-->
         <div>
             <ul class="nav navbar-nav">
-                <li ><a th:href="@{/events4me}">MY PROFILE</a></li>
-                <li class="active"><a th:text="${product.title}"></a></li>
+                <li><a class="navbar-brand"></a></li>
+                <li><a class="navbar-brand"></a></li>
+                <li><a th:href="@{/events4me}">MY PROFILE</a></li>
+
+                <li class="active"><a th:href="@{/events4me/discoverevents/}">DISCOVER EVENTS</a></li>
+                <li><a th:href="@{/user/list}">DISCOVER PEOPLE</a></li>
+
+            </ul>
+
+            <ul class=" nav navbar-nav navbar-right">
+                <li>
+
+                    <div class="dropdown friendbutton" title="Pending friend requests">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"
+                                th:text="${user.getPendingFriendRequests().size()}">
+                        </button>
+                        <ul th:each="friend : ${user.getPendingFriendRequests()}" class="dropdown-menu">
+                            <li>
+                                <p th:text="${friend.username}"></p>
+                                <button type="button" class="btn">accept</button>
+                                <button type="button" class="btn">reject</button>
+                            </li>
+                        </ul>
+                    </div>
+
+                </li>
+                <li>
+                    <form th:action="@{/logout}">
+                        <button type="submit" class="btn btn-default navbar-btn logout">LOGOUT</button>
+                    </form>
+                </li>
             </ul>
         </div>
-
     </div>
 </nav>
 <div class="container">

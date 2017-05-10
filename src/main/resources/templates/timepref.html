@@ -27,8 +27,8 @@
             </ul>
             <ul class=" nav navbar-nav navbar-right">
                 <li>
-                    <a>
-                        <div class="dropdown" title="Pending friend requests">
+
+                        <div class="dropdown friendbutton" title="Pending friend requests">
                             <button class="btn dropdown-toggle" type="button" data-toggle="dropdown"
                                     th:text="${user.getPendingFriendRequests().size()}">
                             </button>
@@ -40,7 +40,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </a>
+
                 </li>
                 <li>
                     <form th:action="@{/logout}">
