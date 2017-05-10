@@ -8,7 +8,6 @@ $(document).ready(function () {
             type: "POST",
             url: "/join/event/" + urlArray,
             success: function(data) {
-                console.log(data);
 
 
             }
