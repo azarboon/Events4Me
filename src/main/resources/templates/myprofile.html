@@ -161,8 +161,27 @@
 
         </div>
 
-    </div>
 
+    </div>
+    <div>
+        <h2 class="section-title topspace">Friends:</h2>
+
+    </div>
+    <table class="table">
+        <tr>
+            <th class="tableTitle">Picture</th>
+            <th class="tableColumns">Username</th>
+            <th class="tableTitle"></th>
+        </tr>
+        <th:block th:each="friend : ${user.getFriends()}">
+            <tr>
+                <td><img th:src="@{/img/GenericUser.png}" alt="user picture" class="userPicture"/></td>
+
+                <td th:text="${friend.username}" class="tableUsername" style="border-top: 0px"></td>
+
+            </tr>
+        </th:block>
+    </table>
 </div>
 </body>
 </html>

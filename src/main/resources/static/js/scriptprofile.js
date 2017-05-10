@@ -5,7 +5,7 @@ $(document).ready(function () {
         var p = document.createElement('p');
         p.setAttribute("id", "notattending");
         p.style = "text-align: center";
-        p.innerHTML = "You are not attending any events currently";
+        p.innerHTML = "No user activity";
         document.getElementById('notattending').appendChild(p);
 
 

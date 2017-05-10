@@ -265,3 +265,13 @@ body{
     padding-top: 8px;
     margin-right: 5px;"
 }
+
+.topspace {
+    margin-top: 40px;
+}
+.midspace {
+    margin-top: 20px;
+}
+.lowspace {
+    margin-top: 18px;
+}
