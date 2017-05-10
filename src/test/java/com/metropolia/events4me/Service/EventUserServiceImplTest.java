@@ -17,7 +17,6 @@ import java.util.List;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@DirtiesContext(classMode = BEFORE_EACH_TEST_METHOD)
 @ActiveProfiles("test")
 public class EventUserServiceImplTest {
 
@@ -45,8 +44,10 @@ public class EventUserServiceImplTest {
     public void matchEventsForUserTest() throws Exception {
         User user = userService.findByUsername("dima");
         List<Event> list = eventUserService.matchEventsForUser(user);
-        System.out.println(list.size());
-        assert list.size() == 3;
+        for (Event e : list) {
+            System.out.println(e.getTitle());
+        }
+        assert list.size() == 1;
     }
 
 //    @Test

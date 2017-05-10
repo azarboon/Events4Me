@@ -1,4 +1,5 @@
 language: java
+<<<<<<< HEAD
 jdk:
   - oraclejdk8  
 deploy:
@@ -8,3 +9,8 @@ deploy:
   app: software-structures
   strategy: git
 after_deploy: "./mvnw spring-boot:run"
+=======
+script: ./mvnw install -DskipTests=false -Dmaven.javadoc.skip=true -B -V -e
+jdk:
+  - oraclejdk8
+>>>>>>> ec77f5b4dcccd103509be36cae3114005a1138aa

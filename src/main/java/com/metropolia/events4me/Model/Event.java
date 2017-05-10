@@ -14,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -24,7 +25,8 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer eventId;
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id")
     private Location location;
     private String title;
     private String description;
@@ -32,8 +34,8 @@ public class Event {
 
     @ManyToOne
     private User organizer;
+    private LocalDateTime startTime;
     private LocalDateTime endTime;
-
     @Enumerated(EnumType.STRING)
     private Interest category;
     private int maxAttenddees;
@@ -43,15 +45,28 @@ public class Event {
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<User> pendingAttendees;
-
     private BigDecimal price;
-
 
     public Event() {
         this.confirmedAttendees = new HashSet<>();
         this.pendingAttendees = new HashSet<>();
     }
 
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public Set<User> getPendingAttendees() {
+        return pendingAttendees;
+    }
+
+    public void setPendingAttendees(Set<User> pendingAttendees) {
+        this.pendingAttendees = pendingAttendees;
+    }
 
     public void acceptAttendee(User attendee) {
         if (pendingAttendees.contains(attendee)) {

@@ -8,6 +8,5 @@ import java.util.List;
 public interface RoleService {
 
     Role saveOrUpdateRole(Role role);
-
     List<Role> listRoles();
 }

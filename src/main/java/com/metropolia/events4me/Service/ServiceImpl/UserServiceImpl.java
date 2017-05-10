@@ -109,6 +109,9 @@ public class UserServiceImpl implements UserService {
             User sender = userDAO.findByUsername(senderUserName);
             User reciever = userDAO.findByUsername(recieverUserName);
             sender.sendFriendRequestTo(reciever);
+            userDAO.save(reciever);
+            userDAO.save(sender);
+
         }
     }
 
@@ -119,6 +122,8 @@ public class UserServiceImpl implements UserService {
             User sender = userDAO.findByUsername(senderUserName);
             User reciever = userDAO.findByUsername(recieverUserName);
             reciever.recieveFriendRequestFrom(sender);
+            userDAO.save(reciever);
+            userDAO.save(sender);
         }
     }
 
@@ -129,6 +134,8 @@ public class UserServiceImpl implements UserService {
             User sender = userDAO.findByUsername(senderUserName);
             User reciever = userDAO.findByUsername(recieverUserName);
             reciever.acceptFriend(sender);
+            userDAO.save(reciever);
+            userDAO.save(sender);
         }
 
     }
@@ -136,6 +143,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<User> getPendingFriendRequests(String username) {
         if (userDAO.findByUsername(username) != null) {
+
             User user = userDAO.findByUsername(username);
             return user.getPendingFriendRequests();
         }
@@ -182,11 +190,8 @@ public class UserServiceImpl implements UserService {
     private List<userWithCountOfInterests> getSortedList(String username) {
         User currentUser = userDAO.findByUsername(username);
 
-        User test7 = userDAO.findByUsername("test7");
-        System.out.println("list6: finbyusername should now get test7: " + test7.getUsername());
+
         List<User> allUsers = userDAO.findAll();
-        System.out.println("List 4: these users were retrieved: ");
-        allUsers.forEach(u -> System.out.println(u.getUsername()));
         List<userWithCountOfInterests> usersWithNumberOfCommonInterests = new ArrayList<>();
 
         for (User each : allUsers) {
