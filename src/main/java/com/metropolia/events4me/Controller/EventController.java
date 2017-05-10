@@ -4,6 +4,8 @@ import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Service.EventService;
 import java.security.Principal;
 
+import com.metropolia.events4me.Service.EventUserService;
+import com.metropolia.events4me.Service.LocationService;
 import com.metropolia.events4me.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,6 +28,7 @@ public class EventController {
 
     private EventService eventService;
     private UserService userService;
+    private LocationService locationService;
 
     @Autowired
     public void setEventService(EventService eventService) {
@@ -35,6 +38,10 @@ public class EventController {
     @Qualifier("UserServiceImpl")
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+    @Autowired
+    public void setLocationService(LocationService locationService){
+        this.locationService = locationService;
     }
 
 
@@ -67,6 +74,7 @@ public class EventController {
     public String edit(@PathVariable Integer id, Model model){
         Event product = eventService.getEventById(id);
         model.addAttribute("event", product);
+        model.addAttribute("locations", locationService.listLocations());
         return "event/eventform";
     }
 

@@ -92,12 +92,13 @@ public class EventUserServiceImpl implements EventUserService {
         if (timeSlotIsFree(event)) {
             user.organizeNewEvent(event);
             if (!createEventOnCalendar(event)) {
-                //return "There was an error. Couldn't create the event on Calendar.";
+                return null;
             }
+            Event newEvent = eventService.saveOrUpdateEvent(event);
             userService.saveOrUpdateUser(user);
-
+            return newEvent;
         }
-        return eventService.saveOrUpdateEvent(event);
+        return null;
     }
 
 

@@ -40,7 +40,10 @@
                 </div>
                 <div class="form-group row ">
                     <label for="event-location-input">Event Location:</label>
-                    <input th:field="*{location}" class="form-control" type="text" value="Default value" id="event-location-input"/>
+                    <select th:field="*{location}" th:remove="all-but-first" class="form-control" id="event-location-input">
+                        <option th:each="location : ${locations}"
+                                th:value="${location.id}" th:text="${location.name} + ', ' + ${location.address}">default option</option>
+                    </select>
                 </div>
                 <div class="form-group row">
                     <label for="descriptionTextarea">Event Description</label>
