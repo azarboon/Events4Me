@@ -207,14 +207,14 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
         Event businessEventPast = new Event();
         businessEventPast.setTitle("Business event past");
-        businessEventPast.setEndTime(LocalDateTime.of(2017, 2, 2, 13, 0));
+        businessEventPast.setStartTime(LocalDateTime.of(2017, 2, 2, 13, 0));
         businessEventPast.setEndTime(LocalDateTime.of(2017, 2, 2, 14, 0));
         businessEventPast.setCategory(Interest.BUSINESS);
         eventService.saveOrUpdateEvent(businessEventPast);
 
         Event sportEventPast = new Event();
         sportEventPast.setTitle("Sport event past");
-        sportEventPast.setEndTime(LocalDateTime.of(2017, 2, 3, 13, 0));
+        sportEventPast.setStartTime(LocalDateTime.of(2017, 2, 3, 13, 0));
         sportEventPast.setEndTime(LocalDateTime.of(2017, 2, 3, 14, 0));
         sportEventPast.setCategory(Interest.SPORT);
         eventService.saveOrUpdateEvent(sportEventPast);
@@ -251,7 +251,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     }
 
     private void setLocationForEvents() {
-        eventService.setLocationForEvent(1,3);
+        eventService.setLocationForEvent(1, 3);
         eventService.setLocationForEvent(2, 2);
         eventService.setLocationForEvent(3, 4);
         eventService.setLocationForEvent(4, 2);

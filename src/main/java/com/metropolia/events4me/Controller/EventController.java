@@ -19,10 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-/**
- * Created by Dmitry on 13.04.2017.
- */
-
 @Controller
 public class EventController {
 
@@ -34,11 +30,12 @@ public class EventController {
     public void setEventService(EventService eventService) {
         this.eventService = eventService;
     }
+
     @Autowired
-    @Qualifier("UserServiceImpl")
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
+
     @Autowired
     public void setLocationService(LocationService locationService){
         this.locationService = locationService;
@@ -104,8 +101,6 @@ public class EventController {
 
         return "redirect:/event/show/" + eventToUpdate.getEventId();
     }
-
-
 
     @RequestMapping("/event/delete/{id}")
     public String delete(@PathVariable Integer id){

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="templates :: header">
 </head>
 <body>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="row form-group  ">
                     <label for="event-time-input">Event Time:</label>
-                    <input th:field="*{endTime}" class="form-control" type="text" value="Default value" id="event-time-input"/>
+                    <input th:field="*{startTime}" class="form-control" type="text" value="Default value" id="event-time-input"/>
                 </div>
                 <div class="form-group row ">
                     <label for="event-location-input">Event Location:</label>

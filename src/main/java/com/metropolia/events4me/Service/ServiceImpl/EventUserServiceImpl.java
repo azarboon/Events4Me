@@ -169,7 +169,6 @@ public class EventUserServiceImpl implements EventUserService {
     private Calendar getCalendar() {
         JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
         HttpTransport HTTP_TRANSPORT = null;
-        //TODO: use logger
         try {
             HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         } catch (GeneralSecurityException e) {

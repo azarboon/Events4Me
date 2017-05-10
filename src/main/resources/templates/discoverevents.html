@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="templates :: header">
 </head>
 <!-- Old implementation using ajax
@@ -66,8 +66,8 @@
             <th:block th:each="event : ${futureEvents}">
                 <tr>
                     <td th:text="${event.title}" style="border-top: 0px"></td>
-                    <td th:text="${event.endTime.toString().substring(0,10)}" style="border-top: 0px"></td>
-                    <td th:text="${event.endTime.toString().substring(11,16)}" style="border-top: 0px"></td>
+                    <td th:text="${event.startTime.toString().substring(0,10)}" style="border-top: 0px"></td>
+                    <td th:text="${event.startTime.toString().substring(11,16)}" style="border-top: 0px"></td>
                     <td style="border-top: 0px">
                         <form th:action="'/event/show/' + ${event.eventId}">
                             <button class="btn btn-default" type="submit">View</button>
@@ -96,8 +96,8 @@
             <th:block th:each="event : ${pastEvents}">
                 <tr>
                     <td th:text="${event.title}" style="border-top: 0px"></td>
-                    <td th:text="${event.endTime.toString().substring(0,10)}" style="border-top: 0px"></td>
-                    <td th:text="${event.endTime.toString().substring(11,16)}" style="border-top: 0px"></td>
+                    <td th:text="${event.startTime.toString().substring(0,10)}" style="border-top: 0px"></td>
+                    <td th:text="${event.startTime.toString().substring(11,16)}" style="border-top: 0px"></td>
                     <td style="border-top: 0px">
                         <form th:action="'/event/show/' + ${event.eventId}">
                             <button class="btn btn-default" type="submit">View</button>

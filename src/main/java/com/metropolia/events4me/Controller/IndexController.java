@@ -75,7 +75,6 @@ public class IndexController {
         model.addAttribute("user", user);
         model.addAttribute("userEvents", user.getAttendingEvents());
         model.addAttribute("userFriend", user.getFriends());
-        //Other information...
         return "myprofile";
     }
 
