@@ -4,8 +4,8 @@ jdk:
 deploy:
   provider: heroku
   api_key:
-    secure: "0eaae3d8-12f1-40cb-9403-6d72502a4e4d"
-  app: software-structures3
+    secure: "ee0a7370-66fa-424d-adfe-aef14d13cd56"
+  app: software-structures
   strategy: git
 after_deploy: "./mvnw spring-boot:run"
 
