@@ -5,7 +5,7 @@ deploy:
   provider: heroku
   api_key:
     secure: "ee0a7370-66fa-424d-adfe-aef14d13cd56"
-  app: software-structures
+  app: software-structures5
   strategy: git
 after_deploy: "./mvnw spring-boot:run"
 
