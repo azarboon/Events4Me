@@ -51,7 +51,6 @@ public class EventUserServiceImpl implements EventUserService {
     private EventService eventService;
 
     @Autowired
-    @Qualifier("UserServiceImpl")
     public void setUserService(UserService userService) {
         this.userService = userService;
     }

@@ -13,7 +13,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class SpringDataBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -67,24 +66,11 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     }
 
     private void loadTimeSettings() {
-//        TimeSetting  test = new TimeSetting();
-//        LocalTime s = LocalTime.of(0, 0);
-//        LocalTime e = LocalTime.of(23, 59);
-//        String i = s + ";" + e;
-//        test.getTimeMap().put(Days.MONDAY, i);
-//        test.getTimeMap().put(Days.TUESDAY, i);
-//        test.getTimeMap().put(Days.WEDNESDAY, i);
-//        test.getTimeMap().put(Days.THURSDAY, i);
-//        test.getTimeMap().put(Days.FRIDAY, i);
-//        test.getTimeMap().put(Days.SATURDAY, i);
-//        test.getTimeMap().put(Days.SUNDAY, i);
-//        TimeSettingConverter converter = TimeSettingConverter.convertForTemplate(test);
-//        TimeSetting timeSetting = TimeSettingConverter.convertForDatabase(converter);
 
         for (User u : userService.listUsers()) {
             TimeSetting timeSetting = new TimeSetting();
-            LocalTime start = LocalTime.of(12, 10);
-            LocalTime end = LocalTime.of(16, 30);
+            LocalTime start = LocalTime.of(17, 0);
+            LocalTime end = LocalTime.of(21, 0);
             String interval = start + ";" + end;
             timeSetting.getTimeMap().put(Days.MONDAY, interval);
             timeSetting.getTimeMap().put(Days.TUESDAY, interval);
@@ -144,8 +130,12 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
         User dmitry = new User();
         dmitry.setUsername("dima");
-        dmitry.setFirstName("dmitry");
+        dmitry.setFirstName("Dmitry");
+        dmitry.setLastName("Khramov");
+        dmitry.setEmail("dk@metropolia.fi");
         dmitry.setPassword("admin");
+        dmitry.setCountry("Finland");
+        dmitry.setBirthday("02.05.1992");
         dmitry.getInterests().add(Interest.BUSINESS);
         dmitry.getInterests().add(Interest.SPORT);
         dmitry.getInterests().add(Interest.DANCE);
@@ -153,10 +143,11 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
         User martin = new User();
         martin.setUsername("martin");
-        martin.setFirstName("martin");
-        martin.setPassword("user");
+        martin.setFirstName("Martin");
+        martin.setPassword("martin");
         martin.getInterests().add(Interest.PARTY);
         martin.getInterests().add(Interest.ART);
+        martin.getInterests().add(Interest.MOVIES);
         userService.saveOrUpdateUser(martin);
 
 

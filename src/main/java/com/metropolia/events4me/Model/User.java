@@ -8,9 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 
 @Entity
 public class User {
@@ -47,7 +44,6 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Event> attendingEvents;
-    private byte[] photo;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
@@ -64,7 +60,6 @@ public class User {
         interests = new HashSet<>();
         friends = new HashSet<>();
         this.adminingEvents = new HashSet<>();
-        //TODO: make this hashset
         this.attendingEvents = new ArrayList<>();
     }
 
@@ -116,7 +111,6 @@ public class User {
         this.attendingEvents = attendingEvents;
     }
 
-
     public void organizeNewEvent(Event event) {
         event.setOrganizer(this);
         this.adminingEvents.add(event);
@@ -157,21 +151,23 @@ public class User {
         this.pendingFriendRequests.add(user);
     }
 
-
     public Set<User> getPendingFriendRequests() {
         return pendingFriendRequests;
+    }
+
+    public void setPendingFriendRequests(Set<User> pendingFriendRequests) {
+        this.pendingFriendRequests = pendingFriendRequests;
     }
 
     public void sendFriendRequestTo(User user) {
         user.recieveFriendRequestFrom(this);
     }
 
-
     public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -261,14 +257,6 @@ public class User {
 
     public void setInterests(Set<Interest> interests) {
         this.interests = interests;
-    }
-
-    public byte[] getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
     }
 
     public String getUsername() {

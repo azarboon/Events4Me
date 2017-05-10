@@ -8,19 +8,15 @@ import java.util.Set;
 
 public interface UserService {
 
-    User findByEmail(String email);
-
     User findByUsername(String username);
 
     User getById(Integer id);
 
     void delete(Integer id);
 
-    boolean checkUserExists(String username, String email);
+    boolean checkUserExists(String username);
 
     boolean checkUsernameExists(String username);
-
-    boolean checkEmailExists(String email);
 
     User saveOrUpdateUser(User user);
 

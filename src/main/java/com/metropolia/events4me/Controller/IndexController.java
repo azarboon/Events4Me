@@ -4,14 +4,11 @@ import com.metropolia.events4me.Model.User;
 import com.metropolia.events4me.Service.UserService;
 import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 
 @Controller
 public class IndexController {
@@ -19,7 +16,6 @@ public class IndexController {
     private UserService userService;
 
     @Autowired
-    @Qualifier("UserServiceImpl")
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
@@ -48,10 +44,7 @@ public class IndexController {
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String signupPost(@ModelAttribute("user") User user, Model model) {
 
-        if(userService.checkUserExists(user.getUsername(), user.getEmail()))  {
-            if (userService.checkEmailExists(user.getEmail())) {
-                model.addAttribute("emailExists", true);
-            }
+        if(userService.checkUserExists(user.getUsername()))  {
             if (userService.checkUsernameExists(user.getUsername())) {
                 model.addAttribute("usernameExists", true);
             }

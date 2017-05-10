@@ -50,17 +50,4 @@ public class EventUserServiceImplTest {
         assert list.size() == 1;
     }
 
-//    @Test
-//    @Transactional
-//    public void joinEventTest() throws Exception {
-//        User user = userService.findByUsername("dima");
-//        eventService.listFutureEvents().forEach(event -> eventUserService.joinEvent(user, event.getEventId()));
-//        User userWithEvents = userService.findByUsername("dima");
-//        assert userWithEvents.getAttendingEvents().size() == 3;
-//        int counter = 0;
-//        for (Event event : eventService.listFutureEvents()) {
-//            counter += event.getConfirmedAttendees().size();
-//        }
-//        assert counter == 3;
-//    }
 }
