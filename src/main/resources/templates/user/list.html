@@ -58,7 +58,7 @@
                         </form>
                     </td>
                     <td style="border-top: 0px">
-                        <form th:action="${user.sendFriendRequestTo(user.getUserId())}">
+                        <form th:action="'/user/sendFriend/' + ${user.username}" method="post">
                             <button type="submit" class="btn btn-default">
                                 Send friend request
                             </button>

@@ -26,9 +26,13 @@
 
             </ul>
             <ul class=" nav navbar-nav navbar-right">
-                <form th:action="@{/logout}">
-                    <button type="submit" class="btn btn-default navbar-btn logout">LOGOUT</button>
-                </form>
+                <li title="Pending friend requests"><a th:text="${user.getPendingFriendRequests().size()}">
+                </a></li>
+                <li>
+                    <form th:action="@{/logout}">
+                        <button type="submit" class="btn btn-default navbar-btn logout">LOGOUT</button>
+                    </form>
+                </li>
             </ul>
         </div>
 
@@ -77,6 +81,22 @@
                 </tr>
             </table>
         </div>
+        <table class="container midspace freedays">
+            <caption class="freeheader">Availability</caption>
+            <tr>
+                <th>Monday</th>
+                <th>Thuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+                <th>Sunday</th>
+            </tr>
+            <tr id="timeschedule">
+
+            </tr>
+        </table>
+
     </div>
 
     <div class="navbar">
