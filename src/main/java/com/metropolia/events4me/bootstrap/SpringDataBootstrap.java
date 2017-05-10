@@ -13,6 +13,11 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+/**
+ * THis class starts methods which populates database
+ * with data for testing
+ */
+
 @Component
 public class SpringDataBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -21,7 +26,6 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
     private RoleService roleService;
     private TimeSettingService timeSettingService;
     private LocationService locationService;
-    private EventUserService eventUserService;
 
     @Autowired
     public void setTimeSettingService(TimeSettingService timeSettingService) {
@@ -48,26 +52,17 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         this.locationService = locationService;
     }
 
-    @Autowired
-    public void setEventUserService(EventUserService eventUserService) {
-        this.eventUserService = eventUserService;
-    }
-
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         loadLocations();
         loadEvents();
-
         loadRoles();
         loadUsers();
 //        assignUserRole();
         assignAdminRole();
         loadTimeSettings();
         setLocationForEvents();
-        usersOrganizeAndJoinEvents();
         makeUsersConnect();
-
-
     }
 
     private void loadTimeSettings() {
@@ -149,77 +144,41 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         User martin = new User();
         martin.setUsername("martin");
         martin.setFirstName("Martin");
+        martin.setLastName("Anderson");
+        martin.setEmail("ma@metropolia.fi");
         martin.setPassword("martin");
+        martin.setCountry("Finland");
+        martin.setBirthday("15.12.1985");
         martin.getInterests().add(Interest.PARTY);
         martin.getInterests().add(Interest.ART);
         martin.getInterests().add(Interest.MOVIES);
         userService.saveOrUpdateUser(martin);
 
-
         User niklas = new User();
-        niklas.setUsername("nilas");
-        niklas.setFirstName("niklas");
-        niklas.setPassword("user");
-        niklas.getInterests().add(Interest.BUSINESS);
+        niklas.setUsername("niklas");
+        niklas.setFirstName("Niklas");
+        niklas.setLastName("Kuusisto");
+        niklas.setEmail("nk@metropolia.fi");
+        niklas.setPassword("niklas");
+        niklas.setCountry("Finland");
+        niklas.setBirthday("20.08.1990");
+        niklas.getInterests().add(Interest.PARTY);
         niklas.getInterests().add(Interest.SPORT);
-        niklas.getInterests().add(Interest.DANCE);
+        niklas.getInterests().add(Interest.ART);
         userService.saveOrUpdateUser(niklas);
 
-        User user4 = new User();
-        user4.setUsername("user4");
-        user4.setFirstName("firstname4");
-        user4.setPassword("user");
-        user4.getInterests().add(Interest.BUSINESS);
-        user4.getInterests().add(Interest.NATURE);
-        userService.saveOrUpdateUser(user4);
-
-
-        User test5 = new User();
-        test5.setUsername("test5");
-        test5.setFirstName("firstname5");
-        test5.setLastName("lastname5");
-        test5.setEmail("test5@email.com");
-        test5.setPassword("admin");
-        test5.getInterests().add(Interest.BUSINESS);
-        test5.getInterests().add(Interest.SPORT);
-        test5.getInterests().add(Interest.DANCE);
-
-        User test6 = new User();
-        test6.setUsername("test6");
-        test6.setFirstName("firstname6");
-        test6.setLastName("lastname6");
-        test6.setPassword("user");
-        test6.setEmail("test6@email.com");
-        test6.getInterests().add(Interest.PARTY);
-        test6.getInterests().add(Interest.ART);
-
-
-        User test7 = new User();
-        test7.setUsername("test7");
-        test7.setFirstName("firstname7");
-        test7.setLastName("lastname7");
-        test7.setPassword("user");
-        test7.setEmail("test7@email.com");
-        test7.getInterests().add(Interest.BUSINESS);
-        test7.getInterests().add(Interest.SPORT);
-        test7.getInterests().add(Interest.DANCE);
-
-        User test8 = new User();
-        test8.setUsername("test8");
-        test8.setFirstName("firstname8");
-        test8.setLastName("lastname8");
-        test8.setPassword("user");
-        test8.setEmail("test8@email.com");
-        test8.getInterests().add(Interest.BUSINESS);
-        test8.getInterests().add(Interest.NATURE);
-
-
-        userService.saveOrUpdateUser(test5);
-        userService.saveOrUpdateUser(test6);
-        userService.saveOrUpdateUser(test7);
-        userService.saveOrUpdateUser(test8);
-
-
+        User henri = new User();
+        henri.setUsername("henri");
+        henri.setFirstName("Henri");
+        henri.setLastName("Järvinen");
+        henri.setEmail("hj@metropolia.fi");
+        henri.setPassword("henri");
+        henri.setCountry("Finland");
+        henri.setBirthday("01.02.1990");
+        henri.getInterests().add(Interest.NATURE);
+        henri.getInterests().add(Interest.SPORT);
+        henri.getInterests().add(Interest.PARTY);
+        userService.saveOrUpdateUser(henri);
 
     }
 
@@ -234,8 +193,8 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
         Event partyEvent = new Event();
         partyEvent.setTitle("Party event");
-        partyEvent.setStartTime(LocalDateTime.of(2017, 6, 10, 13, 0));
-        partyEvent.setEndTime(LocalDateTime.of(2017, 6, 10, 13, 0));
+        partyEvent.setStartTime(LocalDateTime.of(2017, 6, 10, 18, 0));
+        partyEvent.setEndTime(LocalDateTime.of(2017, 6, 10, 20, 0));
         partyEvent.setCategory(Interest.PARTY);
         eventService.saveOrUpdateEvent(partyEvent);
 
@@ -263,7 +222,7 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
 
     }
 
-    public void loadLocations() {
+    private void loadLocations() {
 
         Location cafeMascot = new Location();
         cafeMascot.setAddress("Neljäs linja 2, 00530 Helsinki");
@@ -275,54 +234,35 @@ public class SpringDataBootstrap implements ApplicationListener<ContextRefreshed
         maxine.setCalendarID("3n4jiu1vp1hma8459b71jbmh8g@group.calendar.google.com");
         maxine.setName("Maxine");
 
+        Location sportHall = new Location();
+        sportHall.setName("Töölö Sports Hall");
+        sportHall.setCalendarID("t5v4rltbcsqkb3fdusfp4k2jqk@group.calendar.google.com");
+        sportHall.setAddress("Paavo Nurmen kuja 1, 00250 Helsinki");
+
+        Location businessHall = new Location();
+        businessHall.setAddress("Mannerheimintie 13e, 00100 Helsinki");
+        businessHall.setName("Finlandia Hall");
+        businessHall.setCalendarID("b6tatnpuvhi29gkq7aafn6sm8g@group.calendar.google.com");
+
         locationService.saveOrUpdateLocation(cafeMascot);
         locationService.saveOrUpdateLocation(maxine);
+        locationService.saveOrUpdateLocation(sportHall);
+        locationService.saveOrUpdateLocation(businessHall);
     }
 
-    public void setLocationForEvents(){
-        eventService.setLocationForEvent(1,2);
-        eventService.setLocationForEvent(2, 1);
+    private void setLocationForEvents() {
+        eventService.setLocationForEvent(1,3);
+        eventService.setLocationForEvent(2, 2);
+        eventService.setLocationForEvent(3, 4);
+        eventService.setLocationForEvent(4, 2);
+        eventService.setLocationForEvent(5, 3);
     }
 
-    public void usersOrganizeAndJoinEvents(){
-        /* change following to use serviceimplementations
-
-
-        test5.organizeNewEvent(sportEvent);
-        test6.enrolEvent(sportEvent);
-        sportEvent.acceptAttendee(test6);
-        test7.enrolEvent(sportEvent);
-        test8.enrolEvent(sportEvent);
-        sportEvent.acceptAttendee(test8);
-
-
-*/
-
-        User test6 = userService.findByUsername("test6");
-        User test7 = userService.findByUsername("test7");
-        User test8 = userService.findByUsername("test8");
-
-        Event sportEvent = eventService.findByTitle("Sport event");
-        eventUserService.createEvent(test6, sportEvent);
-
-        /*
-        eventUserService.joinEvent(test7, 1);
-        eventUserService.joinEvent(test8, 1);
-        */
-    }
-
-    public void makeUsersConnect(){
-        userService.sendFriendRequestTo("test5", "test6");
-        userService.sendFriendRequestTo("test7", "test6");
-        userService.sendFriendRequestTo("test8", "test6");
-        userService.acceptFriend("test5", "test6");
-        userService.acceptFriend("test7", "test6");
-
+    private void makeUsersConnect() {
+        userService.sendFriendRequestTo("henri", "niklas");
+        userService.sendFriendRequestTo("dima", "niklas");
+        userService.sendFriendRequestTo("martin", "niklas");
+        userService.acceptFriend("henri", "niklas");
+        userService.acceptFriend("dima", "niklas");
     }
 }
-
-/*
-?? quesitons ot ask dima:
-hat is pro way, having arhuments as id or as object?
-how many layers have we been using in our app?
- */

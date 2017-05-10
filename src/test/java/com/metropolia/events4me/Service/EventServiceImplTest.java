@@ -35,7 +35,7 @@ public class EventServiceImplTest {
 
     @Test
     public void listPastEventsTest() throws Exception {
-        assert eventService.listPastEvents().size() == 3;
+        assert eventService.listPastEvents().size() == 2;
     }
 
     @Test

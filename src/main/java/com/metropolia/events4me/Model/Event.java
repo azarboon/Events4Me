@@ -18,34 +18,34 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-
 @Entity
 public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer eventId;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id")
     private Location location;
     private String title;
     private String description;
 
-
     @ManyToOne
     private User organizer;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+
     @Enumerated(EnumType.STRING)
     private Interest category;
-    private int maxAttenddees;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<User> confirmedAttendees;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<User> pendingAttendees;
-    private BigDecimal price;
 
     public Event() {
         this.confirmedAttendees = new HashSet<>();
@@ -80,15 +80,6 @@ public class Event {
         this.pendingAttendees.add(attendee);
     }
 
-
-    public int getMaxAttenddees() {
-        return maxAttenddees;
-    }
-
-    public void setMaxAttenddees(int maxAttenddees) {
-        this.maxAttenddees = maxAttenddees;
-    }
-
     public Location getLocation() {
         return location;
     }
@@ -111,14 +102,6 @@ public class Event {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
     }
 
     public Integer getEventId() {

@@ -5,7 +5,6 @@ import com.metropolia.events4me.DAO.LocationDAO;
 import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Model.Location;
 import com.metropolia.events4me.Service.EventService;
-import com.metropolia.events4me.Service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -14,12 +13,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
 public class EventServiceImpl implements EventService {
 
     private EventDAO eventDAO;
-
     private LocationDAO locationDAO;
 
     @Autowired

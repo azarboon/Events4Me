@@ -9,72 +9,71 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-/**
- * Created by mahdiaza on 05/05/17.
- */
 @Entity
 public class Location {
 
-  private String name;
-  private String address;
-  //TODO: double check relationship with event
-  @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
-  private Set<Event> events;
-  private String calendarID;
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
-  public Location(String name, String address, String calendarID) {
-    this.name = name;
-    this.address = address;
-    this.calendarID = calendarID;
-    this.events = new HashSet<>();
-  }
+    private String name;
+    private String address;
 
-  public Location() {
-    this.events = new HashSet<>();
-  }
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
+    private Set<Event> events;
+    private String calendarID;
 
-  public String getCalendarID() {
-    return calendarID;
-  }
 
-  public void setCalendarID(String calendarID) {
-    this.calendarID = calendarID;
-  }
+    public Location(String name, String address, String calendarID) {
+        this.name = name;
+        this.address = address;
+        this.calendarID = calendarID;
+        this.events = new HashSet<>();
+    }
 
-  public Set<Event> getEvents() {
-    return events;
-  }
+    public Location() {
+        this.events = new HashSet<>();
+    }
 
-  public void setEvents(Set<Event> events) {
-    this.events = events;
-  }
+    public String getCalendarID() {
+        return calendarID;
+    }
 
-  public int getId() {
-    return id;
-  }
+    public void setCalendarID(String calendarID) {
+        this.calendarID = calendarID;
+    }
 
-  public void setId(int id) {
-    this.id = id;
-  }
+    public Set<Event> getEvents() {
+        return events;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public void setEvents(Set<Event> events) {
+        this.events = events;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public int getId() {
+        return id;
+    }
 
-  public String getAddress() {
-    return address;
-  }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-  public void setAddress(String address) {
-    this.address = address;
-  }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
 
 }

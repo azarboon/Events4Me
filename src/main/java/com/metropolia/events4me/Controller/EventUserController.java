@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.security.Principal;
 import java.util.List;
 
-
 @Controller
 public class EventUserController {
 
@@ -45,14 +44,6 @@ public class EventUserController {
         User user = userService.findByUsername(principal.getName());
         return eventUserService.matchEventsForUser(user);
     }
-
-    /* This was done by Dima. I refactored it.
-    @RequestMapping("join/event/{id}")
-    public void joinEvent(Principal principal, @PathVariable Integer id) {
-        User user = userService.findByUsername(principal.getName());
-        eventUserService.joinEvent(user, id);
-    }
-    */
 
     @RequestMapping(value = "join/event/{id}", method = RequestMethod.POST)
     public void joinEventSubmit(Principal principal, @PathVariable Integer id) {

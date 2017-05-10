@@ -40,7 +40,7 @@ public class User {
     @ElementCollection(targetClass = Interest.class, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Interest> interests = new HashSet<>();
-//?? these dont work with lazi ifetch, and eager fetch is not good either. so, whats the solution?
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Event> attendingEvents;
