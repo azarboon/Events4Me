@@ -39,9 +39,11 @@ public class EventUserController {
     public void setLocationService(LocationService locationService){
         this.locationService = locationService;
     }
+
+
+    @ResponseBody
     @RequestMapping("preferedevents")
-    public @ResponseBody
-    List<Event> getMatchedEventsForUser(Principal principal) {
+    public List<Event> getMatchedEventsForUser(Principal principal) {
         User user = userService.findByUsername(principal.getName());
         return eventUserService.matchEventsForUser(user);
     }
