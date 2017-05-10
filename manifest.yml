@@ -9,7 +9,7 @@
 #Production
 applications:
 - name: eventsformefinal
-  memory: 800M
+  memory: 500M
   host: eventsformefinal
   timeout: 600
   health-check-type: process
