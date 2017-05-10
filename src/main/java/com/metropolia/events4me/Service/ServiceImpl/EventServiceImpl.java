@@ -1,8 +1,11 @@
 package com.metropolia.events4me.Service.ServiceImpl;
 
 import com.metropolia.events4me.DAO.EventDAO;
+import com.metropolia.events4me.DAO.LocationDAO;
 import com.metropolia.events4me.Model.Event;
+import com.metropolia.events4me.Model.Location;
 import com.metropolia.events4me.Service.EventService;
+import com.metropolia.events4me.Service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -17,9 +20,16 @@ public class EventServiceImpl implements EventService {
 
     private EventDAO eventDAO;
 
+    private LocationDAO locationDAO;
+
     @Autowired
     public void setEventDAO(EventDAO eventDAO) {
         this.eventDAO = eventDAO;
+    }
+
+    @Autowired
+    public void setLocaitonDAO(LocationDAO locationDAO){
+        this.locationDAO = locationDAO;
     }
 
     private Sort sortByDateTimeAsc() {
@@ -77,4 +87,20 @@ public class EventServiceImpl implements EventService {
         eventDAO.delete(id);
     }
 
+
+    @Override
+    public void setLocationForEvent(Integer eventId, Integer locationId) {
+        if((eventId >= 0) && (locationId >= 0)){
+            Event event = eventDAO.findOne(eventId);
+            Location location = locationDAO.findOne(locationId);
+            event.setLocation(location);
+            eventDAO.save(event);
+            locationDAO.save(location);
+        }
+    }
+
+    @Override
+    public Event findByTitle(String title) {
+        return eventDAO.findByTitle(title);
+    }
 }

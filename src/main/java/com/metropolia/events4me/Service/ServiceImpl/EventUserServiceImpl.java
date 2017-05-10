@@ -20,9 +20,11 @@ import com.metropolia.events4me.Converter.TimeSettingConverter;
 import com.metropolia.events4me.Model.Days;
 import com.metropolia.events4me.Model.Event;
 import com.metropolia.events4me.Model.Interest;
+import com.metropolia.events4me.Model.Location;
 import com.metropolia.events4me.Model.User;
 import com.metropolia.events4me.Service.EventService;
 import com.metropolia.events4me.Service.EventUserService;
+import com.metropolia.events4me.Service.LocationService;
 import com.metropolia.events4me.Service.UserService;
 
 import java.io.FileInputStream;
@@ -50,6 +52,7 @@ public class EventUserServiceImpl implements EventUserService {
     private UserService userService;
     private EventService eventService;
 
+
     @Autowired
     @Qualifier("UserServiceImpl")
     public void setUserService(UserService userService) {
@@ -60,6 +63,8 @@ public class EventUserServiceImpl implements EventUserService {
     public void setEventService(EventService eventService) {
         this.eventService = eventService;
     }
+
+
 
     // The method returns the list of recommended events
     // for the user according to his interests
@@ -77,7 +82,7 @@ public class EventUserServiceImpl implements EventUserService {
             .collect(Collectors.toList());
     }
 
-    //TODO make integration test for this
+
     @Override
     public void joinEvent(User user, Integer eventId) {
         Event event = eventService.getEventById(eventId);
@@ -86,6 +91,7 @@ public class EventUserServiceImpl implements EventUserService {
         userService.saveOrUpdateUser(user);
         eventService.saveOrUpdateEvent(event);
     }
+
 
     @Override
     public String createEvent(User user, Event event) {

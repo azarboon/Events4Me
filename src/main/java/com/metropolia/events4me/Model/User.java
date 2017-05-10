@@ -27,7 +27,7 @@ public class User {
     private String password;
     private String encryptedPassword;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Event> adminingEvents;
 
@@ -43,8 +43,8 @@ public class User {
     @ElementCollection(targetClass = Interest.class, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Interest> interests = new HashSet<>();
-
-    @ManyToMany(cascade = CascadeType.ALL)
+//?? these dont work with lazi ifetch, and eager fetch is not good either. so, whats the solution?
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Event> attendingEvents;
     private byte[] photo;

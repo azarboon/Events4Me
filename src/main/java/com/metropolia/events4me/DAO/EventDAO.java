@@ -10,4 +10,6 @@ public interface EventDAO extends CrudRepository<Event, Integer> {
 
     List<Event> findAll(Sort sort);
 
+    Event findByTitle(String title);
+
 }
