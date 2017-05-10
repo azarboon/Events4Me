@@ -44,21 +44,21 @@
                 <th class="tableColumns">Username</th>
                 <th class="tableTitle"></th>
             </tr>
-            <th:block th:each="user : ${users}">
-                <tr>
+            <th:block th:each="users : ${users}">
+                <tr th:if="${users.username} != ${user.username}" >
                     <td><img th:src="@{/img/GenericUser.png}" alt="user picture" class="userPicture"/></td>
 
-                    <td th:text="${user.getUsername()}" class="tableUsername" style="border-top: 0px"></td>
+                    <td th:text="${users.getUsername()}" class="tableUsername" style="border-top: 0px"></td>
                     <td></td>
                     <td style="border-top: 0px">
-                        <form th:action="'/user/show/' + ${user.getUserId()}">
-                            <button th:href="'/user/show/' + ${user.getUserId()}" type="submit" class="btn btn-default">
+                        <form th:action="'/user/show/' + ${users.getUserId()}">
+                            <button th:href="'/user/show/' + ${users.getUserId()}" type="submit" class="btn btn-default">
                                 View profile
                             </button>
                         </form>
                     </td>
                     <td style="border-top: 0px">
-                        <form th:action="'/user/sendFriend/' + ${user.username}" method="post">
+                        <form th:action="'/user/sendFriend/' + ${users.username}" method="post">
                             <button type="submit" class="btn btn-default">
                                 Send friend request
                             </button>
