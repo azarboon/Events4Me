@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 
+/**
+ * Model class for holding user information. This includes, events that user is attending & admining,
+ * as well as pending & confirmed friendship requests.
+ */
 @Entity
 public class User {
 

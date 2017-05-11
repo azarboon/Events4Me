@@ -7,6 +7,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * This service class provides helper methods to work with {@link Location} object.
+ */
 @Service
 public class LocationServiceImpl implements LocationService{
 

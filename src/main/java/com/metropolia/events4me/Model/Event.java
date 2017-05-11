@@ -18,6 +18,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+/**
+ * This model class holds information about event. This includes data about attendees, start and end
+ * time and other relevant information that can be persisted in DB and also be registered on the Google Calendar.
+ */
 @Entity
 public class Event {
 

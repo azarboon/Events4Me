@@ -13,6 +13,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service class the provides methods which make it easier to work with events.
+ */
 @Service
 public class EventServiceImpl implements EventService {
 
@@ -38,6 +41,10 @@ public class EventServiceImpl implements EventService {
         return eventDAO.findAll(sortByDateTimeAsc());
     }
 
+    /**
+     * Enables the user to get listo fp ast events.
+     * @return
+     */
     @Override
     public List<Event> listPastEvents() {
         List<Event> allEvents = listAllEvents();
@@ -51,6 +58,10 @@ public class EventServiceImpl implements EventService {
         return pastEvents;
     }
 
+    /**
+     * Enables user to get list of future events.
+     * @return
+     */
     @Override
     public List<Event> listFutureEvents() {
         List<Event> allEvents = listAllEvents();
@@ -84,7 +95,11 @@ public class EventServiceImpl implements EventService {
         eventDAO.delete(id);
     }
 
-
+    /**
+     * Helper method to set location for event. Retrieves data from database and persist it at the end.
+     * @param eventId
+     * @param locationId
+     */
     @Override
     public void setLocationForEvent(Integer eventId, Integer locationId) {
         if((eventId >= 0) && (locationId >= 0)){

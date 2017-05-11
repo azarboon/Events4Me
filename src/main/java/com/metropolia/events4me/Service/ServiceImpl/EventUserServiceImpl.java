@@ -39,8 +39,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+/**
+ * This service class provides methods to do operations which are tightly related between {@link Event} and {@link User}.
+ */
 
 @Service
 public class EventUserServiceImpl implements EventUserService {
@@ -59,8 +62,12 @@ public class EventUserServiceImpl implements EventUserService {
     }
 
 
-    // The method returns the list of recommended events
-    // for the user according to his interests
+    /**
+     *
+     * @param user
+     * @return list of recommended events for the user according to his interests
+     */
+
     @Override
     public List<Event> matchEventsForUser(User user) {
         Set<Interest> interests = user.getInterests();
@@ -98,6 +105,7 @@ public class EventUserServiceImpl implements EventUserService {
         return null;
     }
 
+
     private boolean createEventOnCalendar(Event event) {
         String calendarID = event.getLocation().getCalendarID();
         com.google.api.services.calendar.model.Event googleEvent = new com.google.api.services.calendar.model.Event()
@@ -128,6 +136,13 @@ public class EventUserServiceImpl implements EventUserService {
         return true;
     }
 
+    /**
+     * Makes a Free/Busy query on Google Calendar to check if the associated {@link com.metropolia.events4me.Model.Location}
+     * of the requested {@link Event} is free, during the start and end time of the event.
+     * @param event
+     * @return true, if time is free. False, if the associated location of the event is (partly)
+     * busy during the start-end time of the event.
+     */
     private boolean timeSlotIsFree(Event event) {
         String calendarID = event.getLocation().getCalendarID();
         FreeBusyRequest fbrq = new FreeBusyRequest();
@@ -166,6 +181,11 @@ public class EventUserServiceImpl implements EventUserService {
         }
     }
 
+
+  /**
+   * Environmental variable SERVICE_ACCOUNT_ID should be defined. User should get it from Google API Manager.
+   * @return {@link com.google.api.services.calendar.Calendar}
+   */
     private Calendar getCalendar() {
         JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
         HttpTransport HTTP_TRANSPORT = null;
@@ -198,6 +218,14 @@ public class EventUserServiceImpl implements EventUserService {
         return service;
     }
 
+    /**
+     * Google's service account credentials are encrypted in file resources/Events4me.p12. To decrypt them, environmental vairable
+     * P12_PASSWORD should be defined. It's password for accessing the Events4me.p12.
+     *
+     * @return GoogleCredential, which is Google-specific implementation of the OAuth 2.0 helper for accessing the calendars
+     * asscoiated with {@link com.metropolia.events4me.Model.Location}
+     */
+
     public GoogleCredential createCredentialForServiceAccount(
             HttpTransport transport,
             JsonFactory jsonFactory,
@@ -205,7 +233,6 @@ public class EventUserServiceImpl implements EventUserService {
             Collection<String> serviceAccountScopes, InputStream p12file) throws GeneralSecurityException, IOException {
 
 
-        // need an environmental variable as P12_PASSWORD, which includes paassword
         String p12Password = System.getenv("P12_PASSWORD");
         KeyStore keystore = KeyStore.getInstance("PKCS12");
 
